@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.skymark.co.jp/favicon.ico">
+<title>予約確認｜Webチェックイン｜スカイマーク</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="スカイマークのWebチェックインページです。">
+<!-- global css -->
+<link rel="stylesheet" href="/webcheckin/common/css/style.css">
+<link rel="stylesheet" href="/webcheckin/common/css/layout.css">
+<!-- /global css -->
+<!-- local css -->
+<!-- /local css -->
+</head>
+<body>
+<!-- HEADER START -->
+<div id="sky-header2"></div>
+<!-- HEADER END -->
+
+<main class="sky-container wc-rsvserch">
+  <section class="sky-content">
+    <h1 class="heading200">Webチェックイン / 予約確認</h1>
+    <p>ご予約情報から手続き対象の便を検索ください。</p>
+    <section>
+      <div class="sky-tabWrap">
+        <div class="sky-tabs" role="tablist">
+          <button class="tabButton" role="tab" aria-selected="true" aria-controls="rsvNumPnanel" id="rsvNumTab" tabindex="0">予約番号</button>
+          <button class="tabButton" role="tab" aria-selected="false" aria-controls="rfrcNumPnanel" id="rfrcNumTab" tabindex="0">照会番号</button>
+        </div>
+        <div class="sky-panelArea">
+          <div class="tabPanel" id="rsvNumPnanel" role="tabpanel" aria-labelledby="rsvNumTab" tabindex="0">
+            <div class="inner-blockD">
+              <div class="w_m">
+                <label class="skyInputLabel" for="flightNum-date">搭乗日</label>
+                  <div class="skyInputSelect">
+                    <select id="flightNum-date">
+                      <button>
+                        <selectedcontent></selectedcontent>
+                      </button>
+                      <option value="">本日 12月30日（火）</option>
+                      <option value="">明日 12月31日（水）</option>
+                      <option value="">昨日 12月29日（月）</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="w_s">
+                <label class="skyInputLabel" for="flightNum">便名<span class="skyInputType">3桁または4桁の数字</span></label>
+                <div class="subtext"><span>SKY</span><input class="skyInputText" type="text" placeholder="例. 123" id="flightNum"><span>便</span></div>
+              </div>
+              <div class="w_m">
+                <label class="skyInputLabel" for="rsvNum">予約番号<span class="skyInputType">4桁の数字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. 1234" id="rsvNum">
+              </div>
+              <div class="w_l">
+                <label class="skyInputLabel" for="rsvNum-name1">姓<span class="skyInputType">ローマ字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. SORANO" id="rsvNum-name1">
+              </div>
+              <div class="w_l">
+                <label class="skyInputLabel" for="rsvNum-name2">名<span class="skyInputType">ローマ字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. TARO" id="rsvNum-name2">
+              </div>
+
+              <ul class="sky-btnList">
+              <li><button class="sky-btn btn_submit btn_l"><span>確認</span></button></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tabPanel" id="rfrcNumPnanel" role="tabpanel" aria-labelledby="rfrcNumTab" tabindex="0" hidden>
+            <div class="inner-blockD">
+              <div class="w_m">
+                <label class="skyInputLabel" for="rfrcNum">照会番号<span class="skyInputType">6桁の数字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. 123456" id="rfrcNum">
+              </div>
+              <div class="w_l">
+                <label class="skyInputLabel" for="rfrcNum-name1">姓<span class="skyInputType">ローマ字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. SORANO" id="rfrcNum-name1">
+              </div>
+              <div class="w_l">
+                <label class="skyInputLabel" for="rfrcNum-name2">名<span class="skyInputType">ローマ字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. TARO" id="rfrcNum-name2">
+              </div>
+            </div>
+            
+            <ul class="sky-btnList">
+              <li><button class="sky-btn btn_submit btn_l"><span>確認</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</main>
+
+<!-- FOOTER START -->
+<div id="sky-footer"></div>
+<!-- FOOTER END -->
+<!-- globalscript -->
+<script type="text/javascript" src="/webcheckin/common/js/script.js?ver=1"></script>
+<script type="text/javascript" src="/webcheckin/common/js/header.js?ver=1"></script>
+<script type="text/javascript" src="/webcheckin/common/js/footer.js?ver=1"></script>
+<!-- localscript -->
+</body>
+</html>

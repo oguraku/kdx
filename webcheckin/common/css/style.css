@@ -1,0 +1,1858 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+JP:wght@100..900&display=swap');
+/**
+ * uaplus.css version 0.0.1
+ */
+*,*::after,*::before{box-sizing:border-box}:focus-visible{outline-offset:3px}:where(html){-webkit-text-size-adjust:none;text-size-adjust:none}:where(html){line-height:1.5}:where(h1){font-size:2em;margin-block:.67em}:where(abbr[title]){cursor:help;text-decoration-line:underline;text-decoration-style:dotted}@media (forced-colors:active){mark{color:HighlightText;background-color:Highlight;}}:where(del,ins,s)::before,:where(del,ins,s)::after{clip-path:inset(100%);clip:rect(1px,1px,1px,1px);height:1px;width:1px;overflow:hidden;position:absolute;white-space:nowrap;content:"test"}:where(s)::before{content:"stricken text start "}:where(s)::after{content:" stricken text end"}:where(del)::before{content:"deletion start "}:where(del)::after{content:" deletion end"}:where(ins)::before{content:"insertion start "}:where(ins)::after{content:" insertion end"}:where(audio,iframe,img,svg,video){max-block-size:100%;max-inline-size:100%}:where(fieldset){min-inline-size:0}:where(label):has(+:where(textarea,input,select)){display:block}:where(textarea:not([rows])){min-block-size:6em}:where(button,input,select,textarea){font-family:inherit;font-size:inherit}:where([type="search"]){-webkit-appearance:textfield}@supports (-webkit-touch-callout:none){:where([type="search"]){border:1px solid -apple-system-secondary-label;background-color:canvas}}:where([type="tel"],[type="url"],[type="email"],[type="number"]):not(:placeholder-shown){direction:ltr}:where(table){border-collapse:collapse;border:1px solid}:where(th,td){border:1px solid;padding:.25em .5em}:where(dialog)::backdrop{background:oklch(0% 0 0 / .3)}:where(dialog),:where(dialog)::backdrop{opacity:0;transition:opacity 300ms ease-out,display 300ms allow-discrete,overlay 300ms allow-discrete}:where(dialog[open]),:where(dialog[open])::backdrop{opacity:1}@starting-style{:where(dialog[open]),:where(dialog[open])::backdrop{opacity:0}}[hidden]:not([hidden="until-found"]){display:none!important}
+
+
+/**
+ * base / common
+ */
+:root {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-black-a87: rgba(0, 0, 0, 0.87);
+  --color-black-a60: rgba(0, 0, 0, 0.60);
+  --color-black-a20: rgba(0, 0, 0, 0.20);
+  --color-black-a12: rgba(0, 0, 0, 0.12);
+  --color-black-a06: rgba(0, 0, 0, 0.06);
+  --color-black-a04: rgba(0, 0, 0, 0.04);
+  --color-black-a02: rgba(0, 0, 0, 0.02);
+  --color-grey100: #f5f5f5;
+  --color-grey200: #e8e8e8;
+  --color-grey300: #cccccc;
+  --color-grey400: #999999;
+  --color-grey500: #5d5d5d;
+
+  --color-sky-blue: #001871;
+  --color-sky-blue-a04: rgba(0, 24, 113, 0.04);
+  --color-sky-blue-a16: rgba(0, 24, 113, 0.16);
+  --color-sky-blue-a87: rgba(0, 24, 113, 0.87);
+  --color-sky-yellow: #fedb00;
+  --color-sky-orange: #eaaa00;
+  --color-blue100: #d5e1ed;
+  --color-blue200: #abcae9;
+  --color-blue300: #69b3e7;
+  --color-yellow100: #FBF8E2;
+  --color-yellow200: #F2EECA;
+  --color-yellow300: #F9E547;
+  
+  --color-alert100: #c00f0c;
+  --color-alert-a80: rgba(192, 15, 12, 0.80);
+  --color-alert-a04: rgba(192, 15, 12, 0.04);
+  --color-warning100: #eaaa00;
+  --color-warning200: #f67700;
+  --color-disabled: #b3b3b3;
+  --color-accent01: #0303DE;
+  --color-accent02: #d54000;
+  --color-accent03: #026450;
+  --color-accent03-a16: rgba(2, 100, 80, 0.16);
+  --color-accent03-a04: rgba(2, 100, 80, 0.04);
+  --color-accent04: #CD1F9B;
+  --color-accent05: #66108b;
+
+  --font-body:'Noto Sans JP','ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ','Meiryo',sans-serif;
+  --font-Num:'Inter','ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ','Meiryo',sans-serif;
+}
+
+* {
+  overscroll-behavior: contain;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 62.5%;
+}
+
+body {
+  background-color: var(--color-grey100);
+  color: var(--color-black-a87);
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  line-height: 1.6;
+  letter-spacing: initial;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--color-sky-blue);
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+p,ul,ol,li,dl,dt,dd {
+  margin: 0;
+  padding: 0;
+}
+ul,ol {
+  list-style: none;
+}
+
+h1, h2, h3, h4, h5 {
+  line-height: 1.2;
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+/**
+ * header
+ */
+.sky-header {
+  width: 100%;
+  margin: 0;
+  padding: 12px 16px 16px;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  display: inline-flex;
+  background: var(--color-white);
+  box-shadow: 0px 1px 2px var(--color-black-a06);
+  .sky-header_logo {
+    width: 165px; height: auto; position: relative;
+  }
+}
+
+/* langSelect */
+.sky-langSelect {
+  margin-top: .4rem;
+  & button {
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    column-gap: .25em;
+    align-items: center;
+    padding: 0;
+    &:hover, &:focus-visible {
+      outline: none;
+    }
+    & .icon-lang {
+      block-size: 1.8rem;
+      inline-size: 1.8rem;
+    }
+    & .icon-arrow {
+      block-size: 2rem;
+      inline-size: 2rem;
+      margin-top: .25rem;
+    }
+  }
+  & select {
+    appearance: base-select;
+    background: none;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    &::picker-icon {
+      display: none;
+    }
+    /* &::picker(select) {
+      appearance: base-select;
+      border-radius: 4px;
+    } */
+  }
+  & option {
+    padding: 1rem 2rem;
+    cursor: pointer;
+    /* &:checked {
+      background-color: var(--color-blue200);
+    }
+    &:hover, &:focus-visible {
+      outline: none;
+    } */
+  }
+}
+
+/**
+* footer
+*/
+.sky-footer {
+  width: 100%;
+  font-size: 1.4rem;
+  & .sky-footerLink {
+    background: var(--color-blue100);
+    padding: 1.2rem;
+    width: 100%;
+    & .textlinks {
+      color: var(--color-sky-blue);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      flex-wrap: wrap;
+      column-gap: 1.6rem;
+      row-gap: .4rem;
+      & a {
+        text-decoration: none;
+      }
+    }
+  }
+  & .sky-footerCopy {
+    background: var(--color-sky-blue);
+    color: var(--color-white);
+    font-size: 0.9em;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    width: 100%;
+  }
+}
+
+/**
+* content
+*/
+.sky-container {
+  width: 96%;
+  margin: 0 auto;
+  padding: 4rem 0;
+
+  @media (min-width: 1024px) {
+    max-width: 960px;
+    padding: 4rem 4rem 6.4rem;
+  }
+}
+
+.sky-content {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  & > section:not(:first-child) {
+    margin-top: 3.2rem;
+  }
+  & > section > section:not(:first-child) {
+   margin-top: 2.4rem;
+  }
+
+  @media (min-width: 768px) {
+    & > section:not(:first-child) {
+      margin-top: 4rem;
+    }
+    & > section > section:not(:first-child) {
+    margin-top: 3.2rem;
+    }
+  }
+}
+
+*[class*="inner-blockA"] > * {
+  margin-top: .8rem;
+}
+*[class*="inner-blockB"] > * {
+  margin-top: 1.6rem;
+}
+*[class*="inner-blockC"] > * {
+  margin-top: 2.4rem;
+}
+*[class*="inner-blockD"] > * {
+  margin-top: 2.8rem;
+}
+*[class*="inner-blockE"] > * {
+  margin-top: 3.2rem;
+}
+*[class*="inner-blockF"] > * {
+  margin-top: 4rem;
+}
+.inner-blockA > *:first-child,
+.inner-blockB > *:first-child,
+.inner-blockC > *:first-child,
+.inner-blockD > *:first-child,
+.inner-blockE > *:first-child,
+.inner-blockF > *:first-child {
+  margin-top: 0;
+}
+
+/* width -------------------------------- */
+.w26r { width: 26rem;}
+.w30r { width: 30rem;}
+.w100p { width: 100%;}
+
+/* hidden -------------------------------- */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sp-only { display: block;}
+.pc-only { display: none;}
+@media (min-width: 768px) {
+.sp-only { display: none;}
+.pc-only { display: block;}
+}
+
+
+/* color -------------------------------- */
+.c_white { color: var(--color-white); }
+.c_red { color: var(--color-alert100); }
+.c_blue { color: var(--color-sky-blue); }
+.c_green { color: var(--color-accent03); }
+.c_grey { color: var(--color-grey300); }
+.c_black { color: var(--color-black); }
+
+/* bg color -------------------------------- */
+.bg_white { background-color: var(--color-white); }
+.bg_red { background-color: var(--color-alert-a04); }
+.bg_blue { background-color: var(--color-sky-blue-a04); }
+.bg_green { background-color: var(--color-accent03-a04); }
+.bg_grey { background-color: var(--color-grey200); }
+
+/* icon color -------------------------------- */
+.i_white {
+  filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%);
+}
+.i_red {
+  filter: invert(12%) sepia(62%) saturate(6231%) hue-rotate(357deg) brightness(98%) contrast(96%);
+}
+.i_blue {
+  filter: invert(14%) sepia(27%) saturate(7426%) hue-rotate(221deg) brightness(81%) contrast(115%);
+}
+.i_green {
+  filter: invert(14%) sepia(96%) saturate(3832%) hue-rotate(165deg) brightness(86%) contrast(98%);
+}
+.i_grey {
+  filter: invert(65%) sepia(0%) saturate(1938%) hue-rotate(190deg) brightness(94%) contrast(92%);
+}
+
+/* typo -------------------------------- */
+.heading100 {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.6em;
+  padding-bottom: .75em;
+  position: relative;
+  color: var(--color-SKY-BLUE, #001871);
+  font-size: 2.8rem;
+  &:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5em;
+    height: 4px;
+    background-color: var(--color-SKY-BLUE, #001871);
+  }
+}
+
+.heading200 {
+  margin-bottom: 1em;
+  padding-bottom: .25em;
+  position: relative;
+  font-size: 2.4rem;
+  color: var(--color-SKY-BLUE, #001871);
+  border-bottom: 2px solid var(--color-black-a12);
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 5em;
+    background-color: var(--color-SKY-BLUE, #001871);
+    bottom: -2px;
+    left: 0;
+  }
+}
+
+.heading300 {
+  display: flex;
+  position: relative;
+  justify-content: start;
+  align-items: start;
+  margin-bottom: .5em;
+  padding-bottom: .5em;
+  padding-left: 1em;
+  position: relative;
+  color: var(--color-SKY-BLUE, #001871);
+  font-size: 2.0rem;
+  &:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: .5em;
+    left: 0;
+    width: .75em;
+    height: 3px;
+    background-color: var(--color-SKY-BLUE, #001871);
+  }
+}
+
+.heading400 {
+  margin-bottom: .5em;
+  padding: .8rem;
+  background: var(--color-black-a04, rgba(0, 0, 0, 0.04));
+  font-size: 1.6rem;
+}
+
+.heading500 {
+  margin-bottom: .5em;
+  font-size: 1.6rem;
+}
+
+.text_l {
+  font-size: 1.8rem;
+  line-height: 1.4;
+}
+.text_m {
+  font-size: 1.6rem;
+  line-height: 1.4;
+}
+.text_s {
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+.text_xs {
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+.text_xxs {
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.text_caption {
+  font-size: 1.4rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.fw_b {
+  font-weight: 700;
+}
+.fw_r {
+  font-weight: 400;
+}
+
+.singleLine {
+  line-height: 1 !important;
+}
+
+.txt_l {
+  text-align: left;
+}
+.txt_c {
+  text-align: center;
+}
+.txt_r {
+  text-align: right;
+}
+
+/* gridlayout -------------------------------- */
+.sky-column_2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem 2%;
+}
+.sky-column_3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem 2%;
+}
+.sky-column_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 2rem 2%;
+}
+
+/* flame -------------------------------- */
+.sky-flame_01 {
+  padding: 1em;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black-a12);
+}
+.sky-flame_02 {
+  padding: 1em;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black-a12);
+  border-radius: 8px;
+}
+.sky-flame_03 {
+  padding: 1em;
+  background-color: var(--color-white);
+  border-radius: 8px;
+}
+@media (min-width: 768px) {
+.sky-flame_01 {
+  padding: 1.25em;
+}
+.sky-flame_02 {
+  padding: 1.25em;
+}
+}
+
+.flm_red {
+  background-color: var(--color-alert-a04);
+  border: 1px solid var(--color-alert-a80);
+  color: var(--color-alert100);
+}
+.flm_blue {
+  background-color: var(--color-sky-blue-a04);
+  border: 1px solid var(--color-sky-blue-a16);
+  color: var(--color-sky-blue);
+}
+.flm_green {
+  background-color: var(--color-accent03-a04);
+  border: 1px solid var(--color-accent03-a16);
+  color: var(--color-accent03);
+}
+.flm_grey {
+  background-color: var(--color-black-a02);
+  border: 1px solid var(--color-black-a12);
+}
+
+/* detailBlock -------------------------------- */
+.sky-detailBlock {
+  border: 1px solid var(--color-black-a12);
+  & .heading {
+    border-bottom: 1px solid var(--color-black-a12);
+    font-weight: 700;
+    padding: 1.6rem 1.6rem 1.6rem;
+  }
+  & .detail {
+    padding: 1.6rem 1.6rem 1.6rem;
+  }
+}
+
+/* maintenanceBlock -------------------------------- */
+.sky-maintenance_01,.sky-maintenance_02 {
+  padding: 1.25em;
+  & .heading {
+    font-size: 1em;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 1.6rem;
+    padding: 0 0 1.6rem;
+    &.sky-icontxt {
+      & .icon {
+        &::before {
+          top: 0em;
+        }
+      }
+    }
+  }
+  & .detail {
+    font-size: .9em;
+  }
+}
+.sky-maintenance_01 {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black-a12);
+  & .heading {
+    border-bottom: 1px solid var(--color-black-a12);
+    color: var(--color-sky-blue);
+  }
+}
+.sky-maintenance_02 {
+  background-color: var(--color-alert-a04);
+  border: 1px solid var(--color-alert-a80);
+  color: var(--color-alert100);
+  & .heading {
+    border-bottom: 1px solid var(--color-alert-a80);
+  }
+}
+
+/* button -------------------------------- */
+/* button list */
+.sky-btnList_grid {
+  background-color: var(--color-grey100);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.6rem;
+  justify-content: center;
+  padding: 2rem;
+  & .sky-btn {
+    width: 100%;
+  }
+}
+
+.sky-btnList_btwn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .8rem;
+}
+
+.sky-btnList {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
+  & > li {
+    display: flex;
+    justify-content: center;
+  }
+  & .sky-btn {
+    width: 100%;
+    max-width: 30rem;
+  }
+}
+
+.sky-btnList_flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+.sky-btnList_grid {
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  gap: 1.6rem;
+  justify-content: center;
+  &:has(> :nth-child(3)) {
+    justify-content: start;
+  }
+}
+.sky-btnList {
+  display: flex;
+  flex-wrap: wrap;
+  & .sky-btn {
+    width: 30rem;
+    max-width: 30rem;
+  }
+}
+}
+
+/* button */
+.sky-btn {
+  border: 2px solid transparent;
+  box-shadow: 0px 4px 4px var(--color-black-a12);
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  font-size: 1em;
+  font-weight: bold;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  white-space: nowrap;
+  vertical-align: middle;
+  & span {
+    display: inline-block;
+    width: 100%;
+  }
+  &:hover {
+    opacity: 0.8;
+    box-shadow: none;
+    transition: box-shadow 0.3s;
+  }
+}
+
+.btn_l {
+  padding: 1.4rem 3.2rem;
+}
+
+.btn_m {
+  padding: .8rem 1.6rem;
+}
+
+.btn_s {
+  display: inline-block;
+  padding: .4rem 1.2rem;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 9999px;
+  border: none;
+}
+
+/* Primary */
+.btn_primary {
+  background-color: var(--color-sky-blue);
+  border: 2px solid var(--color-sky-blue);
+  color: var(--color-white);
+}
+/* Secondary */
+.btn_secondary {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-sky-blue);
+  color: var(--color-sky-blue);
+}
+/* tertiary */
+.btn_tertiary {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-black-a20);
+  color: var(--color-black-a60);
+}
+/* Submit */
+.btn_submit {
+  background-color: var(--color-sky-orange);
+  border: 2px solid var(--color-sky-orange);
+  color: var(--color-sky-blue);
+}
+/* Accent01 */
+.btn_accent01 {
+  background-color: var(--color-accent01);
+  border: 2px solid var(--color-accent01);
+  color: var(--color-white);
+}
+/* Accent02 */
+.btn_accent02 {
+  background-color: var(--color-accent02);
+  border: 2px solid var(--color-accent02);
+  color: var(--color-white);
+}
+/* :disabled属性 */
+.sky-btn:disabled {
+  background-color: var(--color-disabled);
+  border: 2px solid var(--color-disabled);
+  box-shadow: none;
+  color: var(--color-white);
+  cursor: not-allowed;
+  &:hover {
+    opacity: 1;
+  }
+  & .icon {
+    filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%) !important;
+  }
+}
+
+.btn_icon-r, .btn_icon-l {
+  justify-content: space-between;
+  .icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 1.6em;
+    aspect-ratio: 1;
+  }
+}
+.btn_icon-r {
+  padding-right: 1.2rem;
+  .icon {
+    &::after {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    &.i_arr-r::after {
+      background-image: url("/webcheckin/common/images/icon/arrow1-right.svg");
+    }
+  }
+}
+.btn_icon-l {
+  padding-left: 1.2rem;
+  .icon {
+    &::before {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    &.i_arr-l::before {
+      background-image: url("/webcheckin/common/images/icon/arrow1-left.svg");
+    }
+  }
+}
+
+.btn_icon {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  .icon {
+    display: block;
+    flex-shrink: 0;
+    position: relative;
+    width: 1.4em;
+    aspect-ratio: 1;
+    &::before {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    &.i_seat::before {
+      background-image: url("/webcheckin/common/images/icon/seat.svg");
+    }
+    &.i_mail::before {
+      background-image: url("/webcheckin/common/images/icon/mail.svg");
+    }
+    &.i_print::before {
+      background-image: url("/webcheckin/common/images/icon/print.svg");
+    }
+  }
+}
+
+.text-link {
+  color: var(--color-sky-blue);
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-weight: bold;
+  text-decoration: none;
+  .icon {
+    position: relative;
+    width: 1.2em;
+    aspect-ratio: 1;
+    &::after {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      content: "";
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    &.i_arr-r::after {
+      background-image: url("/webcheckin/common/images/icon/arrow1-right.svg");
+    }
+  }
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.icon-blank {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  &::after {
+    background-image: url(/webcheckin/common/images/icon/external-link.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+    display: block;
+    filter: invert(14%) sepia(27%) saturate(7426%) hue-rotate(221deg) brightness(81%) contrast(115%);
+    width: 1em;
+    height: 1em;
+  }
+}
+
+/* liststyle -------------------------------- */
+.sky-list_disc > li {
+  margin-left: 1.25em;
+  list-style-type: disc;
+  list-style-position: outside;
+  & + li {
+    margin-top: .5em;
+  }
+  &::marker {
+    color: inherit;
+  }
+}
+
+.sky-list_note > li {
+  display: flex;
+  padding-left: 0;
+  & > span.marker {
+    display: inline-block;
+    font-family: inherit;
+    padding-right: .5em;
+  }
+  & + li {
+    margin-top: .5em;
+  }
+}
+
+/* icon + text -------------------------------- */
+.sky-icontxt {
+  display: flex;
+  align-items: flex-start;
+  overflow-wrap: break-word;
+  .icon {
+    display: block;
+    flex-shrink: 0;
+    width: 1.2em;
+    aspect-ratio: 1;
+    margin-right: .25em;
+    position: relative;
+    &::before {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      content: "";
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: .25em;
+    }
+    &.i_error::before {
+      background-image: url("/webcheckin/common/images/icon/alert-circle.svg");
+    }
+    &.i_warning::before {
+      background-image: url("/webcheckin/common/images/icon/warning.svg");
+    }
+    &.i_check::before {
+      background-image: url("/webcheckin/common/images/icon/check-circle.svg");
+    }
+  }
+}
+
+/* boxshadow -------------------------------- */
+.shdw_01 {
+  box-shadow: 0px 1px 4px var(--color-black-a12);
+}
+.shdw_02 {
+  box-shadow: 0px 4px 8px var(--color-black-a20);
+}
+
+/* form -------------------------------- */
+/* input */
+.skyInputText {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--color-white);
+  border: 1px solid var(--color-black-a12);
+  box-shadow: inset 0px 0px 8px var(--color-black-a12);
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: var(--color-black-a87);
+  font-size: 1em;
+  display: block;
+  line-height: 1;
+  outline: none;
+  padding: 1.2rem 1.6rem;
+  width: 100%;
+  &::placeholder {
+    color: var(--color-black-a60);
+    font-size: .9em;
+  }
+  &:focus {
+    box-shadow: 0px 0px 8px rgba(254, 219, 80, 0.87);
+  }
+}
+
+.skyInputLabel {
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: .5em;
+  .skyInputType {
+    color: var(--color-black-a60);
+    font-size: 0.8em;
+    font-weight: 400;
+    margin-left: .75em;
+  }
+}
+
+/* select */
+.skyInputSelect {
+  position: relative;
+  display: flex;
+  align-items: center;
+  & select {
+    -webkit-appearance: base-select;
+    appearance: base-select;
+    background: var(--color-white);
+    border: 1px solid var(--color-black-a12);
+    box-shadow: 0px 1px 4px var(--color-black-a12);
+    box-sizing: border-box;
+    border-radius: 8px;
+    color: var(--color-black-a87);
+    font-size: 1em;
+    margin: 0;
+    outline: none;
+    padding: 1.2rem 5.2rem 1.2rem 1.6rem;
+    width: 100%;
+    &::picker-icon {
+      display: none;
+    }
+    & button {
+      display: flex;
+      align-items: center;
+      &::before {
+        border-left: 1px solid var(--color-black-a12);
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 3.6rem;
+        pointer-events: none;
+        width: 1px;
+      }
+      &::after {
+        border: 1.8px solid var(--color-black-a60);
+        border-left: none;
+        border-top: none;
+        content: "";
+        display: block;
+        width: .8rem;
+        height: .8rem;
+        transform: rotate(45deg);
+        position: absolute;
+        right: 1.6rem;
+      }
+    }
+    &:focus {
+      box-shadow: 0px 0px 8px rgba(254, 219, 80, 0.87);
+    }
+  }
+  & option {
+    padding: 0 1rem;
+    cursor: pointer;
+  }
+}
+
+/* error */
+.skyInputText.error,
+.skyInputSelect.error select {
+  border-color: var(--color-alert-a80);
+  background-color: var(--color-alert-a04);
+}
+.skyInputErrorText {
+  color: var(--color-alert100);
+  font-size: .9em;
+  margin-top: .8rem;
+  margin-left: 1rem;
+}
+
+/* Checkbox */
+.skyInputCheckbox {
+  display: flex;
+  align-items: center;
+  & input {
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--color-white);
+    border: 2px solid var(--color-black-a12);
+    border-radius: 4px;
+    box-shadow: inset 0px 0px 4px 0px rgba(0, 24, 113, 0.12);
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 0;
+    margin-right: 1.2rem;
+    position: relative;
+    width: 2rem;
+    min-width: 2rem;
+    height: 2rem;
+    &:checked {
+      background-color: var(--color-sky-blue);
+      box-shadow: none;
+      border-color: var(--color-sky-blue);
+      &::after {
+        content: "";
+        display: block;
+        border: 2px solid var(--color-white);
+        border-left: none;
+        border-top: none;
+        box-sizing: content-box;
+        width: .4rem;
+        height: .8rem;
+        transform: rotate(45deg);
+        position: absolute;
+        right: .5rem;
+        top: .2rem;
+      }
+    }
+    &:disabled {
+      background: rgba(0, 0, 0, 0.04);
+      border: 2px solid rgba(0, 0, 0, 0.08);
+      box-shadow: none;
+    }
+    &:focus {
+      box-shadow: 0px 0px 8px rgba(254, 219, 80, 0.87);
+    }
+  }
+}
+
+/* radio */
+.skyInputRadio {
+  display: flex;
+  align-items: center;
+  & input {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    box-sizing: border-box;
+    width: 2rem;
+    min-width: 2rem;
+    height: 2rem;
+    background: #ffffff;
+    border: 2px solid rgba(0, 0, 0, 0.12);
+    box-shadow: inset 0px 0px 4px 0px rgba(0, 24, 113, 0.12);
+    border-radius: 10px;
+    margin-right: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    &:checked {
+      box-shadow: none;
+      border-color: var(--color-sky-blue);
+    }
+    &:checked {
+      &::after {
+        display: block;
+        content: "";
+        width: 1rem;
+        height: 1rem;
+        background-color: var(--color-sky-blue);
+        border-radius: 5px;
+        position: absolute;
+        right: .3rem;
+        top: .3rem;
+      }
+    }
+    &:disabled {
+      background: rgba(0, 0, 0, 0.04);
+      border: 2px solid rgba(0, 0, 0, 0.08);
+      box-shadow: none;
+    }
+    &:focus {
+      box-shadow: 0px 0px 8px rgba(254, 219, 80, 0.87);
+    }
+  }
+}
+
+/* tabs -------------------------------- */
+.sky-tabs {
+  filter: drop-shadow(0px -2px 4px var(--color-black-a06));
+  display: flex;
+  & button {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-black-a12);
+    cursor:pointer;
+    color: var(--color-black-a60);
+    font-size: 1em;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+    padding: 1.6rem 3.2rem;
+    text-decoration: none;
+    width: 100%;
+  }
+  & button[role="tab"][aria-selected="true"] {
+    border-bottom: solid 2px var(--color-sky-blue);
+    color: var(--color-sky-blue);
+  }
+  & button ~ button {
+    border-left: none;
+  }
+}
+
+.sky-panelArea {
+  padding: 1.6rem 2rem 3.2rem;
+  background: var(--color-white);
+  border-radius: 0 0 8px 8px;
+}
+@media (min-width: 768px) {
+.sky-panelArea {
+  padding: 2rem 3.2rem 4rem;
+}
+}
+
+/* accordion -------------------------------- */
+details.sky-accordion {
+  position: relative;
+  & summary.accTitle {
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    padding: 1.6rem;
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+  & .accDetail {
+    padding: 1.6rem 1.6rem 2.4rem;
+  }
+  &::details-content {
+    transition: height 0.4s, opacity 0.4s, content-visibility 0.4s allow-discrete;
+    height: 0;
+    opacity: 0;
+    overflow: clip;
+  }
+  &[open]::details-content { /* 展開時 */
+    height: auto;
+    opacity: 1;
+  }
+  &[open] .icon-arrow { /* 展開時 */
+      transform: rotate(-180deg);
+  }
+  /* icon */
+  .icon-arrow {
+    display: inline-block;
+    flex-shrink: 0;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    transition: transform 0.4s;
+    &::before,
+    &::after {
+      background-color: var(--color-black-a87);
+      border-radius: 9999px;
+      content: "";
+      position: absolute;
+      left: calc(50% - 1px);
+      transform-origin: 50% calc(100% - 1px);
+      width: .3rem;
+      height: 1rem;
+    }
+    &::before {
+      transform: rotate(45deg);
+    }
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords; /* height:0（数値型） → auto（文字型）のアニメーション可能にするための指定 */
+  }
+  details.sky-accordion[open]::details-content {
+    height: auto;
+  }
+}
+
+/* accType */
+.acc_A {
+  background-color: var(--color-white);
+  border-radius: 8px;
+  &[open]::details-content { /* 展開時 */
+    border-top: 1px solid var(--color-black-a12);
+  }
+}
+
+.acc_B {
+  & summary.accTitle {
+    background-color: var(--color-grey100);
+    padding: .8rem 1.6rem !important;
+  }
+  &[open]::details-content { /* 展開時 */
+    background-color: var(--color-white);
+  }
+}
+
+/* dialog -------------------------------- */
+.sky-modal {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black-a12);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0;
+  width: 90vw;
+  &::backdrop {
+    background-color: var(--color-black-a60);
+  }
+  & .dialog-content {
+    padding: 1.6rem;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    & .dialog-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      & .heading {
+        font-weight: 700;
+      }
+    }
+    & .dialog-detail {
+      margin: 2.4rem 0;
+    }
+    & .dialog-menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 28px;
+      margin: 0;
+      padding: 0;
+    }
+  }
+  & .icon-button {
+    background: none;
+    border: none;
+    outline: none;
+  }
+}
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+@media (min-width: 1024px) {
+.sky-modal {
+  width: 45vw;
+}
+}
+
+/* seat */
+.sky-modal[data-modal="seat"] {
+  & .dialog-content {
+    & .dialog-title {
+      border-bottom: 1px solid var(--color-black-a12);
+      font-size: 1.4em;
+      padding-bottom: .5em;
+    }
+  }
+}
+
+/* mail */
+.sky-modal[data-modal="mail"] {
+  & .dialog-content {
+    & .dialog-detail {
+      margin: 0 0 2.4rem;
+      & .skyInputLabel {
+        font-size: 1.1em;
+        & .icon {
+          width: 1.2em;
+          aspect-ratio: 1;
+        }
+      }
+    }
+  }
+}
+
+/* tooltip -------------------------------- */
+.sky-tooltip-wrap {
+  display: inline-flex;
+  position: relative;
+}
+
+.tooltip-target {
+  cursor: pointer;
+  font-size: 1.4em;
+  display: flex;
+  justify-content: center;
+  width: 1.4em;
+  aspect-ratio: 1;
+  padding-right: .2rem;
+}
+
+.tooltip-content {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black-a12);
+  border-radius: 8px;
+  filter:drop-shadow(2px 3px 2px var(--color-black-a12));
+  position: absolute;
+  bottom: calc(100% + .8em);
+  right: -.5em;
+  padding: .5em 1em;
+  white-space: nowrap;
+  width: fit-content;
+  max-width: 100vw;
+  visibility: hidden;
+  transition: opacity .3s;
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: .3em;
+    border-style: solid;
+    border-width: .8rem .6rem 0 .6rem;
+    border-color: var(--color-black-a12) transparent transparent;
+    translate: -50% 100%;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: .4em;
+    border-style: solid;
+    border-width: .8rem .6rem 0 .6rem;
+    border-color: var(--color-white) transparent transparent;
+    translate: -50% 100%;
+  }
+}
+
+/* more button -------------------------------- */
+.item.isHidden {
+  display: none;
+}
+.sky-moreButton.isHidden,.button-more.isHidden{
+  display:none;
+  border: none;
+}
+
+.sky-moreButton {
+  display: flex;
+  justify-content: end;
+  margin-top: .5em;
+  & button {
+    position: relative;
+    display: inline-block;
+    padding: .4rem .6rem .4em 1.2em;
+    background: var(--color-black-a06);
+    border: none;
+    border-radius: 9999px;
+    color: var(--color-black-a60);
+    font-size: .8em;
+    line-height: 1;
+    text-align: center;
+    cursor:pointer;
+    &::before, &::after {
+      content: '';
+      width: 1px;
+      height: .8rem;
+      display: inline-block;
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--sky-blue);
+    }
+    &::after {
+      transform: translateY(-50%) rotate(90deg);
+    }
+  }
+}
+
+/* flight info -------------------------------- */
+.label-status {
+  background-color: var(--color-sky-blue);
+  border-radius: 9999px;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8em;
+  font-weight: 700;
+  line-height: 1;
+  padding: .4rem .8rem;
+  word-wrap: break-word;
+}
+.label-status[data-flight="connect"] {
+  background-color: var(--color-accent03);
+  color: var(--color-white);
+}
+[data-status="canc"] .number {
+  color: var(--color-grey500);
+  text-decoration: line-through;
+}
+[data-status="canc"] .label-status {
+  background-color: var(--color-alert100);
+  color: var(--color-white);
+}
+[data-status="susp"] .label-status {
+  background-color: var(--color-accent02);
+  color: var(--color-white);
+}
+[data-status="delay"] .label-status {
+  background-color: var(--color-accent04);
+  color: var(--color-white);
+}
+[data-status="wthr"] .label-status {
+  background-color: var(--color-sky-blue-a87);
+  color: var(--color-white);
+}
+[data-status="ops"] .label-status {
+  background-color: var(--color-blue300);
+  color: var(--color-sky-blue);
+}
+
+.label-checkin {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.9em;
+  & > span {
+    background-color: inherit;
+    font-size: .8em;
+    display: inline-block;
+    padding: .2em .4em;
+    & .time {
+      font-weight: 700;
+      margin-left: .25em;
+    }
+  }
+  & > [data-checkin="open"] {
+    background-color: var(--color-yellow200);
+  }
+  & > [data-checkin="upcm"] {
+    background-color: var(--color-grey300);
+    & .time {
+      margin-left: 0em;
+      margin-right: .25em;
+    }
+  }
+  & > [data-checkin="clsd"] {
+    background-color: var(--color-grey500);
+    color: var(--color-white);
+  }
+}
+
+.pax-name {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: .8rem;
+  row-gap: .4rem;
+  line-height: 1;
+  & .name {
+    display: flex;
+    align-items: baseline;
+    & > span {
+      font-size: .9em;
+      padding-left: .25em;
+    }
+  }
+  & .name.infant {
+    font-size: .9em;
+    column-gap: .4rem;
+    & .i_inf {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.4em;
+      aspect-ratio: 1;
+      position: relative;
+      &::before {
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("/webcheckin/common/images/icon/baby.svg");
+        content: "";
+        display: block;
+        flex-shrink: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: .24em;
+      }
+    }
+    &::before {
+      content: "/";
+    }
+  }
+}
+
+.sky-rsvflight {
+  font-size: 1.4rem;
+  & > * {
+    margin-top: 1.6rem;
+  }
+  & > *:first-child {
+    margin-top: 0;
+  }
+  & .flight-info {
+    & .flight-date {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      & .flight-skd {
+        color: var(--color-sky-blue);
+        font-weight: 700;
+        & .week {
+          font-size: .9em;
+          font-weight: 400;
+        }
+      }
+    }
+    & .flight-wrap {
+      & .flight-routeWrap {
+        margin-top: .5em;
+        & .flight-number {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          & .number {
+            font-size: 1em;
+            font-weight: 700;
+          }
+        }
+        & .flight-route {
+          display: flex;
+          flex-wrap: wrap;
+          gap: .5em;
+          line-height: 1;
+          margin-top: .25em;
+          & .flight-dep, & .flight-arr {
+            display: flex;
+            align-items: center;
+            gap: .5em;
+            & .port {
+              font-weight: 400;
+            }
+            & .time {
+              font-weight: 700;
+            }
+          }
+          & .i_plane {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.2em;
+            aspect-ratio: 1;
+            position: relative;
+            &::before {
+              background-size: contain;
+              background-position: center;
+              background-repeat: no-repeat;
+              background-image: url("/webcheckin/common/images/icon/airplane.svg");
+              content: "";
+              display: block;
+              flex-shrink: 0;
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              left: 0;
+              top: .1em;
+            }
+          }
+        }
+        & .sky-icontxt {
+          font-size: .8em;
+          margin-top: .25em;
+        }
+      }
+    }
+  }
+  & .pax-info {
+    & .accDetail{
+      padding: .25em .25em 1em;
+    }
+    & .pax-list {
+      & > li {
+        border-bottom: 1px solid var(--color-black-a12);
+        padding: .8rem 0;
+        & .pax-name {
+          font-weight: 700;
+        }
+        & .pax-detail {
+          font-size: .8em;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: .8rem;
+          padding-top: .8rem;
+          & .seat-number {
+            flex-shrink: 0;
+            & li {
+              display: flex;
+              gap: .4em;
+              & .i_seat {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.2em;
+                aspect-ratio: 1;
+                position: relative;
+                &::before {
+                  background-size: contain;
+                  background-position: center;
+                  background-repeat: no-repeat;
+                  background-image: url("/webcheckin/common/images/icon/seat.svg");
+                  content: "";
+                  display: block;
+                  flex-shrink: 0;
+                  width: 100%;
+                  height: 100%;
+                  position: absolute;
+                  left: 0;
+                  top: -.2em;
+                }
+              }
+            }
+          }
+          & .wc-status {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            justify-content: end;
+            font-size: .9em;
+            line-height: 1.2;
+            padding-right: .75em;
+            & > span {
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+.sky-rsvflight {
+  font-size: 1.6rem;
+  & .flight-info {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.6rem;
+    align-items: start;
+    & .flight-date {
+      display: inline-flex;
+      justify-content: start;
+    }
+    & .flight-wrap {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .8rem;
+      & .flight-routeWrap {
+        margin-top: 0;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+        column-gap: 2rem;
+        & .flight-number {
+          grid-column: 1;
+          grid-row: 1;
+        }
+        & .flight-route {
+          margin-top: 0;
+          grid-column: 2;
+          grid-row: 1;
+        }
+        & .sky-icontxt {
+          margin-top: 0;
+          grid-column: 1 / span 2;
+          grid-row: 2;
+          width: 100%;
+        }
+      }
+    }
+  }
+  & .pax-info {
+    & .accDetail{
+      padding: .25em .25em 1em;
+    }
+    & .pax-list {
+      & > li {
+        padding: .8rem 0;
+        & dl {
+          display: grid;
+          grid-template-columns: 1fr auto;
+        }
+        & .pax-detail {
+          display: flex;
+          justify-content: start;
+          gap: 1.6rem;
+          padding-top: 0;
+          & .seat-number {
+            width: 10em;
+          }
+          & .wc-status {
+            width: 14em;
+          }
+        }
+      }
+    }
+  }
+}
+}
+
+.sky-checktoggle {
+  display: inline-flex;
+  column-gap: 2rem;
+  & button {
+    background-color: transparent;
+    border: none;
+    border-radius: 9999px;
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    column-gap: .4rem;
+    font-size: .8em;
+    line-height: 1;
+    padding: .5em 1em;
+    &::before {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      content: "";
+      filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.2em;
+      height: 1.2em;
+    }
+  }
+  & .toggle-all button {
+    background-color: var(--color-sky-blue);
+    color: var(--color-white);
+    &::before {
+      background-image: url("/webcheckin/common/images/icon/check-fill.svg");
+    }
+  }
+  & .toggle-del button {
+    background-color: var(--color-grey500);
+    color: var(--color-white);
+    &::before {
+      background-image: url("/webcheckin/common/images/icon/close-square.svg");
+    }
+  }
+}
+
+.sky-paxselect {
+  margin-top: 2rem;
+  & > li {
+    margin-top: 1.2rem;
+  }
+}
+.sky-checkBox {
+  & .skyInputCheckbox {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    text-align: center;
+    padding: 2.4rem 2rem;
+    cursor: pointer;
+  }
+  & input {
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+/**
+ * for print
+ */
+.cs_qrCode { /* ブラウザ */
+  display: none;
+}
+@media print { /* 印刷 */
+  .cs_qrCode {
+    display: block;
+  }
+  .print_on {
+    display: block !important;
+  }
+  .print_off, .sky-header, .sky-footer {
+    display: none !important;
+  }
+  [data-print="printOn"] {
+    display: none !important;
+  }
+}

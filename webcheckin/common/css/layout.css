@@ -1,0 +1,68 @@
+@charset "utf-8";
+
+/* wc-maintenance */
+@media (min-width: 768px) {
+.wc-maintenance {
+  .sky-content {
+    margin: auto;
+    width: 600px;
+  }
+}
+}
+
+/* wc-rsvserch */
+.wc-rsvserch {
+  & .tabPanel {
+    padding: 2rem 0;
+    & .w_s {
+      & .skyInputText {
+        width: 16rem;
+      }
+    }
+    & .subtext {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      & span {
+        font-size: .9em;
+      }
+    }
+    & .sky-btnList {
+      margin-top: 3.6rem;
+    }
+  }
+}
+@media (min-width: 768px) {
+.wc-rsvserch {
+  & .tabPanel {
+    margin: 0 auto;
+    padding: 2rem 0;
+    width: 600px;
+    & .w_m {
+      & .skyInputSelect, & .skyInputText {
+        width: 30rem;
+      }
+    }
+    & .w_s {
+      & .skyInputText {
+        width: 20rem;
+      }
+    }
+    & .sky-btnList {
+      margin-top: 4.6rem;
+    }
+  }
+}
+}
+
+/* wc-rsverchresult */
+/* .wc-rsverchresult {} */
+
+/* wc-paxselect */
+.wc-paxselect {
+  & .btn_menu {
+    & .sky-btn {
+      width: 16rem;
+    }
+  }
+}

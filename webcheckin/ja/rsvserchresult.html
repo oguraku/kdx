@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.skymark.co.jp/favicon.ico">
+<title>Webチェックイン｜スカイマーク</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="スカイマークのWebチェックインページです。">
+<!-- global css -->
+<link rel="stylesheet" href="/webcheckin/common/css/style.css">
+<link rel="stylesheet" href="/webcheckin/common/css/layout.css">
+<!-- /global css -->
+<!-- local css -->
+<!-- /local css -->
+</head>
+<body>
+<!-- HEADER START -->
+<div id="sky-header2"></div>
+<!-- HEADER END -->
+
+<main class="sky-container wc-rsverchresult">
+  <section class="sky-content">
+    <h1 class="heading200">Webチェックイン</h1>
+    <section>
+      <section class="sky-rsvflight sky-flame_02 shdw_01">
+        <div class="label-checkin"><span data-checkin="open">Webチェックイン締め切りまで残り<span class="time">00時間00分</span></span></div>
+        <div class="flight-info">
+          <div class="flight-date">
+            <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
+            <span class="label-status" data-flight="connect">乗継便</span>
+          </div>
+          <div class="flight-wrap">
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="canc">
+                <span class="number">SKY0123</span>
+                <span class="label-status">欠航</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+              <p class="sky-icontxt c_red"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p>
+            </div>
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="susp">
+                <span class="number">SKY0123</span>
+                <span class="label-status">運休</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+              <p class="sky-icontxt c_red"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p>
+            </div>
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="delay">
+                <span class="number">SKY0123</span>
+                <span class="label-status">遅延</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+              <p class="sky-icontxt c_red"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p>
+            </div>
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="wthr">
+                <span class="number">SKY0123</span>
+                <span class="label-status">天候調査</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+              <p class="sky-icontxt c_red"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p>
+            </div>
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="ops">
+                <span class="number">SKY0123</span>
+                <span class="label-status">条件付運航</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+              <p class="sky-icontxt c_red"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="pax-info">
+          <details class="sky-accordion acc_B">
+            <summary class="accTitle">
+              搭乗者<span class="icon-arrow"></span>
+            </summary>
+            <div class="accDetail">
+              <ul class="pax-list">
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン未実施</span>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン未実施</span>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン未実施</span>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン対象外</span>
+                        <div class="sky-tooltip-wrap">
+                          <span data-tooltip-trigger tabindex="0" class="tooltip-target">
+                            <img src="/webcheckin/common/images/icon/help.svg" alt="ヘルプ" class="i_grey">
+                          </span>
+                          <div role="tooltip" data-tooltip-content class="tooltip-content">
+                            当日空港カウンターにお越しください
+                          </div>
+                        </div>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定</li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン対象外</span>
+                        <div class="sky-tooltip-wrap">
+                          <span data-tooltip-trigger tabindex="0" class="tooltip-target">
+                            <img src="/webcheckin/common/images/icon/help.svg" alt="ヘルプ" class="i_grey">
+                          </span>
+                          <div role="tooltip" data-tooltip-content class="tooltip-content">
+                            当日空港カウンターにお越しください
+                          </div>
+                        </div>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+              </ul>
+            </div>
+          </details>
+        </div>
+        <div class="sky-flame_01 flm_blue"><p>（お知らせテキストを表示する場合）空港カウンターにてチェックイン手続きをお願いいたします。</p></div>
+        <ul class="sky-btnList_grid">
+          <li><button class="sky-btn btn_primary btn_l btn_icon-r"><span>チェックイン</span><span class="icon i_arr-r i_white"></span></button></li>
+          <li><button class="sky-btn btn_primary btn_l btn_icon-r"><span>搭乗券表示</span><span class="icon i_arr-r i_white"></span></button></li>
+          <li><button class="sky-btn btn_secondary btn_l btn_icon-r"><span>座席変更</span><span class="icon i_arr-r i_blue"></span></button></li>
+          <li><button class="sky-btn btn_secondary btn_l btn_icon-r"><span>チェックイン取り消し</span><span class="icon i_arr-r i_blue"></span></button></li>
+        </ul>
+      </section>
+
+      <section class="sky-rsvflight sky-flame_02 shdw_01">
+        <div class="label-checkin"><span data-checkin="upcm"><span class="time">00時間00分</span>Webチェックイン開始</span></div>
+        <div class="flight-info">
+          <div class="flight-date">
+            <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
+            <span class="label-status" data-flight="connect">乗継便</span>
+          </div>
+          <div class="flight-wrap">
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="">
+                <span class="number">SKY0123</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+            </div>
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="">
+                <span class="number">SKY0123</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pax-info">
+          <details class="sky-accordion acc_B">
+            <summary class="accTitle">
+              搭乗者<span class="icon-arrow"></span>
+            </summary>
+            <div class="accDetail">
+              <ul class="pax-list">
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン未実施</span>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン未実施</span>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン未実施</span>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン対象外</span>
+                        <div class="sky-tooltip-wrap">
+                          <span data-tooltip-trigger tabindex="0" class="tooltip-target">
+                            <img src="/webcheckin/common/images/icon/help.svg" alt="ヘルプ" class="i_grey">
+                          </span>
+                          <div role="tooltip" data-tooltip-content class="tooltip-content">
+                            当日空港カウンターにお越しください
+                          </div>
+                        </div>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定</li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン対象外</span>
+                        <div class="sky-tooltip-wrap">
+                          <span data-tooltip-trigger tabindex="0" class="tooltip-target">
+                            <img src="/webcheckin/common/images/icon/help.svg" alt="ヘルプ" class="i_grey">
+                          </span>
+                          <div role="tooltip" data-tooltip-content class="tooltip-content">
+                            当日空港カウンターにお越しください
+                          </div>
+                        </div>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+              </ul>
+            </div>
+          </details>
+        </div>
+        <div class="sky-flame_01 flm_blue"><p>（お知らせテキストを表示する場合）空港カウンターにてチェックイン手続きをお願いいたします。</p></div>
+        <ul class="sky-btnList_grid">
+          <li><p class="fw_b c_blue txt_c">2025年00月00日00時00分からチェックインが可能になります</p></li>
+        </ul>
+      </section>
+
+      <section class="sky-rsvflight sky-flame_02 shdw_01">
+        <div class="label-checkin"><span data-checkin="clsd">Webチェックイン受付は終了しました</span></div>
+        <div class="flight-info">
+          <div class="flight-date">
+            <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
+            <span class="label-status" data-flight="connect">乗継便</span>
+          </div>
+          <div class="flight-wrap">
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="">
+                <span class="number">SKY0123</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+            </div>
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="">
+                <span class="number">SKY0123</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pax-info">
+          <details class="sky-accordion acc_B">
+            <summary class="accTitle">
+              搭乗者<span class="icon-arrow"></span>
+            </summary>
+            <div class="accDetail">
+              <ul class="pax-list">
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン未実施</span>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン未実施</span>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン未実施</span>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                      <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                        <li><span class="i_seat"></span>未指定<span class="flightNum">(SKY0000)</span></li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン対象外</span>
+                        <div class="sky-tooltip-wrap">
+                          <span data-tooltip-trigger tabindex="0" class="tooltip-target">
+                            <img src="/webcheckin/common/images/icon/help.svg" alt="ヘルプ" class="i_grey">
+                          </span>
+                          <div role="tooltip" data-tooltip-content class="tooltip-content">
+                            当日空港カウンターにお越しください
+                          </div>
+                        </div>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定</li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン対象外</span>
+                        <div class="sky-tooltip-wrap">
+                          <span data-tooltip-trigger tabindex="0" class="tooltip-target">
+                            <img src="/webcheckin/common/images/icon/help.svg" alt="ヘルプ" class="i_grey">
+                          </span>
+                          <div role="tooltip" data-tooltip-content class="tooltip-content">
+                            当日空港カウンターにお越しください
+                          </div>
+                        </div>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+              </ul>
+            </div>
+          </details>
+        </div>
+        <div class="sky-flame_01 flm_blue"><p>（お知らせテキストを表示する場合）空港カウンターにてチェックイン手続きをお願いいたします。</p></div>
+        <ul class="sky-btnList_grid">
+          <li><button class="sky-btn btn_primary btn_l btn_icon-r"><span>チェックイン</span><span class="icon i_arr-r i_white"></span></button></li>
+          <li><button class="sky-btn btn_primary btn_l btn_icon-r"><span>搭乗券表示</span><span class="icon i_arr-r i_white"></span></button></li>
+          <li><button class="sky-btn btn_secondary btn_l btn_icon-r" disabled><span>座席変更</span><span class="icon i_arr-r i_blue"></span></button></li>
+          <li><button class="sky-btn btn_secondary btn_l btn_icon-r" disabled><span>チェックイン取り消し</span><span class="icon i_arr-r i_blue"></span></button></li>
+        </ul>
+      </section>
+
+      <section class="sky-rsvflight sky-flame_02 shdw_01">
+        <div class="label-checkin"><span data-checkin="open">Webチェックイン締め切りまで残り<span class="time">00時間00分</span></span></div>
+        <div class="flight-info">
+          <div class="flight-date">
+            <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
+          </div>
+          <div class="flight-wrap">
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="">
+                <span class="number">SKY0123</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pax-info">
+          <details class="sky-accordion acc_B">
+            <summary class="accTitle">
+              搭乗者<span class="icon-arrow"></span>
+            </summary>
+            <div class="accDetail">
+              <ul class="pax-list">
+                <li>
+                  <dl>
+                    <dt class="pax-name">
+                      <span class="name">SORANO ICHIRO<span>様</span></span>
+                    </dt>
+                    <dd class="pax-detail">
+                      <ul class="seat-number">
+                        <li><span class="i_seat"></span>未指定</li>
+                      </ul>
+                      <div class="wc-status">
+                        <span>チェックイン未実施</span>
+                      </div>
+                    </dd>
+                  </dl>
+                </li>
+              </ul>
+            </div>
+          </details>
+        </div>
+        <div class="sky-flame_01 flm_blue"><p>（お知らせテキストを表示する場合）空港カウンターにてチェックイン手続きをお願いいたします。</p></div>
+        <ul class="sky-btnList_grid">
+          <li><button class="sky-btn btn_primary btn_l btn_icon-r"><span>チェックイン</span><span class="icon i_arr-r i_white"></span></button></li>
+          <li><button class="sky-btn btn_primary btn_l btn_icon-r"><span>搭乗券表示</span><span class="icon i_arr-r i_white"></span></button></li>
+          <li><button class="sky-btn btn_secondary btn_l btn_icon-r" disabled><span>座席変更</span><span class="icon i_arr-r i_blue"></span></button></li>
+          <li><button class="sky-btn btn_secondary btn_l btn_icon-r" disabled><span>チェックイン取り消し</span><span class="icon i_arr-r i_blue"></span></button></li>
+        </ul>
+      </section>
+    </section>
+  </section>
+</main>
+
+<!-- FOOTER START -->
+<div id="sky-footer"></div>
+<!-- FOOTER END -->
+<!-- globalscript -->
+<script type="text/javascript" src="/webcheckin/common/js/script.js?ver=1"></script>
+<script type="text/javascript" src="/webcheckin/common/js/header.js?ver=1"></script>
+<script type="text/javascript" src="/webcheckin/common/js/footer.js?ver=1"></script>
+<!-- localscript -->
+</body>
+</html>
