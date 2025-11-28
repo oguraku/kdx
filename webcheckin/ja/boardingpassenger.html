@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" href="https://www.skymark.co.jp/favicon.ico">
-<title>チェックイン搭乗者選択｜Webチェックイン｜スカイマーク</title>
+<title>搭乗券表示対象者選択｜Webチェックイン｜スカイマーク</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="description" content="スカイマークのWebチェックインページです。">
 <!-- global css -->
@@ -19,9 +19,16 @@
 <div id="sky-header"></div>
 <!-- HEADER END -->
 
-<main class="sky-container wc-paxselect">
+<main class="sky-container wc-paxselect-boarding">
   <section class="sky-content">
-    <h1 class="heading200">チェックイン対象者選択</h1>
+    <h1 class="heading200">搭乗券表示対象者選択</h1>
+
+    <section class="inner-blockD">
+      <div class="sky-flame_01 flm_red">
+        <p class="sky-icontxt"><span class="icon i_error i_red"></span><span class="text">エラーの場合のテキストが入ります。</span></p>
+      </div>
+    </section>
+
     <section>
       <section class="sky-rsvflight sky-flame_02 shdw_01">
         <div class="flight-info">
@@ -73,8 +80,8 @@
             <label class="skyInputCheckbox sky-flame_02 shdw_01">
               <input type="checkbox">
               <div class="pax-name">
-                <span class="name">SORANO ICHIRO<span>様</span></span>
-                <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                <span class="name"><span>Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano</span><span>de la Santísima Trinidad Martyr Patricio Clito Ruíz y Picasso</span><span>様</span></span>
+                <span class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano</span><span>de la Santísima Trinidad Martyr Patricio Clito Ruíz y Picasso</span><span>様</span></span>
               </div>
             </label>
           </li>
@@ -82,8 +89,8 @@
             <label class="skyInputCheckbox sky-flame_02 shdw_01">
               <input type="checkbox">
               <div class="pax-name">
-                <span class="name">SORANO ICHIRO<span>様</span></span>
-                <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+                <span class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>Pablo</span><span>Picasson</span><span>様</span></span>
               </div>
             </label>
           </li>
@@ -91,8 +98,8 @@
             <label class="skyInputCheckbox sky-flame_02 shdw_01">
               <input type="checkbox">
               <div class="pax-name">
-                <span class="name">SORANO ICHIRO<span>様</span></span>
-                <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+                <span class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>Pablo</span><span>Picasson</span><span>様</span></span>
               </div>
             </label>
           </li>
@@ -100,8 +107,8 @@
             <label class="skyInputCheckbox sky-flame_02 shdw_01">
               <input type="checkbox">
               <div class="pax-name">
-                <span class="name">SORANO ICHIRO<span>様</span></span>
-                <span class="name infant"><span class="i_inf"></span>SORANO JIRO<span>様</span></span>
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+                <span class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>Pablo</span><span>Picasson</span><span>様</span></span>
               </div>
             </label>
           </li>
@@ -109,7 +116,7 @@
             <label class="skyInputCheckbox sky-flame_02 shdw_01">
               <input type="checkbox">
               <div class="pax-name">
-                <span class="name">SORANO ICHIRO<span>様</span></span>
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
               </div>
             </label>
           </li>
@@ -117,7 +124,7 @@
             <label class="skyInputCheckbox sky-flame_02 shdw_01">
               <input type="checkbox">
               <div class="pax-name">
-                <span class="name">SORANO ICHIRO<span>様</span></span>
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
               </div>
             </label>
           </li>
@@ -125,19 +132,28 @@
             <label class="skyInputCheckbox sky-flame_02 shdw_01">
               <input type="checkbox">
               <div class="pax-name">
-                <span class="name">SORANO ICHIRO<span>様</span></span>
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+              </div>
+            </label>
+          </li>
+          <li class="sky-checkBox">
+            <label class="skyInputCheckbox sky-flame_02 shdw_01">
+              <input type="checkbox" disabled>
+              <div class="pax-name">
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
               </div>
             </label>
           </li>
         </ul>
       </section>
+    </section>
 
-      <section class="sky-flame_03">
-        <ul class="sky-btnList_btwn btn_menu">
-          <li><button class="sky-btn btn_secondary btn_l btn_icon-l"><span class="icon i_arr-l i_blue"></span><span>戻る</span></button></li>
-          <li><button class="sky-btn btn_primary btn_l btn_icon-r"><span>次へ</span><span class="icon i_arr-r i_white"></span></button></li>
-        </ul>
-      </section>
+    <section class="sky-flame_03">
+      <ul class="sky-btnList_btwn wc-btn_menu">
+        <li><button type="button" class="sky-btn btn_secondary btn_l btn_icon-l"><span class="icon i_arr-l i_blue"></span><span>戻る</span></button></li>
+        <li><button type="button" class="sky-btn btn_submit btn_l btn_icon-r" disabled><span>次へ</span><span class="icon i_arr-r i_blue"></span></button></li>
+      </ul>
+    </section>
   </section>
 </main>
 

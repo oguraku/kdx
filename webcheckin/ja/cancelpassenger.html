@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.skymark.co.jp/favicon.ico">
+<title>チェックイン取り消し対象者選択｜Webチェックイン｜スカイマーク</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="スカイマークのWebチェックインページです。">
+<!-- global css -->
+<link rel="stylesheet" href="/webcheckin/common/css/style.css">
+<link rel="stylesheet" href="/webcheckin/common/css/layout.css">
+<!-- /global css -->
+<!-- local css -->
+<!-- /local css -->
+</head>
+<body>
+<!-- HEADER START -->
+<div id="sky-header"></div>
+<!-- HEADER END -->
+
+<main class="sky-container wc-paxselect-cancel">
+  <section class="sky-content">
+    <h1 class="heading200">チェックイン取り消し対象者選択</h1>
+
+    <section class="inner-blockD">
+      <div class="sky-flame_01 flm_red">
+        <p class="sky-icontxt"><span class="icon i_error i_red"></span><span class="text">エラーの場合のテキストが入ります。</span></p>
+      </div>
+    </section>
+
+    <section>
+      <section class="sky-rsvflight sky-flame_02 shdw_01">
+        <div class="flight-info">
+          <div class="flight-date">
+            <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
+            <span class="label-status" data-flight="connect">乗継便</span>
+          </div>
+          <div class="flight-wrap">
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="">
+                <span class="number">SKY0123</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+            </div>
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="">
+                <span class="number">SKY0123</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <ul class="sky-checktoggle">
+          <li class="toggle-all"><button type="button" onclick="allcheck(true);">すべて選択</button></li>
+          <li class="toggle-del"><button type="button" onclick="allcheck(false);">すべて解除</button></li>
+        </ul>
+
+        <ul class="sky-paxselect">
+          <li class="sky-checkBox">
+            <label class="skyInputCheckbox sky-flame_02 shdw_01">
+              <input type="checkbox">
+              <div class="pax-name">
+                <span class="name"><span>Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano</span><span>de la Santísima Trinidad Martyr Patricio Clito Ruíz y Picasso</span><span>様</span></span>
+                <span class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano</span><span>de la Santísima Trinidad Martyr Patricio Clito Ruíz y Picasso</span><span>様</span></span>
+              </div>
+            </label>
+          </li>
+          <li class="sky-checkBox">
+            <label class="skyInputCheckbox sky-flame_02 shdw_01">
+              <input type="checkbox">
+              <div class="pax-name">
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+                <span class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>Pablo</span><span>Picasson</span><span>様</span></span>
+              </div>
+            </label>
+          </li>
+          <li class="sky-checkBox">
+            <label class="skyInputCheckbox sky-flame_02 shdw_01">
+              <input type="checkbox">
+              <div class="pax-name">
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+                <span class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>Pablo</span><span>Picasson</span><span>様</span></span>
+              </div>
+            </label>
+          </li>
+          <li class="sky-checkBox">
+            <label class="skyInputCheckbox sky-flame_02 shdw_01">
+              <input type="checkbox">
+              <div class="pax-name">
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+                <span class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>Pablo</span><span>Picasson</span><span>様</span></span>
+              </div>
+            </label>
+          </li>
+          <li class="sky-checkBox">
+            <label class="skyInputCheckbox sky-flame_02 shdw_01">
+              <input type="checkbox">
+              <div class="pax-name">
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+              </div>
+            </label>
+          </li>
+          <li class="sky-checkBox">
+            <label class="skyInputCheckbox sky-flame_02 shdw_01">
+              <input type="checkbox">
+              <div class="pax-name">
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+              </div>
+            </label>
+          </li>
+          <li class="sky-checkBox">
+            <label class="skyInputCheckbox sky-flame_02 shdw_01">
+              <input type="checkbox">
+              <div class="pax-name">
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+              </div>
+            </label>
+          </li>
+          <li class="sky-checkBox">
+            <label class="skyInputCheckbox sky-flame_02 shdw_01">
+              <input type="checkbox" disabled>
+              <div class="pax-name">
+                <span class="name"><span>Pablo</span><span>Picasso</span><span>様</span></span>
+              </div>
+            </label>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section class="sky-flame_03">
+      <ul class="sky-btnList_btwn wc-btn_menu">
+        <li><button type="button" class="sky-btn btn_secondary btn_l btn_icon-l"><span class="icon i_arr-l i_blue"></span><span>戻る</span></button></li>
+        <li><button type="button" class="sky-btn btn_submit btn_l btn_icon-r" disabled><span>次へ</span><span class="icon i_arr-r i_blue"></span></button></li>
+      </ul>
+    </section>
+  </section>
+</main>
+
+<!-- FOOTER START -->
+<div id="sky-footer"></div>
+<!-- FOOTER END -->
+<!-- globalscript -->
+<script type="text/javascript" src="/webcheckin/common/js/script.js?ver=1"></script>
+<script type="text/javascript" src="/webcheckin/common/js/header.js?ver=1"></script>
+<script type="text/javascript" src="/webcheckin/common/js/footer.js?ver=1"></script>
+<!-- localscript -->
+</body>
+</html>
