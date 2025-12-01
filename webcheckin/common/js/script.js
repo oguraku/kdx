@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const handlePrintClick = (event) => {
     // クリックされたボタン（event.currentTarget）から一番近い<section>を取得
     const targetSection = event.currentTarget.closest('section');
+    console.log(targetSection);
 
     // <section>が見つかった場合のみ処理を実行
     if (targetSection) {
@@ -291,225 +292,83 @@ if (scrollElm && checkElm) {
 
 //-------------------------------------------------------
 /** 
- * カルーセル制御
+ * カルーセル制御（768px以下）
  */
 
-const useCarousel = () => {
-  // カルーセルのクラス名を定義
-  const carouselClassName = '.js-carousel';
-  // カルーセルインスタンスを管理するMapオブジェクト
-  const carouselInstances = new Map();
+let mySwiper = null;
+const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
 
-  /**
-   * カルーセルインスタンスを作成する関数
-   * @param {HTMLElement} element - カルーセルのDOM要素
-   * @returns {Object} カルーセルインスタンスオブジェクト
-   */
-  const createCarouselInstance = (element) => {
-    // スクリーンリーダー用のライブリージョンを作成
-    const liveRegion = document.createElement('div');
+function carouselNavFraction(swiper) {
+  const nav = document.querySelector('.js-carousel-fraction');
+  if (!nav) return;
+  const current = nav.querySelector('.current-slide');
+  const total = nav.querySelector('.total-slide');
+  if (current && total) {
+    current.textContent = swiper.realIndex + 1;
+    if (swiper.params.loop) {
+      // loop時はダミー分を除外
+      total.textContent = swiper.slides.length - swiper.loopedSlides * 2;
+    } else {
+      // loopなしはそのまま
+      total.textContent = swiper.slides.length;
+    }
+  }
+}
 
-    // 各種ボタンとコンテナ要素を取得
-    const autoplayButton = element.querySelector(
-      '.js-carousel-autoplay-button'
-    );
-    const paginationContainer = element.querySelector(
-      '.js-carousel-pagination'
-    );
-    const previousButton = element.querySelector('.js-carousel-previous');
-    const nextButton = element.querySelector('.js-carousel-next');
-
-    // Swiperインスタンスを作成・設定
-    const swiper = new Swiper(element, {
-      direction: 'horizontal', // 水平方向のスライド
-      slidesPerView: 'auto', // スライドの表示数を自動調整
-      spaceBetween: 8, // スライド間の余白（デフォルト）
-      loop: true, // 無限ループを有効化
-
-      // ナビゲーションボタンの設定
+function initSwiper() {
+  // 既存のSwiperインスタンスがあれば一度破棄
+  if (mySwiper) {
+    mySwiper.destroy(false, true);
+    mySwiper = null;
+  }
+  // 必要な要素が存在する場合のみ初期化
+  const carouselEl = document.querySelector('.js-carousel');
+  if (carouselEl) {
+    mySwiper = new Swiper(carouselEl, {
+      direction: 'horizontal',
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      loop: false,
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
-
-      // ページネーションの設定
       pagination: {
-        el: paginationContainer,
-        bulletElement: 'button', // ページネーションをボタン要素で作成
-        clickable: true, // クリック可能にする
+        el: carouselEl.querySelector('.js-carousel-pagination'),
+        bulletElement: 'button',
+        clickable: true,
       },
-
-      // アクセシビリティ設定
       a11y: {
         prevSlideMessage: '前のスライドへ',
         nextSlideMessage: '次のスライドへ',
         slideLabelMessage: '{{index}}枚目',
         paginationBulletMessage: '{{index}}枚目のスライドを表示',
       },
-    });
-
-    swiper.on('slideChangeTransitionEnd', () => {
-      const link = document.querySelector(
-        '.swiper-slide.swiper-slide-active button'
-      );
-      link.focus();
-    });
-
-    return {
-      swiper,
-      liveRegion,
-      autoplayButton,
-      paginationContainer,
-      previousButton,
-      nextButton,
-    };
-  };
-
-  /**
-   * カルーセルを初期化する関数
-   * ページ内の全てのカルーセル要素を検索し、それぞれにインスタンスを作成
-   */
-  const initCarousel = () => {
-    const carouselElements = document.querySelectorAll(carouselClassName);
-
-    carouselElements.forEach((element, index) => {
-      // カルーセルのIDを取得（なければ自動生成）
-      const carouselId = element.id || `carousel-${index}`;
-
-      // カルーセルインスタンスを作成
-      const instance = createCarouselInstance(element);
-
-      // インスタンスをMapに保存（後で参照できるように）
-      carouselInstances.set(carouselId, instance);
-
-      // 各種機能を初期化
-      initAutoplayButton(instance); // 自動再生ボタンの初期化
-      initLiveRegion(instance, element); // ライブリージョンの初期化
-      initAnnouncePagination(instance); // ページネーション音声案内の初期化
-      removeCarouselAttributes(element); // 不要な属性の削除
-      initAnnouncePreviousButton(instance); // 前へボタンの音声案内初期化
-      initAnnounceNextButton(instance); // 次へボタンの音声案内初期化
-    });
-  };
-
-  /**
-   * カルーセル要素から不要な属性を削除する関数
-   * @param {HTMLElement} element - カルーセル要素
-   */
-  const removeCarouselAttributes = (element) => {
-    const wrapper = element.querySelector('.js-carousel-wrapper');
-    if (wrapper === null) return;
-
-    // Swiperが独自のaria-liveを管理するため、既存のものを削除
-    wrapper.removeAttribute('aria-live');
-  };
-
-  /**
-   * ライブリージョンを初期化する関数
-   * スクリーンリーダー用の音声案内領域を設定
-   * @param {Object} instance - カルーセルインスタンス
-   * @param {HTMLElement} slideElement - スライド要素
-   */
-  const initLiveRegion = (instance, slideElement) => {
-    instance.liveRegion.className = 'sky-carousel__live-region';
-    instance.liveRegion.setAttribute('aria-live', 'polite'); // 丁寧な音声案内
-    instance.liveRegion.setAttribute('aria-atomic', 'true'); // 内容全体を読み上げ
-
-    // スライド要素の直後にライブリージョンを挿入
-    slideElement.insertAdjacentElement('afterend', instance.liveRegion);
-  };
-
-  /**
-   * ライブリージョンにメッセージを表示し、一定時間後にクリアする関数
-   * @param {string} message - 案内メッセージ
-   * @param {HTMLElement} liveRegion - ライブリージョン要素
-   */
-  const announceMessage = (message, liveRegion) => {
-    liveRegion.textContent = message;
-
-    // 1秒後にメッセージをクリア（連続した案内を防ぐため）
-    setTimeout(() => {
-      liveRegion.textContent = '';
-    }, 1e3);
-  };
-
-  /**
-   * ページネーションボタンクリック時の音声案内を初期化する関数
-   * @param {Object} instance - カルーセルインスタンス
-   */
-  const initAnnouncePagination = (instance) => {
-    const paginationContainer = instance.paginationContainer;
-    if (paginationContainer) {
-      paginationContainer.addEventListener('click', (event) => {
-        const button = event.target;
-
-        // クリックされた要素がボタンの場合のみ処理
-        if (button.tagName === 'BUTTON') {
-          // ボタンのインデックスを取得
-          const buttons = Array.from(
-            paginationContainer.querySelectorAll('button')
-          );
-          const index = buttons.indexOf(button);
-
-          // スライド番号を音声案内
-          announceMessage(
-            `${index + 1}枚目のスライドを表示`,
-            instance.liveRegion
-          );
+      on: {
+        init: function() {
+          carouselNavFraction(this);
+        },
+        slideChange: function() {
+          carouselNavFraction(this);
         }
-      });
-    }
-  };
-
-  /**
-   * 前へボタンクリック時の音声案内を初期化する関数
-   * @param {Object} instance - カルーセルインスタンス
-   */
-  const initAnnouncePreviousButton = (instance) => {
-    const previousButton = instance.previousButton;
-    if (previousButton === null) return;
-
-    previousButton.addEventListener('click', () => {
-      announceMessage('前のスライドへ', instance.liveRegion);
+      },
     });
-  };
-
-  /**
-   * 次へボタンクリック時の音声案内を初期化する関数
-   * @param {Object} instance - カルーセルインスタンス
-   */
-  const initAnnounceNextButton = (instance) => {
-    const nextButton = instance.nextButton;
-    if (nextButton === null) return;
-
-    nextButton.addEventListener('click', () => {
-      announceMessage('次のスライドへ', instance.liveRegion);
-    });
-  };
-
-  return {
-    initCarousel,
-  };
-};
-
-// --- カルーセル初期化を1024px以下のみ実行 ---
-let carouselInitialized = false;
-const carouselMediaQuery = window.matchMedia('(max-width: 1024px)');
-const carouselController = useCarousel();
-
-function handleCarouselBreakpoint(e) {
-  if (e.matches) {
-    if (!carouselInitialized) {
-      carouselController.initCarousel();
-      carouselInitialized = true;
-    }
-  } else {
-    // 1024px超えたらカルーセルを破棄（再描画時はページリロード推奨）
-    carouselInitialized = false;
-    // 破棄処理が必要ならここで実装（例：DOM操作で位置リセットなど）
+    carouselNavFraction(mySwiper);
   }
 }
-carouselMediaQuery.addEventListener ?
-  carouselMediaQuery.addEventListener('change', handleCarouselBreakpoint) :
-  carouselMediaQuery.addListener(handleCarouselBreakpoint);
-handleCarouselBreakpoint(carouselMediaQuery);
+
+function checkBreakpoint(e) {
+  if (e.matches) {
+    initSwiper();
+  } else if (mySwiper) {
+    mySwiper.destroy(false, true);
+    mySwiper = null;
+  }
+}
+
+if (carouselMediaQuery.addEventListener) {
+  carouselMediaQuery.addEventListener('change', checkBreakpoint);
+} else {
+  carouselMediaQuery.addListener(checkBreakpoint);
+}
+checkBreakpoint(carouselMediaQuery);

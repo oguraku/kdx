@@ -2039,6 +2039,7 @@ html:has(dialog[open]) {
         justify-content: center;
         padding: 1.6rem 0;
         & .name.infant {
+          font-size: 1em;
           &::before {
             content: none;
           }
@@ -2114,18 +2115,18 @@ html:has(dialog[open]) {
         }
         & .gate-info {
           & dl {
-            background-color: var(--color-yellow100);
+            background-color: var(--color-yellow300);
             font-weight: 700;
             flex-shrink: 0;
             display: inline-flex;
             align-items: stretch;
-            padding: .8rem;
+            padding: .4rem;
             & dt {
               background-color: var(--color-yellow300);
               display: flex;
               align-items: center;
               gap: .4em;
-              padding: 0 1rem;
+              padding: 0 1rem 0 .6rem;
               & .i_gate {
                 display: flex;
                 align-items: center;
@@ -2150,10 +2151,11 @@ html:has(dialog[open]) {
               }
             }
             & dd {
+              background-color: var(--color-white);
               font-size: 2em;
               font-weight: 700;
               line-height: 1;
-              padding: 0 2rem;
+              padding: 0 .5em .1em;
             }
           }
           & dl ~ p {
@@ -2265,7 +2267,7 @@ html:has(dialog[open]) {
 }
 }
 
-/* sky-carousel -------------------------------- */
+/* sky-carousel(Bordingpass) -------------------------------- */
 .sky-carousel.swiper {
   position: relative;
   & .sky-carousel__slides.swiper-wrapper {
@@ -2276,44 +2278,98 @@ html:has(dialog[open]) {
       }
     }
   }
-  & .swiper-pagination {
-    position: relative;
+  & .sky-carousel__navigation {
     display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin: 0;
-    width: auto;
-    & .swiper-pagination-bullet {
-      margin: 0;
-      width: 24px;
-      height: 24px;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 1rem;
+    & .swiper-button-next, & .swiper-button-prev {
+      background-color: var(--color-sky-blue);
+      border: 1px solid var(--color-sky-blue);
+      border-radius: 9999px;
+      color: var(--color-black-a87);
+      position: relative;
+      top: inherit;
+      left: inherit;
+      right: inherit;
+      width: 2em;
+      height: 2em;
+      margin-top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &::after {
+        display: none;
+      }
+      & img {
+        filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%);
+      }
+    }
+    & .swiper-button-next.swiper-button-disabled, & .swiper-button-prev.swiper-button-disabled {
+      background-color: var(--color-disabled);
+      border: 1px solid var(--color-disabled);
+      cursor: not-allowed;
+      opacity: 1;
+      pointer-events: none;
+    }
+    & .sky-carousel__num {
+      font-weight: 700;
+      & > span {
+        font-size: 1.2em;
+      }
     }
   }
   & .sky-carousel__controls {
     display: flex;
     gap: 8px;
     align-items: center;
-    margin-top: 8px;
-  }
-  & .sky-carousel__live-region {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    white-space: nowrap;
-    clip: rect(1px, 1px, 1px, 1px);
-    -webkit-clip-path: inset(100%);
-    clip-path: inset(100%);
+    justify-content: center;
+    margin-top: 2.4rem;
+    & .swiper-pagination {
+      position: relative;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      padding: 2px;
+      margin: 0;
+      width: auto;
+      & .swiper-pagination-bullet {
+        margin: 0;
+        width: 1.4rem;
+        height: 1.4rem;
+      }
+    }
+    & .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+      bottom: inherit;
+      left: inherit;
+      width: 100%;
+    }
+    & .swiper-pagination-bullet-active {
+      opacity: 1;
+      background: var(--color-sky-blue);
+    }
   }
 }
 
 @media (min-width: 768px) {
 .sky-carousel.swiper {
   overflow: visible;
-  &.sky-carousel__slides.swiper-wrapper {
-    display: flex;
-    flex-direction: column;
-    row-gap: 3.2rem;
+  & .sky-carousel__slides.swiper-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3.2rem;
+    & .swiper-slide {
+      visibility: visible;
+    }
+  }
+}
+.sky-carousel.swiper:not(.swiper-initialized) {
+  overflow: visible;
+  & .sky-carousel__slides.swiper-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3.2rem;
     & .swiper-slide {
       visibility: visible;
     }
@@ -2322,7 +2378,7 @@ html:has(dialog[open]) {
 }
 
 /**
- * for print
+ * for print (Bordingpass)
  */
 .cs_qrCode { /* ブラウザ */
   display: none;
@@ -2331,10 +2387,7 @@ html:has(dialog[open]) {
   display: none;
 }
 @media print { /* 印刷 */
-  .cs_qrCode {
-    display: block;
-  }
-  .print_on {
+  .print-only, .print_on, .cs_qrCode {
     display: block !important;
   }
   .print_off, .sky-header, .sky-footer, h1, .wallet-button, .ticket-footer {
@@ -2343,10 +2396,121 @@ html:has(dialog[open]) {
   [data-print="printOn"] {
     display: none !important;
   }
-  .print-only {
-    display: block;
+  /* sky-ticket */
+  & .sky-ticket {
+    padding: 0;
+    border: none;
+    box-shadow:none;
+    color: var(--color-black);
+    & .ticket-container {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas: 
+        "area1 area2"
+        "area3 area2";
+      column-gap: 2rem;
+      row-gap: .8rem;
+      & .ticket-title {
+        grid-area: area1;
+        justify-content: start;
+        .logo {
+          width: 110px;
+        }
+        .text {
+          font-size: 1.25em;
+        }
+      }
+      & .ticket-code {
+        grid-area: area2;
+        & .qr-code {
+          margin: 1rem auto 2rem;
+        }
+        & .receipt-number {
+          margin-top: 1.2rem;
+        }
+      }
+      & .ticket-info {
+        grid-area: area3;
+        & .pax-name {
+          border-top: none;
+          font-size: 1.3em;
+          justify-content: flex-start;
+          padding-top: 0;
+        }
+        & .flight-info {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          & .label-status[data-flight="connect"] {
+            border: 1px solid var(--color-black);
+            color: var(--color-black);
+          }
+          & .flight-wrap {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: flex-start;
+            column-gap: 2.4rem;
+            row-gap: 1rem;
+            & .flight-number {
+              flex: 0 0 auto;
+            }
+            & .flight-route2 {
+              display: flex;
+              flex-direction: column;
+              column-gap: 2.4rem;
+              row-gap: 1rem;
+              & .i_plane {
+                display: none;
+              }
+            }
+          }
+          & .gate-info {
+            display: block;
+            & dl {
+              padding: 0;
+              & dt {
+                display: flex;
+                align-items: center;
+                gap: 0;
+                padding: 0;
+                & .i_gate {
+                  display: none;
+                }
+              }
+            }
+            & dl ~ p {
+              margin-top: 1.2rem;
+            }
+          }
+        }
+      }
+    }
   }
-  .qr-code {
-    margin: 1rem auto 2rem;
+  & .wc-attention {
+    break-before: page;
+  }
+  /* carousel */
+  & .sky-carousel.swiper {
+    overflow: visible;
+    & .sky-carousel__slides.swiper-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3.2rem;
+      & .swiper-slide {
+        visibility: visible;
+      }
+    }
+  }
+  & .sky-carousel.swiper:not(.swiper-initialized) {
+    overflow: visible;
+    & .sky-carousel__slides.swiper-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3.2rem;
+      & .swiper-slide {
+        visibility: visible;
+      }
+    }
   }
 }
