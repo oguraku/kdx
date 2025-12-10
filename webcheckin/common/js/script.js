@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const handlePrintClick = (event) => {
     // クリックされたボタン（event.currentTarget）から一番近い<section>を取得
     const targetSection = event.currentTarget.closest('section');
-    console.log(targetSection);
 
     // <section>が見つかった場合のみ処理を実行
     if (targetSection) {
@@ -295,11 +294,11 @@ if (scrollElm && checkElm) {
  * カルーセル制御（768px以下）
  */
 
-let mySwiper = null;
+let mySwipers = [];
 const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
 
-function carouselNavFraction(swiper) {
-  const nav = document.querySelector('.js-carousel-fraction');
+function carouselNavFraction(swiper, carouselEl) {
+  const nav = carouselEl.querySelector('.js-carousel-fraction');
   if (!nav) return;
   const current = nav.querySelector('.current-slide');
   const total = nav.querySelector('.total-slide');
@@ -316,22 +315,25 @@ function carouselNavFraction(swiper) {
 }
 
 function initSwiper() {
-  // 既存のSwiperインスタンスがあれば一度破棄
-  if (mySwiper) {
-    mySwiper.destroy(false, true);
-    mySwiper = null;
-  }
-  // 必要な要素が存在する場合のみ初期化
-  const carouselEl = document.querySelector('.js-carousel');
-  if (carouselEl) {
-    mySwiper = new Swiper(carouselEl, {
+  // 既存のSwiperインスタンスがあれば全て破棄
+  mySwipers.forEach(swiper => {
+    if (swiper) {
+      swiper.destroy(false, true);
+    }
+  });
+  mySwipers = [];
+  
+  // 全ての.js-carousel要素を取得して初期化
+  const carouselEls = document.querySelectorAll('.js-carousel');
+  carouselEls.forEach((carouselEl) => {
+    const swiperInstance = new Swiper(carouselEl, {
       direction: 'horizontal',
       slidesPerView: 'auto',
       spaceBetween: 8,
       loop: false,
       navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: carouselEl.querySelector('.swiper-button-next'),
+        prevEl: carouselEl.querySelector('.swiper-button-prev'),
       },
       pagination: {
         el: carouselEl.querySelector('.js-carousel-pagination'),
@@ -346,29 +348,30 @@ function initSwiper() {
       },
       on: {
         init: function() {
-          carouselNavFraction(this);
+          carouselNavFraction(this, carouselEl);
         },
         slideChange: function() {
-          carouselNavFraction(this);
+          carouselNavFraction(this, carouselEl);
         }
       },
     });
-    carouselNavFraction(mySwiper);
-  }
+    mySwipers.push(swiperInstance);
+    carouselNavFraction(swiperInstance, carouselEl);
+  });
 }
 
 function checkBreakpoint(e) {
   if (e.matches) {
     initSwiper();
-  } else if (mySwiper) {
-    mySwiper.destroy(false, true);
-    mySwiper = null;
+  } else if (mySwipers.length > 0) {
+    mySwipers.forEach(swiper => {
+      if (swiper) {
+        swiper.destroy(false, true);
+      }
+    });
+    mySwipers = [];
   }
 }
 
-if (carouselMediaQuery.addEventListener) {
-  carouselMediaQuery.addEventListener('change', checkBreakpoint);
-} else {
-  carouselMediaQuery.addListener(checkBreakpoint);
-}
+carouselMediaQuery.addEventListener('change', checkBreakpoint);
 checkBreakpoint(carouselMediaQuery);

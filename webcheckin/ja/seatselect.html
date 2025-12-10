@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.skymark.co.jp/favicon.ico">
+<title>座席選択｜Webチェックイン｜スカイマーク</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="スカイマークのWebチェックインページです。">
+<!-- global css -->
+<link rel="stylesheet" href="/webcheckin/common/css/style.css">
+<link rel="stylesheet" href="/webcheckin/common/css/layout.css">
+<!-- /global css -->
+<!-- local css -->
+<!-- /local css -->
+</head>
+<body>
+<!-- HEADER START -->
+<div id="sky-header"></div>
+<!-- HEADER END -->
+
+<main class="sky-container wc-seatselect">
+  <section class="sky-content">
+    <h1 class="heading200">座席選択</h1>
+
+    <section class="inner-blockD">
+      <div class="sky-flame_01 flm_red">
+        <p class="sky-icontxt"><span class="icon i_warning i_red"></span><span class="text">座席が埋まっている時の空港カウンターへ誘導文言</span></p>
+      </div>
+      <div class="inner-blockA">
+        <p>希望の座席を選択し、着席する搭乗者を選択してください。</p>
+        <ul class="sky-list_note text_s">
+          <li><span class="marker">※</span><span>事前に指定できる座席数には制限を設けさせていただいております。詳細内容は「<a href="https://www.skymark.co.jp/ja/reservation/seat.html">座席指定について</a>」の注意事項をご覧ください。</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="heading400">1区間目</h2>
+      <section class="sky-rsvflight sky-flame_02 mt8">
+        <div class="flight-info">
+          <div class="flight-date">
+            <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
+            <span class="label-status" data-flight="connect">乗継便</span>
+          </div>
+          <div class="flight-wrap">
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="">
+                <span class="number">SKY0123</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+            </div>
+            <div class="flight-routeWrap">
+              <div class="flight-number" data-status="">
+                <span class="number">SKY0123</span>
+              </div>
+              <div class="flight-route">
+                <div class="flight-dep">
+                  <span class="port">羽田</span><span class="time">00:00</span>
+                </div>
+                <span class="icon i_plane i_blue"></span>
+                <div class="flight-arr">
+                  <span class="time">00:00</span><span class="port">鹿児島</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section>
+      <ul>
+        <li>SORANO ICHIRO</li>
+        <li>SORANO ICHIRO</li>
+        <li>SORANO ICHIRO</li>
+        <li>SORANO ICHIRO</li>
+      </ul>
+    </section>
+
+    <section class="sky-seatmap-wrap">
+    <div class="sky-seatmap">
+      <div class="airplane">
+      <div class="seatmap-wrap">
+
+      <div class="seatmap-base">
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat">A</div>
+            <div class="seat">B</div>
+            <div class="seat">C</div>
+          </div>
+          <div class="seat-order"></div>
+          <div class="seat-set">
+            <div class="seat">D</div>
+            <div class="seat">E</div>
+            <div class="seat">H</div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="fwrd"><span class="seat-number">1A</span><span class="seat-exp">フォワードシート</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="fwrd"><span class="seat-number">1B</span><span class="seat-exp">フォワードシート</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="fwrd"><span class="seat-number">1C</span><span class="seat-exp">フォワードシート</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">1</div>
+          <div class="seat-set">
+            <div class="seat"></div>
+            <div class="seat"></div>
+            <div class="seat"></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="na" disabled><span class="seat-number">2A</span><span class="seat-status">選択不可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="na" disabled><span class="seat-number">2B</span><span class="seat-status">選択不可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="na" disabled><span class="seat-number">2C</span><span class="seat-status">選択不可</span></button></div>
+          </div>
+          <div class="seat-order">2</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="fwrd"><span class="seat-number">2F</span><span class="seat-exp">フォワードシート</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="fwrd"><span class="seat-number">2G</span><span class="seat-exp">フォワードシート</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="fwrd"><span class="seat-number">2H</span><span class="seat-exp">フォワードシート</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="nowin"><span class="seat-number">3A</span><span class="seat-exp">窓なし</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="norec"><span class="seat-number">3B</span><span class="seat-exp">リクライニング不可</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="emerg"><span class="seat-number">3C</span><span class="seat-exp">非常口座席</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">3</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="slctd"><span class="seat-number">3F</span><span class="seat-status">選択済</span><span class="seat-info">8</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="slctd"><span class="seat-number">3G</span><span class="seat-status">選択済</span><span class="seat-info">8</span><img src="/webcheckin/common/images/inf-1.svg" alt="幼児" class="i-inf"></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="na"><span class="seat-number">3H</span><span class="seat-status">選択不可</span><img src="/webcheckin/common/images/inf-2.svg" alt="幼児" class="i-inf"></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="na-slctd" disabled><span class="seat-number">5A</span><span class="seat-status">選択不可</span><span class="seat-info">8</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="na-slctd" disabled><span class="seat-number">5B</span><span class="seat-status">選択不可</span><span class="seat-info">8</span><img src="/webcheckin/common/images/inf-2.svg" alt="幼児" class="i-inf"></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">5C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">5</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">5F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">5G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">5h</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">6A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">6B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">6C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">6</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">6F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">6G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">6H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">7A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">7B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">7C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">7</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">7F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">7G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">7H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">8A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">8B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">8C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">8</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">8F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">8G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">8H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">9A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">9B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">9C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">9</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">9F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">9G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">9H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">10A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">10B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">10C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">10</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">10F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">10G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">10H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">11A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">11B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">11C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">11</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">11F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">11G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">11H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">12A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">12B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">12C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">12</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">12F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">12G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">12H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">13A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">13B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">13C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">13</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">13F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">13G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">13H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">14A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">14B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">14C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">14</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">14F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">14G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">14H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">15A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">15B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">15C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">15</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">15F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">15G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">15H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">16A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">16B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">16C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">16</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">16F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">16G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">16H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">17A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">17B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">17C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">17</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">17F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">17G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">17H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">18A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">18B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">18C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">18</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">18F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">18G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">18H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">19A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">19B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">19C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">19</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">19F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">19G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">19H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">20A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">20B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">20C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">20</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">20F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">20G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">20H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">21A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">21B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">21C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">21</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">21F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">21G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">21H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">22A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">22B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">22C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">22</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">22F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">22G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">22H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">23A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">23B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">23C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">23</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">23F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">23G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">23H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">24A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">24B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">24C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">24</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">24F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">24G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">24H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">25A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">25B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">25C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">25</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">25F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">25G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">25H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">26A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">26B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">26C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">26</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">26F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">26G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">26H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">27A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">27B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">27C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">27</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">27F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">27G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">27H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">28A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">28B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">28C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">28</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">28F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">28G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">28H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">29A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">29B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">29C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">29</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">29F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">29G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">29H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">30A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">30B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">30C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">30</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">30F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">30G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">30H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">31A</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">31B</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">31C</span><span class="seat-status">選択可</span></button></div>
+          </div>
+          <div class="seat-order">31</div>
+          <div class="seat-set">
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">31F</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">31G</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">31H</span><span class="seat-status">選択可</span></button></div>
+          </div>
+        </div>
+        <div class="seat-row">
+          <div class="seat-set">
+            <div class="seat">A</div>
+            <div class="seat">B</div>
+            <div class="seat">C</div>
+          </div>
+          <div class="seat-order"></div>
+          <div class="seat-set">
+            <div class="seat">D</div>
+            <div class="seat">E</div>
+            <div class="seat">H</div>
+          </div>
+        </div>
+        
+      </div>
+
+      </div>
+      </div>
+    </div>
+    </section>
+
+    <section class="seat-legend">
+      <div class="legend-item">
+        <ul>
+       
+        </ul>
+      </div>
+    </section>
+
+
+
+    <section class="sky-flame_03">
+      <ul class="sky-btnList_btwn wc-btn_menu">
+        <li><button type="button" class="sky-btn btn_secondary btn_l btn_icon-l"><span class="icon i_arr-l i_blue"></span><span>戻る</span></button></li>
+        <li><button type="button" class="sky-btn btn_submit btn_l btn_icon-r" disabled><span>次へ</span><span class="icon i_arr-r i_blue"></span></button></li>
+      </ul>
+    </section>
+  </section>
+</main>
+
+<!-- FOOTER START -->
+<div id="sky-footer"></div>
+<!-- FOOTER END -->
+<!-- globalscript -->
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="/webcheckin/common/js/script.js?ver=1"></script>
+<script type="text/javascript" src="/webcheckin/common/js/header.js?ver=1"></script>
+<script type="text/javascript" src="/webcheckin/common/js/footer.js?ver=1"></script>
+<!-- localscript -->
+</body>
+</html>

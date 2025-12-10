@@ -84,7 +84,24 @@
 }
 
 /* wc-rsverchresult */
-/* .wc-rsverchresult {} */
+.wc-rsverchresult {
+  & .sky-rsvflight.disabled {
+    & .pax-list {
+      & > li:last-child {
+          border-bottom: none;
+          padding: 1.2rem 0 0;
+      }
+    }
+    & .sky-btnList_grid {
+      grid-template-columns: auto;
+      justify-content: center;
+      & .sky-btn {
+        width: 30rem;
+        max-width: 30rem;
+      }
+    }
+  }
+}
 
 /* wc-paxselect-checkin */
 /* .wc-paxselect-checkin {} */
@@ -210,6 +227,91 @@
       flex: 0 0 auto;
     }
   }
+
+  /* sky-carousel(Bordingpass) -------------------------------- */
+  & .sky-carousel.swiper {
+    position: relative;
+    & .sky-carousel__slides.swiper-wrapper {
+      & .swiper-slide {
+        visibility: hidden;
+        &.swiper-slide-active {
+          visibility: visible;
+        }
+      }
+    }
+    & .sky-carousel__navigation {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin: 1rem;
+      & .swiper-button-next, & .swiper-button-prev {
+        background-color: var(--color-sky-blue);
+        border: 1px solid var(--color-sky-blue);
+        border-radius: 9999px;
+        color: var(--color-black-a87);
+        position: relative;
+        top: inherit;
+        left: inherit;
+        right: inherit;
+        width: 2em;
+        height: 2em;
+        margin-top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &::after {
+          display: none;
+        }
+        & img {
+          filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%);
+        }
+      }
+      & .swiper-button-next.swiper-button-disabled, & .swiper-button-prev.swiper-button-disabled {
+        background-color: var(--color-disabled);
+        border: 1px solid var(--color-disabled);
+        cursor: not-allowed;
+        opacity: 1;
+        pointer-events: none;
+      }
+      & .sky-carousel__num {
+        font-weight: 700;
+        & > span {
+          font-size: 1.2em;
+        }
+      }
+    }
+    & .sky-carousel__controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2.4rem;
+      & .swiper-pagination {
+        position: relative;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        padding: 2px;
+        margin: 0;
+        width: auto;
+        & .swiper-pagination-bullet {
+          margin: 0;
+          width: 1.4rem;
+          height: 1.4rem;
+        }
+      }
+      & .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+        bottom: inherit;
+        left: inherit;
+        width: 100%;
+      }
+      & .swiper-pagination-bullet-active {
+        opacity: 1;
+        background: var(--color-sky-blue);
+      }
+    }
+  }
 }
 
 @media (min-width: 768px) {
@@ -227,8 +329,320 @@
       }
     }
   }
+  & .sky-carousel.swiper {
+    overflow: visible;
+    & .sky-carousel__slides.swiper-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3.2rem;
+      & .swiper-slide {
+        visibility: visible;
+      }
+    }
+  }
+  & .sky-carousel.swiper:not(.swiper-initialized) {
+    overflow: visible;
+    & .sky-carousel__slides.swiper-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3.2rem;
+      & .swiper-slide {
+        visibility: visible;
+      }
+    }
+  }
 }
 }
 
+/**
+ * for print (Bordingpass)
+ */
+.print-only, .cs_qrCode { /* ブラウザ */
+  display: none;
+}
+@media print { /* 印刷 */
+  .print-only, .print_on, .cs_qrCode {
+    display: block !important;
+  }
+  .print_off, .sky-header, .sky-footer, h1, .wallet-button, .ticket-footer {
+    display: none !important;
+  }
+  [data-print="printOn"] {
+    display: none !important;
+  }
+  /* sky-ticket */
+  & .sky-ticket {
+    padding: 0;
+    border: none;
+    box-shadow:none;
+    color: var(--color-black);
+    & .ticket-container {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas: 
+        "area1 area2"
+        "area3 area2";
+      column-gap: 2rem;
+      row-gap: .8rem;
+      & .ticket-title {
+        grid-area: area1;
+        justify-content: start;
+        .logo {
+          width: 110px;
+        }
+        .text {
+          font-size: 1.25em;
+        }
+      }
+      & .ticket-code {
+        grid-area: area2;
+        & .qr-code {
+          margin: 1rem auto 2rem;
+        }
+        & .receipt-number {
+          margin-top: 1.2rem;
+        }
+      }
+      & .ticket-info {
+        grid-area: area3;
+        & .pax-name {
+          border-top: none;
+          font-size: 1.3em;
+          justify-content: flex-start;
+          padding-top: 0;
+        }
+        & .flight-info {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          & .label-status[data-flight="connect"] {
+            border: 1px solid var(--color-black);
+            color: var(--color-black);
+          }
+          & .flight-wrap {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: flex-start;
+            column-gap: 2.4rem;
+            row-gap: 1rem;
+            & .flight-number {
+              display: flex;
+              gap: 1rem;
+              flex: 0 0 auto;
+              & .seat {
+                & .seat-label {
+                  -webkit-print-color-adjust: exact;
+                  background-color: var(--color-black) !important;
+                  color: var(--color-white);
+                }
+              }
+            }
+            & .flight-route2 {
+              display: flex;
+              flex-direction: column;
+              column-gap: 2.4rem;
+              row-gap: 1rem;
+              & .i_plane {
+                display: none;
+              }
+            }
+          }
+          & .gate-info {
+            display: block;
+            & dl {
+              padding: 0;
+              & dt {
+                display: flex;
+                align-items: center;
+                gap: 0;
+                padding: 0;
+                & .i_gate {
+                  display: none;
+                }
+              }
+            }
+            & dl ~ p {
+              margin-top: 1.2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  & .wc-attention {
+    break-before: page;
+  }
+  /* carousel */
+  & .sky-carousel.swiper {
+    overflow: visible;
+    & .sky-carousel__slides.swiper-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3.2rem;
+      & .swiper-slide {
+        visibility: visible;
+      }
+    }
+  }
+  & .sky-carousel.swiper:not(.swiper-initialized) {
+    overflow: visible;
+    & .sky-carousel__slides.swiper-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3.2rem;
+      & .swiper-slide {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.wc-seatselect {
+
+.widget-container {
+            width: 100%;
+            max-width: 400px; /* スマホ想定 */
+            position: relative;
+        }
+
+        /* --- Swiper カスタマイズ --- */
+        .swiper {
+            width: 100%;
+            padding: 0 30px; /* 矢印が入るスペースを確保 */
+            box-sizing: border-box;
+        }
+
+        .swiper-wrapper {
+            /* Swiperが自動計算しますが、展開時のために明記 */
+            box-sizing: border-box;
+        }
+
+        /* --- カードのデザイン --- */
+        .card {
+            /* Swiperのスライド設定 */
+            height: auto;
+            box-sizing: border-box;
+            
+            border: 1px solid var(--primary-blue);
+            border-radius: 8px;
+            background-color: var(--white);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--primary-blue);
+            min-height: 80px;
+            /* ユーザー選択不可（スワイプしやすくする） */
+            user-select: none; 
+        }
+
+        /* スタイル：アクティブ */
+        .card.is-active-item {
+            background-color: var(--bg-light-blue);
+            border-width: 2px;
+        }
+
+        /* カード内部 */
+        .card-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--primary-blue);
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 16px;
+            background: var(--white);
+        }
+
+        .name-group {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.4;
+            font-weight: bold;
+        }
+
+        .sub-name {
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .seat-info {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+        }
+
+        /* --- ナビゲーション矢印 (Swiper標準の上書き) --- */
+        .swiper-button-prev, .swiper-button-next {
+            color: var(--primary-blue);
+            width: 20px;
+            height: 20px;
+        }
+        
+        /* 矢印アイコンのサイズ調整 */
+        .swiper-button-prev::after, .swiper-button-next::after {
+            font-size: 20px; 
+            font-weight: bold;
+        }
+        
+        /* 位置調整: コンテナのpaddingエリアに配置 */
+        .swiper-button-prev { left: 0; }
+        .swiper-button-next { right: 0; }
+
+        /* --- 下部の展開ボタン --- */
+        .toggle-btn-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .toggle-btn {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- ★ 展開モード (Swiper破壊後のスタイル) ★ --- */
+        .widget-container.is-expanded .swiper {
+            padding: 0; /* 矢印スペース削除 */
+            overflow: visible;
+        }
+
+        .widget-container.is-expanded .swiper-wrapper {
+            /* 縦並びにする */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transform: none !important; /* Swiperの移動をリセット */
+        }
+
+        .widget-container.is-expanded .swiper-slide {
+            width: 100% !important; /* Swiperの幅計算をリセット */
+            margin: 0 !important;
+        }
+
+        .widget-container.is-expanded .swiper-button-prev,
+        .widget-container.is-expanded .swiper-button-next {
+            display: none; /* 矢印を消す */
+        }
+}
 
 
