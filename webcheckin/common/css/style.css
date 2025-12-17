@@ -14,6 +14,7 @@
   --color-black: #000000;
   --color-black-a87: rgba(0, 0, 0, 0.87);
   --color-black-a60: rgba(0, 0, 0, 0.60);
+  --color-black-a40: rgba(0, 0, 0, 0.40);
   --color-black-a20: rgba(0, 0, 0, 0.20);
   --color-black-a12: rgba(0, 0, 0, 0.12);
   --color-black-a06: rgba(0, 0, 0, 0.06);
@@ -320,6 +321,11 @@ h1, h2, h3, h4, h5 {
 @media (min-width: 768px) {
 .sp-only { display: none;}
 .pc-only { display: block;}
+}
+
+.hidden { 
+  display: none !important;
+  visibility: hidden !important;
 }
 
 /* color -------------------------------- */
@@ -1279,7 +1285,7 @@ details.sky-accordion {
     opacity: 1;
   }
   &[open] .icon-arrow { /* 展開時 */
-      transform: rotate(-180deg);
+    transform: rotate(-180deg);
   }
   /* icon */
   .icon-arrow {
@@ -1335,6 +1341,25 @@ details.sky-accordion {
   &[open]::details-content { /* 展開時 */
     background-color: var(--color-white);
   }
+}
+
+.acc_C {
+  & summary.accTitle {
+    background-color: var(--color-white);
+    font-size: .9em !important;
+    padding: .8rem 1.6rem !important;
+  }
+  &[open]::details-content { /* 展開時 */
+    background-color: var(--color-white);
+  }
+}
+@media (min-width: 768px) {
+.acc_C {
+  & summary.accTitle {
+    gap: 1.2rem !important;
+    display: inline-flex !important;
+  }
+}
 }
 
 /* dialog -------------------------------- */
@@ -2299,30 +2324,32 @@ html:has(dialog[open]) {
 }
 }
 
-/* sky-ticket -------------------------------- */
-.pax-list-seat {
-  & .pax-item {
-
-  }
-}
-
 /* sky-seatmap -------------------------------- */
 .sky-seatmap {
-  height: 500px;
+  background-color: var(--color-white);
+  border-top: 3px solid var(--color-grey300);
+  border-bottom: 3px solid var(--color-grey300);
+  display: flex;
+  justify-content: center;
+  height: 600px;
   overflow-y: scroll;
-  height: 500px;
+  position: relative;
 }
 .airplane {
   background: url(/webcheckin/common/images/wing.svg) no-repeat;
   background-position: center 455px;
+  background-size: auto 390px;
   overflow: hidden;
-  padding: 0 2.8rem;
-  width: fit-content;
+  padding: 0;
+  width: 100%;
   height: fit-content;
 }
 .seatmap-wrap {
   background-color: #D6D6D6;
+  margin: 0 auto;
   padding: 0 1.2rem;
+  position: relative;
+  width: min-content;
 }
 .seatmap-base {
   display: grid;
@@ -2334,6 +2361,7 @@ html:has(dialog[open]) {
   & .seat-row {
     display: flex;
     justify-content: space-between;
+    position: relative;
     & .seat-order {
       width: 3.2rem;
       height: 3.2rem;
@@ -2347,8 +2375,10 @@ html:has(dialog[open]) {
       display: flex;
       gap: .8rem;
       & .seat {
-        width: 3.2rem;
-        height: 3.2rem;
+        width: 6vw;
+        aspect-ratio: 1;
+        max-width: 3.2rem;
+        max-height: 3.2rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -2386,9 +2416,9 @@ html:has(dialog[open]) {
           }
           & .i-inf {
             position: absolute;
-            top: -.5rem;
+            top: -.4rem;
             right: -.2rem;
-            width: 1em;
+            width: .8em;
             aspect-ratio: 1;
           }
           &:disabled {
@@ -2427,5 +2457,259 @@ html:has(dialog[open]) {
         }
       }
     }
+    & .f-exit {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 6vw;
+      aspect-ratio: 1;
+      max-width: 3.2rem;
+      max-height: 3.2rem;
+    }
+    & .f-exit.side_l {
+      left: -3rem;
+      transform: rotate(-180deg);
+    }
+    & .f-exit.side_r {
+      right: -3rem;
+    }
+    & .f-wc {
+      border: 1px solid var(--color-black-a12);
+      padding: .6rem 1rem;
+      display: flex;
+      gap: .8rem;
+      justify-content: center;
+      align-items: center;
+      & img {
+        display: inline-block;
+        width: 2.8rem;
+      }
+      & img.i_baby {
+        width: 1.8rem;
+      }
+    }
   }
+}
+
+.nav-scroll {
+  display: flex;
+  justify-content: flex-end;
+  gap: .4rem;
+  margin: .8rem 0;
+  & a {
+    font-size: .8em;
+    display: flex;
+    align-items: center;
+    position: relative;
+    text-decoration: none;
+    &::after {
+      flex-shrink: 0;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      content: "";
+      display: block;
+      width: 1.2em;
+      height: 1.2em;
+      margin-top: .1em;
+    }
+  }
+}
+.nav-scroll.down {
+  & a {
+    &::after {
+      background-image: url("/webcheckin/common/images/icon/arrow2-down.svg");
+    }
+  }
+}
+.nav-scroll.up {
+  & a {
+    &::after {
+      background-image: url("/webcheckin/common/images/icon/arrow2-up.svg");
+    }
+  }
+}
+
+.nav-popover-wrap {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  border: none;
+  padding: 0;
+  background: transparent;
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+  &.fade-out {
+    opacity: 0;
+  }
+  &::backdrop {
+    background-color: transparent;
+  }
+  & .nav-popover {
+    background-color: #CFF7D3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .4rem;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    width: fit-content;
+    max-width: 600px;
+    & a {
+      font-size: .8em;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    & button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      & img {
+        display: inline-block;
+        width: 1.2em;
+        height: 1.2em;
+      }
+    }
+  }
+}
+
+.sky-legend-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: .8rem .8rem;
+  & .legend-item {
+    display: flex;
+    font-size: .75em;
+    gap: .8rem;
+    line-height: 1.2;
+    & .legend-label {
+      width: 2rem;
+      height: auto;
+    }
+    & .legend-label.wide {
+      width: 4rem;
+      height: auto;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .airplane {
+    background-position: 40% 455px;
+    background-size: auto 390px;
+  }
+  .seatmap-wrap {
+    margin: 0 4rem 0 auto;
+  }
+  .seatmap-base {
+    & .seat-row {
+      & .f-wc {
+        padding: .6rem 3rem;
+      }
+    }
+  }
+}
+
+/* sky-seat-paxlist -------------------------------- */
+.sky-seat-paxlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  & .pax-item {
+    align-self: stretch;
+    height: auto !important;
+    position: relative;
+    & .item-inner {
+      background-color: var(--color-white);
+      border: 1px solid var(--color-sky-blue);
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1.2rem;
+      min-height: 4em;
+      height: 100%;
+      overflow: hidden;
+      padding: 1.2rem 1.6rem;
+      position: relative;
+      transition: background-color 0.2s;
+      & .pax-name {
+        row-gap: .4rem;
+        & .name {
+          word-break: break-all;
+        }
+      }
+      & .seat-number {
+        font-size: .8em;
+      }
+      & .pax-number {
+        background-color: var(--color-white);
+        border: 2px solid var(--color-sky-blue);
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 700;
+        font-family: var(--font-Num);
+        width: 3.2rem;
+        height: 3.2rem;
+      }
+      & .pax-number[data-paxNum="selected"] {
+        background-color: var(--color-sky-yellow);
+      }
+    }
+  }
+  & .pax-item[data-paxSeat="active"] .item-inner {
+    background-color: var(--color-blue100);
+    border-width: 3px;
+    padding: 1rem 1.4rem; 
+  }
+  & .pax-item[data-paxSeat="disabled"] .item-inner{
+    background-color: var(--color-grey300);
+    border-color: var(--color-black-a60);
+    color: var(--color-black-a60);
+    cursor: not-allowed;
+    padding: 1.2rem 1.6rem 2.4rem;
+    & .text-disabled {
+      background-color: var(--color-black-a60);
+      border-radius: 8px 0 0 0;
+      color: var(--color-white);
+      font-size: .7em;
+      line-height: 1;
+      padding: .4rem .8rem;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      text-align: center;
+    }
+    & .pax-number {
+      background-color: var(--color-grey300);
+      border-color: var(--color-black-a60);
+      color: var(--color-black-a60);
+    }
+  }
+}
+
+@media (min-width: 768px) {
+.sky-seat-paxlist {
+  & .pax-item {
+    & .item-inner {
+      & .pax-name {
+        flex-direction: column;
+        row-gap: .4rem;
+        & .name.infant {
+          &::before {
+            content: none;
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}
 }

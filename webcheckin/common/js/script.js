@@ -119,13 +119,15 @@ function changeTabs(e) {
 
 //-------------------------------------------------------
 /**
- * Modal Dialog
+ * Modal Dialog（mail）
  */
+
+
 const modalButtons = document.querySelectorAll("button[data-modal]");
 
 modalButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    // data-modal の値を取得 (例: "seat" "mail")
+    // data-modal の値を取得 (例:"mail")
     const modalValue = button.dataset.modal;
     const container = button.parentElement;
     if (container) {
@@ -141,6 +143,37 @@ const modalcloseBtns = document.querySelectorAll(".modal-close");
 modalcloseBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     btn.parentElement.close();
+  });
+});
+
+//-------------------------------------------------------
+/**
+ * モーダルダイアログの制御
+ */
+
+// data-modal属性を持つすべてのボタンを取得
+const seatModalButtons = document.querySelectorAll('[data-seatModal]');
+
+seatModalButtons.forEach(button => {
+  button.addEventListener('click', (event) => {
+    // イベントの伝播を停止
+    event.stopPropagation();
+    
+    const modalType = button.getAttribute('data-seatModal');
+    const targetDialog = document.querySelector(`dialog[data-seatModal="${modalType}"]`);
+
+    if (targetDialog) {
+      // 座席番号を更新（ボタン内の.seat-numberテキストを取得）
+      const seatNumber = button.querySelector('.seat-number');
+      const modalSeatNumber = targetDialog.querySelector('.js-modal-seat-number');
+      
+      if (seatNumber && modalSeatNumber) {
+        modalSeatNumber.textContent = seatNumber.textContent;
+      }
+
+      // ダイアログを開く
+      targetDialog.showModal();
+    }
   });
 });
 
@@ -296,6 +329,7 @@ if (scrollElm && checkElm) {
 
 let mySwipers = [];
 const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
+let isCarouselActive = false; // カルーセルの状態を管理
 
 function carouselNavFraction(swiper, carouselEl) {
   const nav = carouselEl.querySelector('.js-carousel-fraction');
@@ -326,6 +360,9 @@ function initSwiper() {
   // 全ての.js-carousel要素を取得して初期化
   const carouselEls = document.querySelectorAll('.js-carousel');
   carouselEls.forEach((carouselEl) => {
+    // js-carousel-noneクラスを削除（カルーセル再初期化時）
+    carouselEl.classList.remove('js-carousel-none');
+    
     const swiperInstance = new Swiper(carouselEl, {
       direction: 'horizontal',
       slidesPerView: 'auto',
@@ -358,20 +395,193 @@ function initSwiper() {
     mySwipers.push(swiperInstance);
     carouselNavFraction(swiperInstance, carouselEl);
   });
+  
+  isCarouselActive = true; // カルーセルがアクティブ状態
+}
+
+function destroySwiper() {
+  // 全てのSwiperインスタンスを破棄
+  mySwipers.forEach(swiper => {
+    if (swiper) {
+      swiper.destroy(false, true);
+    }
+  });
+  mySwipers = [];
+  
+  // 全ての.js-carousel要素にclass="js-carousel-none"を付与
+  const carouselEls = document.querySelectorAll('.js-carousel');
+  carouselEls.forEach((carouselEl) => {
+    carouselEl.classList.add('js-carousel-none');
+  });
+  
+  isCarouselActive = false; // カルーセルが非アクティブ状態
 }
 
 function checkBreakpoint(e) {
   if (e.matches) {
     initSwiper();
+    
+    // カルーセルトグルボタンのテキストとaria-pressedを更新
+    const carouselTrigger = document.getElementById('sky-carousel__trigger');
+    if (carouselTrigger) {
+      const toggleText = carouselTrigger.querySelector('.js-toggle-text');
+      const currentLang = document.documentElement.lang || 'ja';
+      const buttonTexts = {
+        'ja': { active: '搭乗者すべて表示', inactive: '閉じる' },
+        'en': { active: 'Show all passengers', inactive: 'Close' },
+        'zh': { active: '顯示所有乘客', inactive: '關閉' },
+        'ko': { active: '탑승자 모두 보기', inactive: '닫다' }
+      };
+      const texts = buttonTexts[currentLang] || buttonTexts['ja'];
+      
+      carouselTrigger.setAttribute('aria-pressed', 'true');
+      if (toggleText) toggleText.textContent = texts.active;
+    }
   } else if (mySwipers.length > 0) {
-    mySwipers.forEach(swiper => {
-      if (swiper) {
-        swiper.destroy(false, true);
-      }
-    });
-    mySwipers = [];
+    destroySwiper();
   }
 }
 
 carouselMediaQuery.addEventListener('change', checkBreakpoint);
 checkBreakpoint(carouselMediaQuery);
+
+//-------------------------------------------------------
+/**
+ * カルーセルトグルボタン
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  const carouselTrigger = document.getElementById('sky-carousel__trigger');
+  
+  if (carouselTrigger) {
+    const toggleText = carouselTrigger.querySelector('.js-toggle-text');
+    
+    // 言語を取得（html要素のlang属性）
+    const currentLang = document.documentElement.lang || 'ja';
+    
+    // 言語別のテキスト定義
+    const buttonTexts = {
+      'ja': {
+        active: '搭乗者すべて表示',
+        inactive: '閉じる'
+      },
+      'en': {
+        active: 'Show all passengers',
+        inactive: 'Close'
+      },
+      'zh': {
+        active: '顯示所有乘客',
+        inactive: '關閉'
+      },
+      'ko': {
+        active: '탑승자 모두 보기',
+        inactive: '닫다'
+      }
+    };
+    
+    // 現在の言語のテキストを取得（デフォルトは日本語）
+    const texts = buttonTexts[currentLang] || buttonTexts['ja'];
+    
+    carouselTrigger.addEventListener('click', () => {
+      // 768px以下の場合のみトグル機能を有効化
+      if (carouselMediaQuery.matches) {
+        if (isCarouselActive) {
+          // カルーセルがアクティブな場合は破棄
+          destroySwiper();
+          carouselTrigger.setAttribute('aria-pressed', 'false');
+          if (toggleText) toggleText.textContent = texts.inactive;
+        } else {
+          // カルーセルが非アクティブな場合は初期化
+          initSwiper();
+          carouselTrigger.setAttribute('aria-pressed', 'true');
+          if (toggleText) toggleText.textContent = texts.active;
+        }
+      }
+    });
+    
+    // 初期状態のaria-pressed属性とテキストを設定
+    if (carouselMediaQuery.matches && isCarouselActive) {
+      carouselTrigger.setAttribute('aria-pressed', 'true');
+      if (toggleText) toggleText.textContent = texts.active;
+    } else {
+      carouselTrigger.setAttribute('aria-pressed', 'false');
+      if (toggleText) toggleText.textContent = texts.inactive;
+    }
+  }
+});
+
+
+//-------------------------------------------------------
+/**
+ * カルーセルトグルボタン
+ */
+// 要素の取得
+const content = document.getElementById('js-map');
+const minimap = document.getElementById('js-minimap');
+const indicator = document.getElementById('js-indicator');
+
+function updateIndicator() {
+  // 1. 比率の計算
+  // コンテンツ全体の高さと、ミニマップの高さの比率を求めます
+  // scrollHeight: コンテンツの総高さ
+  // clientHeight: コンテンツの表示されている高さ
+  const totalHeight = content.scrollHeight;
+  const visibleHeight = content.clientHeight;
+  const minimapHeight = minimap.clientHeight;
+
+  // 比率 = ミニマップの高さ / コンテンツの総高さ
+  const ratio = minimapHeight / totalHeight;
+
+  // 2. インジケーターの高さ設定
+  // 表示領域の高さに比率を掛けて、インジケーターの高さを決定します
+  const indicatorHeight = visibleHeight * ratio;
+  indicator.style.height = `${indicatorHeight}px`;
+
+  // 3. インジケーターの位置（top）設定
+  // 現在のスクロール位置に比率を掛けて、インジケーターの位置を決定します
+  const scrollTop = content.scrollTop;
+  const indicatorTop = scrollTop * ratio;
+  indicator.style.top = `${indicatorTop}px`;
+}
+
+// スクロール時に実行
+content.addEventListener('scroll', updateIndicator);
+
+// 初期化時とウィンドウサイズ変更時にも実行して調整
+window.addEventListener('resize', updateIndicator);
+// 画像読み込み後などを考慮して少し待ってから初期実行、または即時実行
+updateIndicator();
+
+
+//-------------------------------------------------------
+/**
+ * popover
+ */
+document.addEventListener("DOMContentLoaded", function() {
+  const popoverElm = document.getElementById('js-popover');
+  if (popoverElm) {
+    // ページ読み込み時にpopoverを表示
+    popoverElm.showPopover();
+    
+    // フェードアウトして非表示にする関数
+    const fadeOutAndHide = () => {
+      popoverElm.classList.add('fade-out');
+      setTimeout(() => {
+        popoverElm.hidePopover();
+        popoverElm.style.display = 'none';
+        popoverElm.classList.add('hidden');
+      }, 300); // CSSのtransition時間と同じ
+    };
+    
+    const closeButton = document.getElementById('js-popover-close');
+    if (closeButton) {
+      closeButton.addEventListener('click', fadeOutAndHide);
+    }
+    
+    const popoverLink = document.getElementById('js-popover-link');
+    if (popoverLink) {
+      popoverLink.addEventListener('click', fadeOutAndHide);
+    }
+  }
+});
+
+
