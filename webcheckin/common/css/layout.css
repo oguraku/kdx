@@ -348,43 +348,43 @@
 }
 
 @media (min-width: 768px) {
-.wc-boardingpass {
-  & .ticket-footer {
-    & .sky-btnList_flex {
-      & > li:nth-of-type(1) {
-        width: 20rem;
+  .wc-boardingpass {
+    & .ticket-footer {
+      & .sky-btnList_flex {
+        & > li:nth-of-type(1) {
+          width: 20rem;
+        }
+        & > li:nth-of-type(2) {
+          width: 20rem;
+        }
+        & > li:nth-of-type(3) {
+          width: 20rem;
+        }
       }
-      & > li:nth-of-type(2) {
-        width: 20rem;
+    }
+    & .sky-carousel.swiper {
+      overflow: visible;
+      & .sky-carousel__slides.swiper-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3.2rem;
+        & .swiper-slide {
+          visibility: visible;
+        }
       }
-      & > li:nth-of-type(3) {
-        width: 20rem;
+    }
+    & .sky-carousel.swiper:not(.swiper-initialized) {
+      overflow: visible;
+      & .sky-carousel__slides.swiper-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3.2rem;
+        & .swiper-slide {
+          visibility: visible;
+        }
       }
     }
   }
-  & .sky-carousel.swiper {
-    overflow: visible;
-    & .sky-carousel__slides.swiper-wrapper {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3.2rem;
-      & .swiper-slide {
-        visibility: visible;
-      }
-    }
-  }
-  & .sky-carousel.swiper:not(.swiper-initialized) {
-    overflow: visible;
-    & .sky-carousel__slides.swiper-wrapper {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3.2rem;
-      & .swiper-slide {
-        visibility: visible;
-      }
-    }
-  }
-}
 }
 
 /** --------------------------------------------------------
@@ -403,129 +403,131 @@
   [data-print="printOn"] {
     display: none !important;
   }
-  /* sky-ticket */
-  & .sky-ticket {
-    padding: 0;
-    border: none;
-    box-shadow:none;
-    color: var(--color-black);
-    & .ticket-container {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      grid-template-areas: 
-        "area1 area2"
-        "area3 area2";
-      column-gap: 2rem;
-      row-gap: .8rem;
-      & .ticket-title {
-        grid-area: area1;
-        justify-content: start;
-        .logo {
-          width: 110px;
-        }
-        .text {
-          font-size: 1.25em;
-        }
-      }
-      & .ticket-code {
-        grid-area: area2;
-        & .qr-code {
-          margin: 1rem auto 2rem;
-        }
-        & .receipt-number {
-          margin-top: 1.2rem;
-        }
-      }
-      & .ticket-info {
-        grid-area: area3;
-        & .pax-name {
-          border-top: none;
-          font-size: 1.3em;
-          justify-content: flex-start;
-          padding-top: 0;
-        }
-        & .flight-info {
-          grid-template-columns: 1fr;
-          gap: 1rem;
-          & .label-status[data-flight="connect"] {
-            border: 1px solid var(--color-black);
-            color: var(--color-black);
+  .wc-boardingpass {
+    /* sky-ticket */
+    & .sky-ticket {
+      padding: 0;
+      border: none;
+      box-shadow:none;
+      color: var(--color-black);
+      & .ticket-container {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas: 
+          "area1 area2"
+          "area3 area2";
+        column-gap: 2rem;
+        row-gap: .8rem;
+        & .ticket-title {
+          grid-area: area1;
+          justify-content: start;
+          .logo {
+            width: 110px;
           }
-          & .flight-wrap {
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-            align-items: flex-start;
+          .text {
+            font-size: 1.25em;
+          }
+        }
+        & .ticket-code {
+          grid-area: area2;
+          & .qr-code {
+            margin: 1rem auto 2rem;
+          }
+          & .receipt-number {
+            margin-top: 1.2rem;
+          }
+        }
+        & .ticket-info {
+          grid-area: area3;
+          & .pax-name {
+            border-top: none;
+            font-size: 1.3em;
             justify-content: flex-start;
-            column-gap: 2.4rem;
-            row-gap: 1rem;
-            & .flight-number {
-              display: flex;
-              gap: 1rem;
-              flex: 0 0 auto;
-              & .seat {
-                & .seat-label {
-                  -webkit-print-color-adjust: exact;
-                  background-color: var(--color-black) !important;
-                  color: var(--color-white);
-                }
-              }
+            padding-top: 0;
+          }
+          & .flight-info {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            & .label-status[data-flight="connect"] {
+              border: 1px solid var(--color-black);
+              color: var(--color-black);
             }
-            & .flight-route2 {
+            & .flight-wrap {
               display: flex;
               flex-direction: column;
+              flex-wrap: wrap;
+              align-items: flex-start;
+              justify-content: flex-start;
               column-gap: 2.4rem;
               row-gap: 1rem;
-              & .i_plane {
-                display: none;
-              }
-            }
-          }
-          & .gate-info {
-            display: block;
-            & dl {
-              padding: 0;
-              & dt {
+              & .flight-number {
                 display: flex;
-                align-items: center;
-                gap: 0;
-                padding: 0;
-                & .i_gate {
+                gap: 1rem;
+                flex: 0 0 auto;
+                & .seat {
+                  & .seat-label {
+                    -webkit-print-color-adjust: exact;
+                    background-color: var(--color-black) !important;
+                    color: var(--color-white);
+                  }
+                }
+              }
+              & .flight-route2 {
+                display: flex;
+                flex-direction: column;
+                column-gap: 2.4rem;
+                row-gap: 1rem;
+                & .i_plane {
                   display: none;
                 }
               }
             }
-            & dl ~ p {
-              margin-top: 1.2rem;
+            & .gate-info {
+              display: block;
+              & dl {
+                padding: 0;
+                & dt {
+                  display: flex;
+                  align-items: center;
+                  gap: 0;
+                  padding: 0;
+                  & .i_gate {
+                    display: none;
+                  }
+                }
+              }
+              & dl ~ p {
+                margin-top: 1.2rem;
+              }
             }
           }
         }
       }
     }
-  }
-  & .wc-attention {
-    break-before: page;
-  }
-  /* carousel */
-  & .sky-carousel.swiper {
-    overflow: visible;
-    & .sky-carousel__slides.swiper-wrapper {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3.2rem;
-      & .swiper-slide {
-        visibility: visible;
+    & .wc-attention {
+      break-before: page;
+    }
+    /* carousel */
+    & .sky-carousel.swiper {
+      overflow: visible !important;
+      & .sky-carousel__slides.swiper-wrapper {
+        display: grid !important;
+        grid-template-columns: 1fr;
+        gap: 3.2rem;
+        & .swiper-slide {
+          visibility: visible !important;
+        }
       }
     }
-  }
-  & .sky-carousel.swiper:not(.swiper-initialized) {
-    overflow: visible;
-    & .sky-carousel__slides.swiper-wrapper {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3.2rem;
-      & .swiper-slide {
-        visibility: visible;
+    & .sky-carousel.swiper:not(.swiper-initialized) {
+      overflow: visible !important;
+      & .sky-carousel__slides.swiper-wrapper {
+        display: grid !important;
+        grid-template-columns: 1fr;
+        gap: 3.2rem;
+        & .swiper-slide {
+          visibility: visible !important;
+        }
       }
     }
   }

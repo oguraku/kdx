@@ -2,56 +2,68 @@
 /**
  * 印刷ボタンのクリックと印刷後の処理
  */
-document.addEventListener('DOMContentLoaded', () => {
-  // data-print="printOn" 属性を持つすべてのボタン要素を取得
+function initPrintButton() {
   const printButtons = document.querySelectorAll('[data-print="printOn"]');
-  // 印刷後にクラスを元に戻す対象のセクションを一時的に保存する変数
   let sectionToReset = null;
+  // カルーセルのIDごとにスライド番号を保持するオブジェクト
+  let activeIndices = {}; 
 
-  // 印刷ボタンがクリックされたときの処理
   const handlePrintClick = (event) => {
-    // クリックされたボタン（event.currentTarget）から一番近い<section>を取得
-    const targetSection = event.currentTarget.closest('section');
+    const targetSection = event.currentTarget.closest('.sky-ticket');
 
-    // <section>が見つかった場合のみ処理を実行
     if (targetSection) {
-      // classを'print_off' から 'print_on'に切り替え
+      // 印刷前に「すべての」現在のスライド番号をIDごとに保存
+      if (isCarouselActive && mySwipers.length > 0) {
+        mySwipers.forEach(swiper => {
+          if (swiper.el.id) {
+            activeIndices[swiper.el.id] = swiper.realIndex;
+          }
+        });
+      }
+
+      if (isCarouselActive) {
+        destroySwiper();
+      }
+
       targetSection.classList.remove('print_off');
       targetSection.classList.add('print_on');
-      // 印刷後に元に戻すため、対象セクションを記憶
       sectionToReset = targetSection;
-      // ブラウザの印刷ダイアログ（プレビュー）を展開
+      
       window.print();
     }
   };
 
-  // 印刷ダイアログが閉じた後（印刷・キャンセル後）の処理
   const handleAfterPrint = () => {
-    // 印刷前に 'print_on' に変更したセクションがある場合
     if (sectionToReset) {
-      // クラスを 'print_on' から 'print_off' に戻す
       sectionToReset.classList.remove('print_on');
       sectionToReset.classList.add('print_off');
-
-      // 次回のためにリセット
       sectionToReset = null;
+    }
+    
+    // 再初期化時に、保存していたIDごとのインデックスを渡す
+    if (carouselMediaQuery.matches && !isCarouselActive) {
+      initSwiper(activeIndices); // オブジェクトを渡す
+      
+      const carouselTrigger = document.getElementById('sky-carousel__trigger');
+      if (carouselTrigger) {
+        carouselTrigger.setAttribute('aria-pressed', 'true');
+      }
     }
   };
 
-  // 取得した各ボタンに'click'イベントリスナーを設定
   printButtons.forEach(button => {
     button.addEventListener('click', handlePrintClick);
   });
 
-  // window オブジェクトに'afterprint'イベントリスナーを設定
   window.addEventListener('afterprint', handleAfterPrint);
-});
+}
+
 
 //-------------------------------------------------------
 /**
  * タブ切り替え
  */
-window.addEventListener("DOMContentLoaded", () => {
+function initTabs() {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabLists = document.querySelectorAll('[role="tablist"]');
 
@@ -91,7 +103,7 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-});
+}
 
 function changeTabs(e) {
   const target = e.target;
@@ -117,13 +129,12 @@ function changeTabs(e) {
     .removeAttribute("hidden");
 }
 
+
 //-------------------------------------------------------
 /**
  * Modal Dialog（mail）
  */
-
-
-const modalButtons = document.querySelectorAll("button[data-modal]");
+const modalButtons = document.querySelectorAll('[data-modal="mail"]');
 
 modalButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -140,27 +151,29 @@ modalButtons.forEach((button) => {
 });
 
 const modalcloseBtns = document.querySelectorAll(".modal-close");
+
 modalcloseBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     btn.parentElement.close();
   });
 });
 
+
 //-------------------------------------------------------
 /**
- * モーダルダイアログの制御
+ * Modal Dialog（seat）
  */
 
 // data-modal属性を持つすべてのボタンを取得
-const seatModalButtons = document.querySelectorAll('[data-seatModal]');
+const seatModalButtons = document.querySelectorAll('[data-modal="seat"],[data-modal="fwrd"]');
 
 seatModalButtons.forEach(button => {
   button.addEventListener('click', (event) => {
     // イベントの伝播を停止
     event.stopPropagation();
     
-    const modalType = button.getAttribute('data-seatModal');
-    const targetDialog = document.querySelector(`dialog[data-seatModal="${modalType}"]`);
+    const modalType = button.getAttribute('data-modal');
+    const targetDialog = document.querySelector(`dialog[data-modal="${modalType}"]`);
 
     if (targetDialog) {
       // 座席番号を更新（ボタン内の.seat-numberテキストを取得）
@@ -176,6 +189,7 @@ seatModalButtons.forEach(button => {
     }
   });
 });
+
 
 //-------------------------------------------------------
 /**
@@ -258,13 +272,16 @@ function initializeTooltips() {
 }
 
 // DOMの読み込みが完了したら初期化関数を実行
-document.addEventListener('DOMContentLoaded', initializeTooltips);
+function initTooltips() {
+  initializeTooltips();
+}
+
 
 //-------------------------------------------------------
 /**
  * more button
  */
-window.addEventListener("DOMContentLoaded", () => {
+function initMoreButton() {
   const moreNum = 2; // 初期表示の件数
 
   // itemListContainerごとに処理を繰り返し
@@ -305,7 +322,8 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
-});
+}
+
 
 //-------------------------------------------------------
 /**
@@ -321,6 +339,33 @@ if (scrollElm && checkElm) {
     }
   });
 }
+
+
+//-------------------------------------------------------
+/**
+ * ページ内リンクのスムーズスクロール（URLに#を付けない）
+ */
+function initAnchorLinks() {
+  // href属性が#で始まるすべてのリンクを取得
+  const anchorLinks = document.querySelectorAll('a[href^="#"]');
+  
+  anchorLinks.forEach(link => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault(); // デフォルトの動作（URLに#を追加）を防ぐ
+      
+      const targetId = link.getAttribute('href').substring(1); // #を除いたIDを取得
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+}
+
 
 //-------------------------------------------------------
 /** 
@@ -348,7 +393,11 @@ function carouselNavFraction(swiper, carouselEl) {
   }
 }
 
-function initSwiper() {
+/**
+ * カルーセル初期化
+ * @param {Object} startIndices - { 'ID名': インデックス番号 } の形式のオブジェクト
+ */
+function initSwiper(startIndices = {}) {
   // 既存のSwiperインスタンスがあれば全て破棄
   mySwipers.forEach(swiper => {
     if (swiper) {
@@ -362,8 +411,12 @@ function initSwiper() {
   carouselEls.forEach((carouselEl) => {
     // js-carousel-noneクラスを削除（カルーセル再初期化時）
     carouselEl.classList.remove('js-carousel-none');
+
+    // このカルーセルのIDに対応する開始インデックスを取得（なければ0）
+    const startIndex = startIndices[carouselEl.id] || 0;
     
     const swiperInstance = new Swiper(carouselEl, {
+      initialSlide: startIndex,
       direction: 'horizontal',
       slidesPerView: 'auto',
       spaceBetween: 8,
@@ -445,11 +498,12 @@ function checkBreakpoint(e) {
 carouselMediaQuery.addEventListener('change', checkBreakpoint);
 checkBreakpoint(carouselMediaQuery);
 
+
 //-------------------------------------------------------
 /**
  * カルーセルトグルボタン
  */
-document.addEventListener('DOMContentLoaded', () => {
+function initCarouselToggle() {
   const carouselTrigger = document.getElementById('sky-carousel__trigger');
   
   if (carouselTrigger) {
@@ -507,56 +561,58 @@ document.addEventListener('DOMContentLoaded', () => {
       if (toggleText) toggleText.textContent = texts.inactive;
     }
   }
-});
-
-
-//-------------------------------------------------------
-/**
- * カルーセルトグルボタン
- */
-// 要素の取得
-const content = document.getElementById('js-map');
-const minimap = document.getElementById('js-minimap');
-const indicator = document.getElementById('js-indicator');
-
-function updateIndicator() {
-  // 1. 比率の計算
-  // コンテンツ全体の高さと、ミニマップの高さの比率を求めます
-  // scrollHeight: コンテンツの総高さ
-  // clientHeight: コンテンツの表示されている高さ
-  const totalHeight = content.scrollHeight;
-  const visibleHeight = content.clientHeight;
-  const minimapHeight = minimap.clientHeight;
-
-  // 比率 = ミニマップの高さ / コンテンツの総高さ
-  const ratio = minimapHeight / totalHeight;
-
-  // 2. インジケーターの高さ設定
-  // 表示領域の高さに比率を掛けて、インジケーターの高さを決定します
-  const indicatorHeight = visibleHeight * ratio;
-  indicator.style.height = `${indicatorHeight}px`;
-
-  // 3. インジケーターの位置（top）設定
-  // 現在のスクロール位置に比率を掛けて、インジケーターの位置を決定します
-  const scrollTop = content.scrollTop;
-  const indicatorTop = scrollTop * ratio;
-  indicator.style.top = `${indicatorTop}px`;
 }
 
-// スクロール時に実行
-content.addEventListener('scroll', updateIndicator);
 
-// 初期化時とウィンドウサイズ変更時にも実行して調整
-window.addEventListener('resize', updateIndicator);
-// 画像読み込み後などを考慮して少し待ってから初期実行、または即時実行
-updateIndicator();
+//-------------------------------------------------------
+/**
+ * マップのスクロール連動インジケーター
+ */
+function initMapIndicator() {
+  // 要素の取得
+  const mainmap = document.getElementById('js-map');
+  const minimap = document.getElementById('js-minimap');
+  const indicator = document.getElementById('js-indicator');
+
+  // 要素が存在しない場合は処理を中断
+  if (!mainmap || !minimap || !indicator) return;
+
+  function updateIndicator() {
+    // コンテンツ全体の高さと、ミニマップの高さの比率
+    // scrollHeight: コンテンツの総高さ
+    // clientHeight: コンテンツの表示されている高さ
+    const totalHeight = mainmap.scrollHeight;
+    const visibleHeight = mainmap.clientHeight;
+    const minimapHeight = minimap.clientHeight;
+
+    // 比率 = ミニマップの高さ / コンテンツの総高さ
+    const ratio = minimapHeight / totalHeight;
+
+    // 表示領域の高さに比率を掛けて、インジケーターの高さを決定
+    const indicatorHeight = visibleHeight * ratio;
+    indicator.style.height = `${indicatorHeight}px`;
+
+    // 現在のスクロール位置に比率を掛けて、インジケーターの位置を決定
+    const scrollTop = mainmap.scrollTop;
+    const indicatorTop = scrollTop * ratio;
+    indicator.style.top = `${indicatorTop}px`;
+  }
+
+  // スクロール時に実行
+  mainmap.addEventListener('scroll', updateIndicator);
+
+  // 初期化時とウィンドウサイズ変更時にも実行して調整
+  window.addEventListener('resize', updateIndicator);
+  // 画像読み込み後などを考慮して少し待ってから初期実行、または即時実行
+  updateIndicator();
+}
 
 
 //-------------------------------------------------------
 /**
- * popover
+ * popover（座席選択時のページ内リンク設置）
  */
-document.addEventListener("DOMContentLoaded", function() {
+function initPopover() {
   const popoverElm = document.getElementById('js-popover');
   if (popoverElm) {
     // ページ読み込み時にpopoverを表示
@@ -582,6 +638,24 @@ document.addEventListener("DOMContentLoaded", function() {
       popoverLink.addEventListener('click', fadeOutAndHide);
     }
   }
+}
+
+
+//-------------------------------------------------------
+/**
+ * DOMContentLoaded - すべての初期化処理をまとめて実行
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  initPrintButton();
+  initTabs();
+  initTooltips();
+  initMoreButton();
+  initAnchorLinks();
+  initCarouselToggle();
+  initMapIndicator();
+  initPopover();
 });
+
+
 
 

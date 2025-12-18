@@ -1420,12 +1420,25 @@ html:has(dialog[open]) {
 }
 
 /* seat */
-.sky-modal[data-modal="seat"] {
+.sky-modal[data-modal="seat"],.sky-modal[data-modal="fwrd"] {
   & .dialog-content {
     & .dialog-title {
       border-bottom: 1px solid var(--color-black-a12);
       font-size: 1.4em;
       padding-bottom: .5em;
+      & .heading {
+        & .js-modal-seat-text {
+          font-size: .8em;
+          font-weight: 400;
+          margin-left: 1em;
+        }
+      }
+      & .icon-button {
+        flex-shrink: 0;
+        width: 1.4em;
+        aspect-ratio: 1;
+        filter: invert(65%) sepia(0%) saturate(1938%) hue-rotate(190deg) brightness(94%) contrast(92%);
+      }
     }
   }
 }
@@ -2334,6 +2347,17 @@ html:has(dialog[open]) {
   height: 600px;
   overflow-y: scroll;
   position: relative;
+  overscroll-behavior: auto !important;
+}
+.sky-seatmap2 {
+  background-color: var(--color-white);
+  border-top: 3px solid var(--color-grey300);
+  border-bottom: 3px solid var(--color-grey300);
+  display: flex;
+  justify-content: center;
+  height: fit-content;
+  position: relative;
+  overscroll-behavior: auto !important;
 }
 .airplane {
   background: url(/webcheckin/common/images/wing.svg) no-repeat;
@@ -2531,6 +2555,10 @@ html:has(dialog[open]) {
   }
 }
 
+/* Seat map anchor positioning */
+#seat-front { scroll-margin-top: 5rem;}
+#seat-back { scroll-margin-top: 100vh;}
+
 .nav-popover-wrap {
   position: fixed;
   top: 0;
@@ -2542,6 +2570,7 @@ html:has(dialog[open]) {
   background: transparent;
   opacity: 1;
   transition: opacity 0.3s ease-out;
+  width: calc(100% - 4rem);
   &.fade-out {
     opacity: 0;
   }
@@ -2551,15 +2580,13 @@ html:has(dialog[open]) {
   & .nav-popover {
     background-color: #CFF7D3;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
     gap: .4rem;
     margin: 0 auto;
-    padding: 1rem 2rem;
-    width: fit-content;
+    padding: 2rem;
+    width: 100%;
     max-width: 600px;
     & a {
-      font-size: .8em;
       display: flex;
       align-items: center;
       position: relative;
@@ -2568,10 +2595,13 @@ html:has(dialog[open]) {
       border: none;
       background: none;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       & img {
         display: inline-block;
-        width: 1.2em;
-        height: 1.2em;
+        width: 1.5em;
+        height: 1.5em;
       }
     }
   }
@@ -2610,6 +2640,15 @@ html:has(dialog[open]) {
       & .f-wc {
         padding: .6rem 3rem;
       }
+    }
+  }
+  & .sky-seatmap2 {
+    .airplane {
+      background-position: center 455px;
+      background-size: auto 390px;
+    }
+    .seatmap-wrap {
+      margin: 0 auto;
     }
   }
 }
@@ -2713,3 +2752,4 @@ html:has(dialog[open]) {
   }
 }
 }
+
