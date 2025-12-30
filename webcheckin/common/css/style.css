@@ -2359,6 +2359,16 @@ html:has(dialog[open]) {
   position: relative;
   overscroll-behavior: auto !important;
 }
+.sky-seatmap3 {
+  background-color: var(--color-white);
+  border-top: 3px solid var(--color-grey300);
+  border-bottom: 3px solid var(--color-grey300);
+  display: flex;
+  justify-content: center;
+  height: fit-content;
+  position: relative;
+  overscroll-behavior: auto !important;
+}
 .airplane {
   background: url(/webcheckin/common/images/wing.svg) no-repeat;
   background-position: center 455px;
@@ -2401,6 +2411,7 @@ html:has(dialog[open]) {
       & .seat {
         width: 6vw;
         aspect-ratio: 1;
+        min-width: 2.8rem;
         max-width: 3.2rem;
         max-height: 3.2rem;
         display: flex;
@@ -2628,6 +2639,28 @@ html:has(dialog[open]) {
   }
 }
 
+@media (min-width: 768px) {
+  & .sky-seatmap2 {
+    .airplane {
+      background-position: center 455px;
+      background-size: auto 390px;
+    }
+    .seatmap-wrap {
+      margin: 0 auto;
+    }
+  }
+  & .sky-seatmap3 {
+    height: 600px;
+    overflow-y: scroll;
+    .airplane {
+      background-position: center 455px;
+      background-size: auto 390px;
+    }
+    .seatmap-wrap {
+      margin: 0 auto;
+    }
+  }
+}
 @media (min-width: 1024px) {
   .airplane {
     background-position: 40% 455px;
@@ -2643,13 +2676,13 @@ html:has(dialog[open]) {
       }
     }
   }
-  & .sky-seatmap2 {
+  & .sky-seatmap3 {
     .airplane {
-      background-position: center 455px;
+      background-position: 40% 455px;
       background-size: auto 390px;
     }
     .seatmap-wrap {
-      margin: 0 auto;
+      margin: 0 4rem 0 auto;
     }
   }
 }

@@ -642,6 +642,116 @@ function initPopover() {
 
 //-------------------------------------------------------
 /**
+ * 搭乗者リストの追従表示（SPのみ）
+ */
+function initStickyPaxList() {
+  const mapEl = document.getElementById('js-map');
+  const originalSlider = document.getElementById('slider_paxlist');
+  const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
+
+  // 必須要素がない、またはPCサイズの場合は何もしない（初期判定）
+  if (!mapEl || !originalSlider) return;
+
+  let stickyContainer = null;
+  let stickySwiper = null;
+
+  // 追従用リストを作成・初期化する関数
+  const createStickyList = () => {
+    // 既に作成済みの場合は何もしない
+    if (document.getElementById('slider_paxlist2')) return;
+
+    // コンテナ作成
+    stickyContainer = document.createElement('div');
+    stickyContainer.classList.add('sticky-paxlist');
+
+    // リストを複製
+    const clonedSlider = originalSlider.cloneNode(true);
+    clonedSlider.id = 'slider_paxlist2'; // IDを変更
+    clonedSlider.classList.remove('js-carousel'); // 既存の初期化対象から外すためクラス削除（任意）
+    
+    // 不要な要素（SP用ナビゲーションボタンなど）があればここで削除処理を入れることも可能
+    // 今回はそのまま使用
+
+    stickyContainer.appendChild(clonedSlider);
+    document.body.appendChild(stickyContainer);
+
+    // 複製したリストのSwiperを初期化
+    // ※既存のinitSwiperの設定を参考に、この要素専用に適用
+    stickySwiper = new Swiper(clonedSlider, {
+      initialSlide: 0,
+      direction: 'horizontal',
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      loop: false,
+      observer: true, // 動的追加に対応
+      observeParents: true,
+      // 複製された要素(clonedSlider)の中にあるボタンを明示的に指定
+      navigation: {
+        nextEl: clonedSlider.querySelector('.swiper-button-next'),
+        prevEl: clonedSlider.querySelector('.swiper-button-prev'),
+      },
+      // ▲▲▲ 追加ここまで ▲▲▲
+      a11y: {
+        prevSlideMessage: '前のスライドへ',
+        nextSlideMessage: '次のスライドへ',
+        slideLabelMessage: '{{index}}枚目',
+      },
+    });
+    
+    // グローバルのSwiper管理配列に追加して、リサイズ時などに破棄されるようにする
+    if (typeof mySwipers !== 'undefined') {
+      mySwipers.push(stickySwiper);
+    }
+  };
+
+  // スクロールハンドラ
+  const handleScroll = () => {
+    if (!stickyContainer) return;
+
+    const mapRect = mapEl.getBoundingClientRect();
+    
+    // 固定リスト（slider_paxlist2を含むコンテナ）の高さを取得
+    // ※ position: fixed; top: 0; なので、高さ ＝ 画面上での下辺の位置になります
+    const stickyHeight = stickyContainer.offsetHeight;
+
+    // 表示条件:
+    // 1. マップの上端が画面上端に到達している (mapRect.top <= 0)
+    // 2. マップの下辺が、固定リストの下辺よりも下にある (mapRect.bottom > stickyHeight)
+    //    → マップの下辺が固定リストより上に行ったら（通り過ぎたら）非表示
+    
+    const isMapTopHit = mapRect.top <= 0;
+    const isMapRemaining = mapRect.bottom > stickyHeight;
+
+    if (isMapTopHit && isMapRemaining) {
+      stickyContainer.classList.add('is-visible');
+    } else {
+      stickyContainer.classList.remove('is-visible');
+    }
+  };
+
+  // SPレイアウト時のみ有効化する処理
+  const checkState = () => {
+    if (carouselMediaQuery.matches) {
+      createStickyList();
+      window.addEventListener('scroll', handleScroll);
+    } else {
+      // PCになったらイベント解除や要素削除を行っても良いが、
+      // CSSで display:none などを制御している場合はそのままでも可
+      window.removeEventListener('scroll', handleScroll);
+      if (stickyContainer) {
+        stickyContainer.classList.remove('is-visible');
+      }
+    }
+  };
+
+  // 初期実行とリサイズ監視
+  checkState();
+  carouselMediaQuery.addEventListener('change', checkState);
+}
+
+
+//-------------------------------------------------------
+/**
  * DOMContentLoaded - すべての初期化処理をまとめて実行
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -653,6 +763,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarouselToggle();
   initMapIndicator();
   initPopover();
+
+  initStickyPaxList();
 });
 
 

@@ -778,3 +778,78 @@
 }
 }
 
+/** --------------------------------------------------------
+ * sticky-paxlist (SP only)
+ * 768px以下での搭乗者リスト固定表示
+ */
+@media (max-width: 768px) {
+  /* 表示状態 */
+  .sticky-paxlist {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--color-grey100);
+    
+    /* フェードアニメーション用 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    & .sky-carousel.swiper {
+      padding-top: 1.6rem;
+      padding-bottom: 1.6rem;
+      &::before, &::after {
+        display: none; /* 固定表示時は装飾線を消す */
+      }
+      & .item-inner {
+      width: calc(100% - 4rem);
+      margin: 0 auto;
+      }
+    }
+
+    & .sky-carousel__navigation {
+      & .swiper-button-next, & .swiper-button-prev {
+        background-color: transparent;
+        border: none;
+        border-radius: 0px;
+        color: var(--color-black-a87);
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-top: 0;
+        width: 2em;
+        height: 2em;
+        z-index: 10;
+        &::after {
+          display: none;
+        }
+        /* & img {
+          filter: invert(14%) sepia(27%) saturate(7426%) hue-rotate(221deg) brightness(81%) contrast(115%);
+        } */
+      }
+      & .swiper-button-prev {
+        left: -.5rem;
+      }
+      & .swiper-button-next {
+        right: -.5rem;
+      }
+      & .swiper-button-next.swiper-button-disabled, & .swiper-button-prev.swiper-button-disabled {
+        background-color: transparent;
+        border: none;
+        cursor: not-allowed;
+        opacity: 1;
+        pointer-events: none;
+        /* & img {
+          filter: invert(65%) sepia(0%) saturate(1938%) hue-rotate(190deg) brightness(94%) contrast(92%);
+        } */
+      }
+    }
+  }
+  .sticky-paxlist.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
