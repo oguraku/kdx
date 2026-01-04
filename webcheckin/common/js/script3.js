@@ -279,6 +279,39 @@ function initTooltips() {
 
 //-------------------------------------------------------
 /**
+ * Dialog closedby="any" Polyfill
+ * Safari等、closedby属性未対応ブラウザ向けに
+ * ダイアログ外側（backdrop）をクリックでの閉じる動作を実装
+ */
+function initDialogClosedByAny() {
+  const dialogs = document.querySelectorAll('dialog[closedby="any"]');
+
+  dialogs.forEach(dialog => {
+    // backdropクリックで閉じる処理
+    dialog.addEventListener('click', (event) => {
+      // クリックされた要素がdialog要素そのものである場合（＝backdropをクリック）
+      // 中身(.dialog-content)をクリックした場合は event.target が中身になるため閉じません
+      if (event.target === dialog) {
+        dialog.close('dismiss');
+      }
+    });
+
+    // 閉じるボタンの処理
+    const closeButtons = dialog.querySelectorAll('.button-close, .icon-close, button[type="reset"]');
+    closeButtons.forEach(btn => {
+      // 既にイベントリスナーが登録されていないか確認は難しいですが、
+      // 念のため重複動作を防ぐために stopPropagation を入れています
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dialog.close('close');
+      });
+    });
+  });
+}
+
+
+//-------------------------------------------------------
+/**
  * more button
  */
 function initMoreButton() {
@@ -376,6 +409,21 @@ let mySwipers = [];
 const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
 let isCarouselActive = false; // カルーセルの状態を管理
 
+/**
+ * カルーセルトグルボタンの言語別テキストを取得
+ * @returns {Object} - { active: string, inactive: string }
+ */
+function getCarouselButtonTexts() {
+  const currentLang = document.documentElement.lang || 'ja';
+  const buttonTexts = {
+    'ja': { active: '搭乗者すべて表示', inactive: '閉じる' },
+    'en': { active: 'Show all passengers', inactive: 'Close' },
+    'zh': { active: '顯示所有乘客', inactive: '關閉' },
+    'ko': { active: '탑승자 모두 보기', inactive: '닫다' }
+  };
+  return buttonTexts[currentLang] || buttonTexts['ja'];
+}
+
 function carouselNavFraction(swiper, carouselEl) {
   const nav = carouselEl.querySelector('.js-carousel-fraction');
   if (!nav) return;
@@ -409,6 +457,15 @@ function initSwiper(startIndices = {}) {
   // 全ての.js-carousel要素を取得して初期化
   const carouselEls = document.querySelectorAll('.js-carousel');
   carouselEls.forEach((carouselEl) => {
+    // スライドの枚数を確認
+    const slides = carouselEl.querySelectorAll('.swiper-slide');
+    
+    // スライドが1枚以下の場合はカルーセルを初期化しない
+    if (slides.length <= 1) {
+      carouselEl.classList.add('js-carousel-none');
+      return;
+    }
+    
     // js-carousel-noneクラスを削除（カルーセル再初期化時）
     carouselEl.classList.remove('js-carousel-none');
 
@@ -421,6 +478,7 @@ function initSwiper(startIndices = {}) {
       slidesPerView: 'auto',
       spaceBetween: 8,
       loop: false,
+      threshold: 15,
       navigation: {
         nextEl: carouselEl.querySelector('.swiper-button-next'),
         prevEl: carouselEl.querySelector('.swiper-button-prev'),
@@ -449,7 +507,19 @@ function initSwiper(startIndices = {}) {
     carouselNavFraction(swiperInstance, carouselEl);
   });
   
-  isCarouselActive = true; // カルーセルがアクティブ状態
+  // Swiperインスタンスが作成されなかった場合（スライドが0〜1枚）
+  const carouselTrigger = document.getElementById('sky-carousel__trigger');
+  if (mySwipers.length === 0) {
+    isCarouselActive = false;
+    if (carouselTrigger) {
+      carouselTrigger.style.display = 'none';
+    }
+  } else {
+    isCarouselActive = true;
+    if (carouselTrigger) {
+      carouselTrigger.style.display = '';
+    }
+  }
 }
 
 function destroySwiper() {
@@ -477,21 +547,26 @@ function checkBreakpoint(e) {
     // カルーセルトグルボタンのテキストとaria-pressedを更新
     const carouselTrigger = document.getElementById('sky-carousel__trigger');
     if (carouselTrigger) {
-      const toggleText = carouselTrigger.querySelector('.js-toggle-text');
-      const currentLang = document.documentElement.lang || 'ja';
-      const buttonTexts = {
-        'ja': { active: '搭乗者すべて表示', inactive: '閉じる' },
-        'en': { active: 'Show all passengers', inactive: 'Close' },
-        'zh': { active: '顯示所有乘客', inactive: '關閉' },
-        'ko': { active: '탑승자 모두 보기', inactive: '닫다' }
-      };
-      const texts = buttonTexts[currentLang] || buttonTexts['ja'];
-      
-      carouselTrigger.setAttribute('aria-pressed', 'true');
-      if (toggleText) toggleText.textContent = texts.active;
+      // Swiperインスタンスが作成された場合のみボタンを表示
+      if (mySwipers.length > 0) {
+        const toggleText = carouselTrigger.querySelector('.js-toggle-text');
+        const texts = getCarouselButtonTexts();
+        
+        carouselTrigger.setAttribute('aria-pressed', 'true');
+        if (toggleText) toggleText.textContent = texts.active;
+        carouselTrigger.style.display = '';
+      } else {
+        carouselTrigger.style.display = 'none';
+      }
     }
   } else if (mySwipers.length > 0) {
     destroySwiper();
+    
+    // PC表示時はボタンを非表示
+    const carouselTrigger = document.getElementById('sky-carousel__trigger');
+    if (carouselTrigger) {
+      carouselTrigger.style.display = 'none';
+    }
   }
 }
 
@@ -508,57 +583,45 @@ function initCarouselToggle() {
   
   if (carouselTrigger) {
     const toggleText = carouselTrigger.querySelector('.js-toggle-text');
-    
-    // 言語を取得（html要素のlang属性）
-    const currentLang = document.documentElement.lang || 'ja';
-    
-    // 言語別のテキスト定義
-    const buttonTexts = {
-      'ja': {
-        active: '搭乗者すべて表示',
-        inactive: '閉じる'
-      },
-      'en': {
-        active: 'Show all passengers',
-        inactive: 'Close'
-      },
-      'zh': {
-        active: '顯示所有乘客',
-        inactive: '關閉'
-      },
-      'ko': {
-        active: '탑승자 모두 보기',
-        inactive: '닫다'
-      }
-    };
-    
-    // 現在の言語のテキストを取得（デフォルトは日本語）
-    const texts = buttonTexts[currentLang] || buttonTexts['ja'];
+    const texts = getCarouselButtonTexts();
     
     carouselTrigger.addEventListener('click', () => {
       // 768px以下の場合のみトグル機能を有効化
       if (carouselMediaQuery.matches) {
         if (isCarouselActive) {
-          // カルーセルがアクティブな場合は破棄
+          // カルーセルがアクティブな場合は破棄（全て展開）
           destroySwiper();
           carouselTrigger.setAttribute('aria-pressed', 'false');
           if (toggleText) toggleText.textContent = texts.inactive;
+          // スライドが2枚以上ある場合は「閉じる」ボタンとして表示したまま
         } else {
           // カルーセルが非アクティブな場合は初期化
           initSwiper();
-          carouselTrigger.setAttribute('aria-pressed', 'true');
-          if (toggleText) toggleText.textContent = texts.active;
+          // initSwiper内でmySwipers.lengthに基づいて表示/非表示が制御される
+          if (mySwipers.length > 0) {
+            carouselTrigger.setAttribute('aria-pressed', 'true');
+            if (toggleText) toggleText.textContent = texts.active;
+          } else {
+            // スライドが0〜1枚の場合のみ非表示
+            carouselTrigger.style.display = 'none';
+          }
         }
       }
     });
     
-    // 初期状態のaria-pressed属性とテキストを設定
-    if (carouselMediaQuery.matches && isCarouselActive) {
+    // 初期状態のaria-pressed属性とテキスト、表示/非表示を設定
+    if (carouselMediaQuery.matches && isCarouselActive && mySwipers.length > 0) {
       carouselTrigger.setAttribute('aria-pressed', 'true');
       if (toggleText) toggleText.textContent = texts.active;
+      carouselTrigger.style.display = ''; // 表示
+    } else if (carouselMediaQuery.matches && !isCarouselActive) {
+      carouselTrigger.setAttribute('aria-pressed', 'false');
+      if (toggleText) toggleText.textContent = texts.inactive;
+      carouselTrigger.style.display = 'none'; // 非表示
     } else {
       carouselTrigger.setAttribute('aria-pressed', 'false');
       if (toggleText) toggleText.textContent = texts.inactive;
+      carouselTrigger.style.display = 'none'; // PC表示時は非表示
     }
   }
 }
@@ -642,11 +705,12 @@ function initPopover() {
 
 //-------------------------------------------------------
 /**
- * 搭乗者リストの追従表示（SPのみ）
+ * 搭乗便情報・搭乗者リストの追従表示（SPのみ）
  */
 function initStickyPaxList() {
   const mapEl = document.getElementById('js-map');
-  const originalSlider = document.getElementById('slider_paxlist');
+  const originalSlider = document.getElementById('js-slider_paxlist');
+  const originalFlightInfo = document.getElementById('js-flight-info'); 
   const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
 
   // 必須要素がない、またはPCサイズの場合は何もしない（初期判定）
@@ -658,49 +722,81 @@ function initStickyPaxList() {
   // 追従用リストを作成・初期化する関数
   const createStickyList = () => {
     // 既に作成済みの場合は何もしない
-    if (document.getElementById('slider_paxlist2')) return;
+    if (document.getElementById('js-slider_paxlist2')) return;
 
     // コンテナ作成
     stickyContainer = document.createElement('div');
     stickyContainer.classList.add('sticky-paxlist');
 
-    // リストを複製
-    const clonedSlider = originalSlider.cloneNode(true);
-    clonedSlider.id = 'slider_paxlist2'; // IDを変更
-    clonedSlider.classList.remove('js-carousel'); // 既存の初期化対象から外すためクラス削除（任意）
-    
-    // 不要な要素（SP用ナビゲーションボタンなど）があればここで削除処理を入れることも可能
-    // 今回はそのまま使用
+    // 搭乗便情報を複製して追加
+    if (originalFlightInfo) {
+      const clonedFlightInfo = originalFlightInfo.cloneNode(true);
+      clonedFlightInfo.id = 'js-flight-info2'; // IDを変更
+      clonedFlightInfo.classList.add('sticky-flight-info'); // クラス追加
+      stickyContainer.appendChild(clonedFlightInfo);
+    }
 
+    // 搭乗者リストを複製
+    const clonedSlider = originalSlider.cloneNode(true);
+    clonedSlider.id = 'js-slider_paxlist2'; // IDを変更
+    clonedSlider.classList.remove('js-carousel'); // 既存の初期化対象から外すためクラス削除
+    
     stickyContainer.appendChild(clonedSlider);
     document.body.appendChild(stickyContainer);
 
-    // 複製したリストのSwiperを初期化
-    // ※既存のinitSwiperの設定を参考に、この要素専用に適用
+    // 元のスライダーのSwiperインスタンスを取得
+    const originalSwiper = mySwipers.find(swiper => swiper.el === originalSlider);
+    const initialSlideIndex = originalSwiper ? originalSwiper.realIndex : 0;
+
+    // 複製したリストのSwiperを初期化（元のスライド位置と同期）
     stickySwiper = new Swiper(clonedSlider, {
-      initialSlide: 0,
+      initialSlide: initialSlideIndex,
       direction: 'horizontal',
       slidesPerView: 'auto',
       spaceBetween: 8,
       loop: false,
-      observer: true, // 動的追加に対応
+      observer: true,
       observeParents: true,
-      // 複製された要素(clonedSlider)の中にあるボタンを明示的に指定
       navigation: {
         nextEl: clonedSlider.querySelector('.swiper-button-next'),
         prevEl: clonedSlider.querySelector('.swiper-button-prev'),
       },
-      // ▲▲▲ 追加ここまで ▲▲▲
       a11y: {
         prevSlideMessage: '前のスライドへ',
         nextSlideMessage: '次のスライドへ',
         slideLabelMessage: '{{index}}枚目',
       },
+      on: {
+        slideChange: function() {
+          // sticky側のスライド変更を元のスライダーに反映
+          if (originalSwiper && originalSwiper.realIndex !== this.realIndex) {
+            originalSwiper.slideTo(this.realIndex);
+          }
+        }
+      }
     });
-    
-    // グローバルのSwiper管理配列に追加して、リサイズ時などに破棄されるようにする
-    if (typeof mySwipers !== 'undefined') {
-      mySwipers.push(stickySwiper);
+
+    // 元のスライダーのスライド変更をsticky側に反映
+    if (originalSwiper) {
+      originalSwiper.on('slideChange', function() {
+        if (stickySwiper && stickySwiper.realIndex !== this.realIndex) {
+          stickySwiper.slideTo(this.realIndex);
+        }
+      });
+    }
+
+    // Note: グローバルのmySwipers配列には追加しない（独立して管理）
+  };
+
+  // 追従用リストを破棄する関数
+  const destroyStickyList = () => {
+    if (stickySwiper) {
+      stickySwiper.destroy(true, true);
+      stickySwiper = null;
+    }
+    if (stickyContainer && stickyContainer.parentNode) {
+      stickyContainer.parentNode.removeChild(stickyContainer);
+      stickyContainer = null;
     }
   };
 
@@ -709,16 +805,8 @@ function initStickyPaxList() {
     if (!stickyContainer) return;
 
     const mapRect = mapEl.getBoundingClientRect();
-    
-    // 固定リスト（slider_paxlist2を含むコンテナ）の高さを取得
-    // ※ position: fixed; top: 0; なので、高さ ＝ 画面上での下辺の位置になります
     const stickyHeight = stickyContainer.offsetHeight;
 
-    // 表示条件:
-    // 1. マップの上端が画面上端に到達している (mapRect.top <= 0)
-    // 2. マップの下辺が、固定リストの下辺よりも下にある (mapRect.bottom > stickyHeight)
-    //    → マップの下辺が固定リストより上に行ったら（通り過ぎたら）非表示
-    
     const isMapTopHit = mapRect.top <= 0;
     const isMapRemaining = mapRect.bottom > stickyHeight;
 
@@ -732,15 +820,14 @@ function initStickyPaxList() {
   // SPレイアウト時のみ有効化する処理
   const checkState = () => {
     if (carouselMediaQuery.matches) {
+      // SPレイアウト：追従リストを作成してスクロール監視を開始
       createStickyList();
       window.addEventListener('scroll', handleScroll);
+      handleScroll(); // 初回チェック
     } else {
-      // PCになったらイベント解除や要素削除を行っても良いが、
-      // CSSで display:none などを制御している場合はそのままでも可
+      // PCレイアウト：スクロール監視を解除し、追従リストを破棄
       window.removeEventListener('scroll', handleScroll);
-      if (stickyContainer) {
-        stickyContainer.classList.remove('is-visible');
-      }
+      destroyStickyList();
     }
   };
 
@@ -758,6 +845,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initPrintButton();
   initTabs();
   initTooltips();
+  initDialogClosedByAny();
   initMoreButton();
   initAnchorLinks();
   initCarouselToggle();

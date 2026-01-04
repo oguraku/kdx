@@ -29,7 +29,9 @@ function initPrintButton() {
       targetSection.classList.add('print_on');
       sectionToReset = targetSection;
       
-      window.print();
+      setTimeout(() => {
+        window.print();
+      }, 200);
     }
   };
 
@@ -279,6 +281,39 @@ function initTooltips() {
 
 //-------------------------------------------------------
 /**
+ * Dialog closedby="any" Polyfill
+ * Safari等、closedby属性未対応ブラウザ向けに
+ * ダイアログ外側（backdrop）をクリックでの閉じる動作を実装
+ */
+function initDialogClosedByAny() {
+  const dialogs = document.querySelectorAll('dialog[closedby="any"]');
+
+  dialogs.forEach(dialog => {
+    // backdropクリックで閉じる処理
+    dialog.addEventListener('click', (event) => {
+      // クリックされた要素がdialog要素そのものである場合（＝backdropをクリック）
+      // 中身(.dialog-content)をクリックした場合は event.target が中身になるため閉じません
+      if (event.target === dialog) {
+        dialog.close('dismiss');
+      }
+    });
+
+    // 閉じるボタンの処理
+    const closeButtons = dialog.querySelectorAll('.button-close, .icon-close, button[type="reset"]');
+    closeButtons.forEach(btn => {
+      // 既にイベントリスナーが登録されていないか確認は難しいですが、
+      // 念のため重複動作を防ぐために stopPropagation を入れています
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dialog.close('close');
+      });
+    });
+  });
+}
+
+
+//-------------------------------------------------------
+/**
  * more button
  */
 function initMoreButton() {
@@ -376,6 +411,21 @@ let mySwipers = [];
 const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
 let isCarouselActive = false; // カルーセルの状態を管理
 
+/**
+ * カルーセルトグルボタンの言語別テキストを取得
+ * @returns {Object} - { active: string, inactive: string }
+ */
+function getCarouselButtonTexts() {
+  const currentLang = document.documentElement.lang || 'ja';
+  const buttonTexts = {
+    'ja': { active: '搭乗者すべて表示', inactive: '閉じる' },
+    'en': { active: 'Show all passengers', inactive: 'Close' },
+    'zh': { active: '顯示所有乘客', inactive: '關閉' },
+    'ko': { active: '탑승자 모두 보기', inactive: '닫다' }
+  };
+  return buttonTexts[currentLang] || buttonTexts['ja'];
+}
+
 function carouselNavFraction(swiper, carouselEl) {
   const nav = carouselEl.querySelector('.js-carousel-fraction');
   if (!nav) return;
@@ -409,6 +459,15 @@ function initSwiper(startIndices = {}) {
   // 全ての.js-carousel要素を取得して初期化
   const carouselEls = document.querySelectorAll('.js-carousel');
   carouselEls.forEach((carouselEl) => {
+    // スライドの枚数を確認
+    const slides = carouselEl.querySelectorAll('.swiper-slide');
+    
+    // スライドが1枚以下の場合はカルーセルを初期化しない
+    if (slides.length <= 1) {
+      carouselEl.classList.add('js-carousel-none');
+      return;
+    }
+    
     // js-carousel-noneクラスを削除（カルーセル再初期化時）
     carouselEl.classList.remove('js-carousel-none');
 
@@ -421,6 +480,7 @@ function initSwiper(startIndices = {}) {
       slidesPerView: 'auto',
       spaceBetween: 8,
       loop: false,
+      threshold: 15,
       navigation: {
         nextEl: carouselEl.querySelector('.swiper-button-next'),
         prevEl: carouselEl.querySelector('.swiper-button-prev'),
@@ -449,7 +509,19 @@ function initSwiper(startIndices = {}) {
     carouselNavFraction(swiperInstance, carouselEl);
   });
   
-  isCarouselActive = true; // カルーセルがアクティブ状態
+  // Swiperインスタンスが作成されなかった場合（スライドが0〜1枚）
+  const carouselTrigger = document.getElementById('sky-carousel__trigger');
+  if (mySwipers.length === 0) {
+    isCarouselActive = false;
+    if (carouselTrigger) {
+      carouselTrigger.style.display = 'none';
+    }
+  } else {
+    isCarouselActive = true;
+    if (carouselTrigger) {
+      carouselTrigger.style.display = '';
+    }
+  }
 }
 
 function destroySwiper() {
@@ -477,21 +549,26 @@ function checkBreakpoint(e) {
     // カルーセルトグルボタンのテキストとaria-pressedを更新
     const carouselTrigger = document.getElementById('sky-carousel__trigger');
     if (carouselTrigger) {
-      const toggleText = carouselTrigger.querySelector('.js-toggle-text');
-      const currentLang = document.documentElement.lang || 'ja';
-      const buttonTexts = {
-        'ja': { active: '搭乗者すべて表示', inactive: '閉じる' },
-        'en': { active: 'Show all passengers', inactive: 'Close' },
-        'zh': { active: '顯示所有乘客', inactive: '關閉' },
-        'ko': { active: '탑승자 모두 보기', inactive: '닫다' }
-      };
-      const texts = buttonTexts[currentLang] || buttonTexts['ja'];
-      
-      carouselTrigger.setAttribute('aria-pressed', 'true');
-      if (toggleText) toggleText.textContent = texts.active;
+      // Swiperインスタンスが作成された場合のみボタンを表示
+      if (mySwipers.length > 0) {
+        const toggleText = carouselTrigger.querySelector('.js-toggle-text');
+        const texts = getCarouselButtonTexts();
+        
+        carouselTrigger.setAttribute('aria-pressed', 'true');
+        if (toggleText) toggleText.textContent = texts.active;
+        carouselTrigger.style.display = '';
+      } else {
+        carouselTrigger.style.display = 'none';
+      }
     }
   } else if (mySwipers.length > 0) {
     destroySwiper();
+    
+    // PC表示時はボタンを非表示
+    const carouselTrigger = document.getElementById('sky-carousel__trigger');
+    if (carouselTrigger) {
+      carouselTrigger.style.display = 'none';
+    }
   }
 }
 
@@ -508,57 +585,45 @@ function initCarouselToggle() {
   
   if (carouselTrigger) {
     const toggleText = carouselTrigger.querySelector('.js-toggle-text');
-    
-    // 言語を取得（html要素のlang属性）
-    const currentLang = document.documentElement.lang || 'ja';
-    
-    // 言語別のテキスト定義
-    const buttonTexts = {
-      'ja': {
-        active: '搭乗者すべて表示',
-        inactive: '閉じる'
-      },
-      'en': {
-        active: 'Show all passengers',
-        inactive: 'Close'
-      },
-      'zh': {
-        active: '顯示所有乘客',
-        inactive: '關閉'
-      },
-      'ko': {
-        active: '탑승자 모두 보기',
-        inactive: '닫다'
-      }
-    };
-    
-    // 現在の言語のテキストを取得（デフォルトは日本語）
-    const texts = buttonTexts[currentLang] || buttonTexts['ja'];
+    const texts = getCarouselButtonTexts();
     
     carouselTrigger.addEventListener('click', () => {
       // 768px以下の場合のみトグル機能を有効化
       if (carouselMediaQuery.matches) {
         if (isCarouselActive) {
-          // カルーセルがアクティブな場合は破棄
+          // カルーセルがアクティブな場合は破棄（全て展開）
           destroySwiper();
           carouselTrigger.setAttribute('aria-pressed', 'false');
           if (toggleText) toggleText.textContent = texts.inactive;
+          // スライドが2枚以上ある場合は「閉じる」ボタンとして表示したまま
         } else {
           // カルーセルが非アクティブな場合は初期化
           initSwiper();
-          carouselTrigger.setAttribute('aria-pressed', 'true');
-          if (toggleText) toggleText.textContent = texts.active;
+          // initSwiper内でmySwipers.lengthに基づいて表示/非表示が制御される
+          if (mySwipers.length > 0) {
+            carouselTrigger.setAttribute('aria-pressed', 'true');
+            if (toggleText) toggleText.textContent = texts.active;
+          } else {
+            // スライドが0〜1枚の場合のみ非表示
+            carouselTrigger.style.display = 'none';
+          }
         }
       }
     });
     
-    // 初期状態のaria-pressed属性とテキストを設定
-    if (carouselMediaQuery.matches && isCarouselActive) {
+    // 初期状態のaria-pressed属性とテキスト、表示/非表示を設定
+    if (carouselMediaQuery.matches && isCarouselActive && mySwipers.length > 0) {
       carouselTrigger.setAttribute('aria-pressed', 'true');
       if (toggleText) toggleText.textContent = texts.active;
+      carouselTrigger.style.display = ''; // 表示
+    } else if (carouselMediaQuery.matches && !isCarouselActive) {
+      carouselTrigger.setAttribute('aria-pressed', 'false');
+      if (toggleText) toggleText.textContent = texts.inactive;
+      carouselTrigger.style.display = 'none'; // 非表示
     } else {
       carouselTrigger.setAttribute('aria-pressed', 'false');
       if (toggleText) toggleText.textContent = texts.inactive;
+      carouselTrigger.style.display = 'none'; // PC表示時は非表示
     }
   }
 }
@@ -640,6 +705,7 @@ function initPopover() {
   }
 }
 
+
 //-------------------------------------------------------
 /**
  * DOMContentLoaded - すべての初期化処理をまとめて実行
@@ -648,6 +714,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initPrintButton();
   initTabs();
   initTooltips();
+  initDialogClosedByAny();
   initMoreButton();
   initAnchorLinks();
   initCarouselToggle();

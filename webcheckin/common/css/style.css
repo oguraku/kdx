@@ -712,7 +712,8 @@ h1, h2, h3, h4, h5 {
   text-align: center;
   text-decoration: none;
   transition: background-color 0.3s, border-color 0.3s, color 0.3s;
-  white-space: nowrap;
+  white-space: wrap;
+  word-wrap: break-word;
   vertical-align: middle;
   & span {
     display: inline-block;
@@ -726,7 +727,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .btn_l {
-  padding: 1.4rem 3.2rem;
+  padding: 1.4rem 1.6rem;
 }
 
 .btn_m {
@@ -796,14 +797,17 @@ h1, h2, h3, h4, h5 {
 .btn_icon-r, .btn_icon-l {
   justify-content: space-between;
   .icon {
-    position: relative;
-    flex-shrink: 0;
-    width: 1.6em;
     aspect-ratio: 1;
+    flex-shrink: 0;
+    position: relative;
+    width: 1.6em;
+    height: 1.6em;
+    min-width: 1.6em;
+    min-height: 1.6em;
   }
 }
 .btn_icon-r {
-  padding-right: 1.2rem;
+  padding-right: .4rem;
   .icon {
     &::after {
       background-size: contain;
@@ -823,7 +827,7 @@ h1, h2, h3, h4, h5 {
   }
 }
 .btn_icon-l {
-  padding-left: 1.2rem;
+  padding-left: .4rem;
   .icon {
     &::before {
       background-size: contain;
@@ -848,11 +852,14 @@ h1, h2, h3, h4, h5 {
   align-items: center;
   gap: .4rem;
   .icon {
+    aspect-ratio: 1;
     display: block;
     flex-shrink: 0;
     position: relative;
     width: 1.4em;
-    aspect-ratio: 1;
+    height: 1.4em;
+    min-width: 1.4em;
+    min-height: 1.4em;
     &::before {
       background-size: contain;
       background-position: center;
@@ -888,9 +895,13 @@ h1, h2, h3, h4, h5 {
   font-weight: bold;
   text-decoration: none;
   .icon {
+    aspect-ratio: 1;
+    flex-shrink: 0;
     position: relative;
     width: 1.2em;
-    aspect-ratio: 1;
+    height: 1.2em;
+    min-width: 1.2em;
+    min-height: 1.2em;
     &::after {
       background-size: contain;
       background-position: center;
@@ -961,10 +972,13 @@ h1, h2, h3, h4, h5 {
   align-items: flex-start;
   overflow-wrap: break-word;
   .icon {
+    aspect-ratio: 1;
     display: block;
     flex-shrink: 0;
     width: 1.2em;
-    aspect-ratio: 1;
+    height: 1.2em;
+    min-width: 1.2em;
+    min-height: 1.2em;
     margin-right: .4em;
     position: relative;
     &::before {
@@ -1270,6 +1284,36 @@ details.sky-accordion {
     &::-webkit-details-marker {
       display: none;
     }
+    /* icon */
+    & .icon-arrow {
+      background: transparent !important;
+      display: block;
+      flex-shrink: 0;
+      margin-left: auto;
+      margin-top: .2rem;
+      position: relative;
+      width: 1.4rem;
+      height: 1.4rem;
+      transition: transform 0.4s;
+      &::before,
+      &::after {
+        background-color: var(--color-black);
+        border-radius: 9999px;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: calc(50% - 1px);
+        transform-origin: 50% calc(100% - 1px);
+        width: .2rem;
+        height: 1rem;
+      }
+      &::before {
+        transform: rotate(45deg);
+      }
+      &::after {
+        transform: rotate(-45deg);
+      }
+    }
   }
   & .accDetail {
     padding: 1.6rem 1.6rem 2.4rem;
@@ -1284,44 +1328,10 @@ details.sky-accordion {
     height: auto;
     opacity: 1;
   }
-  &[open] .icon-arrow { /* 展開時 */
-    transform: rotate(-180deg);
-  }
-  /* icon */
-  .icon-arrow {
-    display: inline-block;
-    flex-shrink: 0;
-    position: relative;
-    width: 1.4rem;
-    height: 1.4rem;
-    transition: transform 0.4s;
-    &::before,
-    &::after {
-      background-color: var(--color-black-a87);
-      border-radius: 9999px;
-      content: "";
-      position: absolute;
-      left: calc(50% - 1px);
-      transform-origin: 50% calc(100% - 1px);
-      width: .3rem;
-      height: 1rem;
-    }
-    &::before {
-      transform: rotate(45deg);
-    }
-    &::after {
-      transform: rotate(-45deg);
-    }
-  }
 }
 
-@supports (interpolate-size: allow-keywords) {
-  :root {
-    interpolate-size: allow-keywords; /* height:0（数値型） → auto（文字型）のアニメーション可能にするための指定 */
-  }
-  details.sky-accordion[open]::details-content {
-    height: auto;
-  }
+details.sky-accordion[open] summary.accTitle .icon-arrow {
+  transform: rotate(-180deg) !important;
 }
 
 /* accType */
@@ -1367,6 +1377,7 @@ details.sky-accordion {
   background-color: var(--color-white);
   border: 1px solid var(--color-black-a12);
   border-radius: 8px;
+  height: fit-content;
   overflow: hidden;
   padding: 0;
   width: 90vw;
@@ -1377,7 +1388,7 @@ details.sky-accordion {
     padding: 1.6rem;
     position: relative;
     width: 100%;
-    height: 100%;
+    height: auto;
     & .dialog-title {
       display: flex;
       justify-content: space-between;
@@ -1396,12 +1407,28 @@ details.sky-accordion {
       gap: 28px;
       margin: 0;
       padding: 0;
+      & .sky-btn {
+        min-width: 6em;
+      }
     }
   }
   & .icon-button {
-    background: none;
-    border: none;
+    background: transparent !important;
+    border: none !important;
     outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    & img {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+    }
   }
   & .error-message {
     background-color: var(--color-alert-a12);
@@ -1413,9 +1440,15 @@ details.sky-accordion {
 html:has(dialog[open]) {
   overflow: hidden;
 }
+@media (min-width: 768px) {
+.sky-modal {
+  width: 60vw;
+}
+}
 @media (min-width: 1024px) {
 .sky-modal {
   width: 45vw;
+  max-width: 600px;
 }
 }
 
@@ -1435,9 +1468,9 @@ html:has(dialog[open]) {
       }
       & .icon-button {
         flex-shrink: 0;
-        width: 1.4em;
+        width: 1em;
+        height: 1em;
         aspect-ratio: 1;
-        filter: invert(65%) sepia(0%) saturate(1938%) hue-rotate(190deg) brightness(94%) contrast(92%);
       }
     }
   }
@@ -1452,6 +1485,9 @@ html:has(dialog[open]) {
         font-size: 1.1em;
         & .icon {
           width: 1.2em;
+          height: 1.2em;
+          min-width: 1.2em;
+          min-height: 1.2em;
           aspect-ratio: 1;
         }
       }
@@ -1471,6 +1507,9 @@ html:has(dialog[open]) {
   display: flex;
   justify-content: center;
   width: 1.4em;
+  height: 1.4em;
+  min-width: 1.4em;
+  min-height: 1.4em;
   aspect-ratio: 1;
   padding-right: .2rem;
 }
@@ -1677,6 +1716,9 @@ html:has(dialog[open]) {
       align-items: center;
       justify-content: center;
       width: 1.2em;
+      height: 1.2em;
+      min-width: 1.2em;
+      min-height: 1.2em;
       aspect-ratio: 1;
       position: relative;
       &::before {
@@ -1832,6 +1874,9 @@ html:has(dialog[open]) {
       margin-right: .2em;
       margin-top: -0.2em;
       width: 1.2em;
+      height: 1.2em;
+      min-width: 1.2em;
+      min-height: 1.2em;
       aspect-ratio: 1;
       vertical-align: middle;
     }
@@ -1848,6 +1893,9 @@ html:has(dialog[open]) {
       margin-right: .2em;
       margin-top: -0.2em;
       width: 1.2em;
+      height: 1.2em;
+      min-width: 1.2em;
+      min-height: 1.2em;
       aspect-ratio: 1;
       vertical-align: middle;
     }
@@ -2022,6 +2070,7 @@ html:has(dialog[open]) {
   overflow: auto;
   overflow-y: visible;
   padding: 2rem;
+  overscroll-behavior: auto !important;
 }
 
 /* sky-ticket -------------------------------- */
@@ -2057,6 +2106,9 @@ html:has(dialog[open]) {
         & img {
           display: inline-block;
           width: 180px;
+          height: 180px;
+          min-width: 180px;
+          max-height: 180px;
           aspect-ratio: 1;
         }
       }
@@ -2118,6 +2170,7 @@ html:has(dialog[open]) {
             & .number {
               & span {
                 border: 1px solid var(--color-black-a87);
+                color: var(--color-black-a87);
                 display: inline-block;
                 font-size: 1.1em;
                 font-weight: 700;
@@ -2200,6 +2253,9 @@ html:has(dialog[open]) {
                 align-items: center;
                 justify-content: center;
                 width: 1.2em;
+                height: 1.2em;
+                min-width: 1.2em;
+                min-height: 1.2em;
                 aspect-ratio: 1;
                 position: relative;
                 &::before {
@@ -2305,6 +2361,9 @@ html:has(dialog[open]) {
               align-items: center;
               justify-content: center;
               width: 1.2em;
+              height: 1.2em;
+              min-width: 1.2em;
+              min-height: 1.2em;
               aspect-ratio: 1;
               position: relative;
               &::before {
@@ -2370,9 +2429,9 @@ html:has(dialog[open]) {
   overscroll-behavior: auto !important;
 }
 .airplane {
-  background: url(/webcheckin/common/images/wing.svg) no-repeat;
+  /* background: url(/webcheckin/common/images/wing.svg) no-repeat;
   background-position: center 455px;
-  background-size: auto 390px;
+  background-size: auto 390px; */
   overflow: hidden;
   padding: 0;
   width: 100%;
@@ -2381,24 +2440,28 @@ html:has(dialog[open]) {
 .seatmap-wrap {
   background-color: #D6D6D6;
   margin: 0 auto;
-  padding: 0 1.2rem;
+  padding: 0 12px;
   position: relative;
   width: min-content;
 }
 .seatmap-base {
   display: grid;
   grid-template-columns: 1fr;
-  gap:.8rem;
+  gap:8px;
   background-color: var(--color-white);
-  padding: 2rem 1.2rem;
+  padding: 20px 12px;
   font-family: var(--font-Num);
   & .seat-row {
     display: flex;
     justify-content: space-between;
     position: relative;
     & .seat-order {
-      width: 3.2rem;
-      height: 3.2rem;
+      width: 32px;
+      height: 32px;
+      min-width: 28px;
+      min-height: 28px;
+      max-width: 32px;
+      max-height: 32px;
       text-align: center;
       font-weight: 700;
       display: flex;
@@ -2407,13 +2470,15 @@ html:has(dialog[open]) {
     }
     & .seat-set {
       display: flex;
-      gap: .8rem;
+      gap: 8px;
       & .seat {
-        width: 6vw;
         aspect-ratio: 1;
-        min-width: 2.8rem;
-        max-width: 3.2rem;
-        max-height: 3.2rem;
+        width: 32px;
+        height: 32px;
+        min-width: 28px;
+        min-height: 28px;
+        max-width: 32px;
+        max-height: 32px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -2451,9 +2516,12 @@ html:has(dialog[open]) {
           }
           & .i-inf {
             position: absolute;
-            top: -.4rem;
-            right: -.2rem;
-            width: .8em;
+            top: -4px;
+            right: -2px;
+            width: 14px;
+            height: 14px;
+            min-width: 14px;
+            min-height: 14px;
             aspect-ratio: 1;
           }
           &:disabled {
@@ -2497,31 +2565,65 @@ html:has(dialog[open]) {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 6vw;
       aspect-ratio: 1;
-      max-width: 3.2rem;
-      max-height: 3.2rem;
+      width: 32px;
+      height: 32px;
+      min-width: 28px;
+      min-height: 28px;
+      max-width: 32px;
+      max-height: 32px;
     }
     & .f-exit.side_l {
-      left: -3rem;
+      left: -30px;
       transform: rotate(-180deg);
     }
     & .f-exit.side_r {
-      right: -3rem;
+      right: -30px;
+    }
+    & .f-wingtop {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1;
+      width: 16px;
+      height: 32px;
+    }
+    & .f-wingtop.side_l {
+      left: -40px;
+    }
+    & .f-wingtop.side_r {
+      right: -40px;
+    }
+    & .f-wing {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1;
+      width: 16px;
+      height: 40px;
+      top: -8px;
+    }
+    & .f-wing.side_l {
+      left: -40px;
+    }
+    & .f-wing.side_r {
+      right: -40px;
     }
     & .f-wc {
       border: 1px solid var(--color-black-a12);
-      padding: .6rem 1rem;
+      padding: 6px 10px;
       display: flex;
-      gap: .8rem;
+      gap: 8px;
       justify-content: center;
       align-items: center;
       & img {
         display: inline-block;
-        width: 2.8rem;
+        width: 28px;
       }
       & img.i_baby {
-        width: 2.8rem;
+        width: 28px;
       }
     }
   }
@@ -2581,7 +2683,8 @@ html:has(dialog[open]) {
   background: transparent;
   opacity: 1;
   transition: opacity 0.3s ease-out;
-  width: calc(100% - 4rem);
+  width: 100%;
+  z-index: 1000;
   &.fade-out {
     opacity: 0;
   }
@@ -2594,7 +2697,7 @@ html:has(dialog[open]) {
     justify-content: space-between;
     gap: .4rem;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem 1.2rem;
     width: 100%;
     max-width: 600px;
     & a {
@@ -2607,12 +2710,13 @@ html:has(dialog[open]) {
       background: none;
       cursor: pointer;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
+      flex-shrink: 0;
       & img {
         display: inline-block;
-        width: 1.5em;
-        height: 1.5em;
+        width: 1.3em;
+        height: 1.3em;
       }
     }
   }
@@ -2630,6 +2734,10 @@ html:has(dialog[open]) {
     line-height: 1.2;
     & .legend-label {
       width: 2rem;
+      height: auto;
+    }
+    & .legend-label.inf {
+      width: 2.6rem;
       height: auto;
     }
     & .legend-label.wide {
@@ -2663,26 +2771,26 @@ html:has(dialog[open]) {
 }
 @media (min-width: 1024px) {
   .airplane {
-    background-position: 40% 455px;
-    background-size: auto 390px;
+    /* background-position: 40% 455px;
+    background-size: auto 390px; */
   }
   .seatmap-wrap {
-    margin: 0 4rem 0 auto;
+    margin: 0 40px 0 auto;
   }
   .seatmap-base {
     & .seat-row {
       & .f-wc {
-        padding: .6rem 3rem;
+        padding: 6px 26px;
       }
     }
   }
   & .sky-seatmap3 {
     .airplane {
-      background-position: 40% 455px;
-      background-size: auto 390px;
+      /* background-position: 40% 455px;
+      background-size: auto 390px; */
     }
     .seatmap-wrap {
-      margin: 0 4rem 0 auto;
+      margin: 0 40px 0 auto;
     }
   }
 }

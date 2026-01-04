@@ -296,8 +296,45 @@
         &::after {
           display: none;
         }
-        & img {
-          filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%);
+        & .icon-arrow {
+          color: var(--color-white);
+          display: block;
+          flex-shrink: 0;
+          line-height: 1;
+          position: relative;
+          transform: translateX(-25%) rotate(45deg);
+          width: 1rem;
+          height: 1rem;
+          vertical-align: middle;
+          &::before,
+          &::after {
+            content: '';
+            position: absolute;
+            background-color: var(--color-white);
+            border-radius: 0.2rem;
+          }
+          &::before {
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0.2rem;
+          }
+          &::after {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 0.2rem;
+          }
+        }
+      }
+      & .swiper-button-prev {
+        & .icon-arrow {
+          transform: translateX(25%) rotate(-135deg);
+        }
+      }
+      & .swiper-button-next {
+        & .icon-arrow {
+          transform: translateX(-25%) rotate(45deg);
         }
       }
       & .swiper-button-next.swiper-button-disabled, & .swiper-button-prev.swiper-button-disabled {
@@ -306,6 +343,9 @@
         cursor: not-allowed;
         opacity: 1;
         pointer-events: none;
+        & .icon-arrow {
+          color: var(--color-black-a60);
+        }
       }
       & .sky-carousel__num {
         font-weight: 700;
@@ -514,8 +554,16 @@
         display: grid !important;
         grid-template-columns: 1fr;
         gap: 3.2rem;
+
+        transform: none !important;
+        width: auto !important;
+        height: auto !important;
         & .swiper-slide {
           visibility: visible !important;
+          
+          /* 追加: スライドのスタイルも強制リセット */
+          width: auto !important;
+          margin-right: 0 !important;
         }
       }
     }
@@ -531,6 +579,20 @@
       }
     }
   }
+}
+
+/* 印刷時用クラスの強制表示設定（Safari対策） */
+.print_on,
+.sky-ticket.print_on {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* カルーセル解除時の強制表示（wc-boardingpass用） */
+.wc-boardingpass .sky-carousel.js-carousel-none .swiper-slide {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 
@@ -599,15 +661,48 @@
         &::after {
           display: none;
         }
-        & img {
-          filter: invert(14%) sepia(27%) saturate(7426%) hue-rotate(221deg) brightness(81%) contrast(115%);
+        & .icon-arrow {
+          color: var(--color-sky-blue);
+          display: block;
+          flex-shrink: 0;
+          line-height: 1;
+          position: relative;
+          transform: translateX(-25%) rotate(45deg);
+          width: 1.2rem;
+          height: 1.2rem;
+          vertical-align: middle;
+          &::before,
+          &::after {
+            content: '';
+            position: absolute;
+            background-color: var(--color-sky-blue);
+            border-radius: 0.2rem;
+          }
+          &::before {
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0.2rem;
+          }
+          &::after {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 0.2rem;
+          }
         }
       }
       & .swiper-button-prev {
         left: -.5rem;
+        & .icon-arrow {
+          transform: translateX(25%) rotate(-135deg);
+        }
       }
       & .swiper-button-next {
         right: -.5rem;
+        & .icon-arrow {
+          transform: translateX(-25%) rotate(45deg);
+        }
       }
       & .swiper-button-next.swiper-button-disabled, & .swiper-button-prev.swiper-button-disabled {
         background-color: transparent;
@@ -615,8 +710,8 @@
         cursor: not-allowed;
         opacity: 1;
         pointer-events: none;
-        & img {
-          filter: invert(65%) sepia(0%) saturate(1938%) hue-rotate(190deg) brightness(94%) contrast(92%);
+        & .icon-arrow {
+          color: var(--color-grey400);
         }
       }
     }
@@ -649,12 +744,12 @@
       display: flex;
       align-items: center;
       gap: .8rem;
-      font-size: .9em;
+      font-size: .8em;
       margin: 0 auto;
       padding: 0.8rem 1.6rem;
       /* icon */
       & .icon-arrow {
-        display: inline-block;
+        display: block;
         flex-shrink: 0;
         margin-top: .4rem;
         position: relative;
@@ -700,12 +795,12 @@
   & .wc-seatmap-wrap {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 3.2rem;
+    gap: 32px;
     margin-top: 1rem !important;
     & .wc-seatmap-pax {
       order: 2;
       padding-top: 2.2rem;
-      width: 34rem;
+      width: 340px;
     }
     & .wc-seatmap-map {
       order: 1;
@@ -752,13 +847,13 @@
   /* minimap */
   .minimap-wrapper {
     background-color: var(--color-black-a40);
-    padding: .8rem;
+    padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 6rem;
-    left: 2rem;
+    top: 52px;
+    left: 16px;
     width: 100px;
     height: 100px;
     z-index: 10;
@@ -790,16 +885,34 @@
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    z-index: 1000;
-    background-color: var(--color-grey100);
-    
+    z-index: 100;
+    background-color: var(--color-grey100);    
     /* フェードアニメーション用 */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 
+    & .flight-info {
+      font-size: .8em;
+      margin: 1.6rem 2rem 0;
+      & .flight-date {
+        justify-content: flex-start;
+      }
+      & .flight-route {
+        margin-top: 0;
+      }
+      & .flight-wrap {
+        & .flight-routeWrap {
+          display: flex;
+          column-gap: .8rem;
+          flex-wrap: wrap;
+          margin-top: 0;
+        }
+      }
+    }
+
     & .sky-carousel.swiper {
-      padding-top: 1.6rem;
+      padding-top: 1.2rem;
       padding-bottom: 1.6rem;
       &::before, &::after {
         display: none; /* 固定表示時は装飾線を消す */
@@ -826,15 +939,48 @@
         &::after {
           display: none;
         }
-        /* & img {
-          filter: invert(14%) sepia(27%) saturate(7426%) hue-rotate(221deg) brightness(81%) contrast(115%);
-        } */
+        & .icon-arrow {
+          color: var(--color-sky-blue);
+          display: block;
+          flex-shrink: 0;
+          line-height: 1;
+          position: relative;
+          transform: translateX(-25%) rotate(45deg);
+          width: 1.2rem;
+          height: 1.2rem;
+          vertical-align: middle;
+          &::before,
+          &::after {
+            content: '';
+            position: absolute;
+            background-color: var(--color-sky-blue);
+            border-radius: 0.2rem;
+          }
+          &::before {
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0.2rem;
+          }
+          &::after {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 0.2rem;
+          }
+        }
       }
       & .swiper-button-prev {
         left: -.5rem;
+        & .icon-arrow {
+          transform: translateX(25%) rotate(-135deg);
+        }
       }
       & .swiper-button-next {
         right: -.5rem;
+        & .icon-arrow {
+          transform: translateX(-25%) rotate(45deg);
+        }
       }
       & .swiper-button-next.swiper-button-disabled, & .swiper-button-prev.swiper-button-disabled {
         background-color: transparent;
@@ -842,14 +988,26 @@
         cursor: not-allowed;
         opacity: 1;
         pointer-events: none;
-        /* & img {
-          filter: invert(65%) sepia(0%) saturate(1938%) hue-rotate(190deg) brightness(94%) contrast(92%);
-        } */
+        & .icon-arrow {
+          color: var(--color-grey400);
+        }
       }
     }
   }
   .sticky-paxlist.is-visible {
     opacity: 1;
     visibility: visible;
+  }
+}
+
+@media (min-width: 768px) {
+  /* 非表示状態 */
+  .sticky-paxlist {
+    display: none;
+    visibility: hidden;
+  }
+  .sticky-paxlist.is-visible {
+    opacity: 0;
+    visibility: hidden;
   }
 }

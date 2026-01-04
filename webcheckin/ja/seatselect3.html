@@ -40,26 +40,12 @@
     <section>
       <h2 class="heading400">1区間目</h2>
       <section class="sky-rsvflight sky-flame_02 mt8">
-        <div class="flight-info">
+        <div class="flight-info" id="js-flight-info">
           <div class="flight-date">
             <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
             <span class="label-status" data-flight="connect">乗継便</span>
           </div>
           <div class="flight-wrap">
-            <div class="flight-routeWrap">
-              <div class="flight-number" data-status="">
-                <span class="number">SKY0123</span>
-              </div>
-              <div class="flight-route">
-                <div class="flight-dep">
-                  <span class="port">羽田</span><span class="time">00:00</span>
-                </div>
-                <span class="icon i_plane i_blue"></span>
-                <div class="flight-arr">
-                  <span class="time">00:00</span><span class="port">鹿児島</span>
-                </div>
-              </div>
-            </div>
             <div class="flight-routeWrap">
               <div class="flight-number" data-status="">
                 <span class="number">SKY0123</span>
@@ -85,7 +71,7 @@
       <h2 class="heading400 pc-only">搭乗者</h2>
       <div
         class="sky-carousel swiper js-carousel"
-        id="slider_paxlist"
+        id="js-slider_paxlist"
         role="group"
         aria-roledescription="スライダー"
         aria-label="搭乗者リスト"
@@ -97,8 +83,8 @@
           aria-roledescription="ナビゲーション"
           aria-label="ナビゲーション"
         >
-          <button type="button" class="swiper-button-prev js-carousel-previous"><img src="/webcheckin/common/images/icon/arrow1-left.svg"></button>
-          <button type="button" class="swiper-button-next js-carousel-next"><img src="/webcheckin/common/images/icon/arrow1-right.svg"></button>
+          <button type="button" class="swiper-button-prev js-carousel-previous"><span class="icon-arrow"></span></button>
+          <button type="button" class="swiper-button-next js-carousel-next"><span class="icon-arrow"></span></button>
         </div>
       </div>
       <ul class="sky-seat-paxlist sky-carousel__slides swiper-wrapper">
@@ -199,8 +185,8 @@
           </div>
           <div class="seat-order"></div>
           <div class="seat-set">
-            <div class="seat">D</div>
-            <div class="seat">E</div>
+            <div class="seat">F</div>
+            <div class="seat">G</div>
             <div class="seat">H</div>
           </div>
         </div>
@@ -258,9 +244,9 @@
         </div>
         <div class="seat-row">
           <div class="seat-set">
-            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">6A</span><span class="seat-status">選択可</span></button></div>
-            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">6B</span><span class="seat-status">選択可</span></button></div>
-            <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">6C</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="na-slctd" data-modal="fwrd"><span class="seat-number">6A</span><span class="seat-status">選択不可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="na-slctd" data-modal="fwrd"><span class="seat-number">6B</span><span class="seat-status">選択不可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="na-slctd" data-modal="fwrd"><span class="seat-number">6C</span><span class="seat-status">選択不可</span></button></div>
           </div>
           <div class="seat-order">6</div>
           <div class="seat-set">
@@ -335,6 +321,7 @@
           </div>
         </div>
         <div class="seat-row">
+          <div class="f-wingtop side_l"><img src="/webcheckin/common/images/wing_topl.svg" alt="翼"></div>
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">12A</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">12B</span><span class="seat-status">選択可</span></button></div>
@@ -346,8 +333,10 @@
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">12G</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">12H</span><span class="seat-status">選択可</span></button></div>
           </div>
+          <div class="f-wingtop side_r"><img src="/webcheckin/common/images/wing_topr.svg" alt="翼"></div>
         </div>
         <div class="seat-row">
+          <div class="f-wing side_l"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">13A</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">13B</span><span class="seat-status">選択可</span></button></div>
@@ -359,8 +348,10 @@
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">13G</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">13H</span><span class="seat-status">選択可</span></button></div>
           </div>
+          <div class="f-wing side_r"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
         </div>
         <div class="seat-row">
+          <div class="f-wing side_l"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="norec"><span class="seat-number">14A</span><span class="seat-exp">リクライニング不可</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="norec"><span class="seat-number">14B</span><span class="seat-exp">リクライニング不可</span><span class="seat-status">選択可</span></button></div>
@@ -372,8 +363,10 @@
             <div class="seat"><button type="button" class="seat-content" data-seat="norec"><span class="seat-number">14G</span><span class="seat-exp">リクライニング不可</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="norec"><span class="seat-number">14H</span><span class="seat-exp">リクライニング不可</span><span class="seat-status">選択可</span></button></div>
           </div>
+          <div class="f-wing side_r"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
         </div>
         <div class="seat-row">
+          <div class="f-wing side_l"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
           <div class="f-exit side_l"><img src="/webcheckin/common/images/label/label-emergencymark.png" alt="非常口"></div>
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="emerg" data-modal="seat"><span class="seat-number">15A</span><span class="seat-exp">非常口座席</span><span class="seat-status">選択可</span></button></div>
@@ -387,8 +380,10 @@
             <div class="seat"><button type="button" class="seat-content" data-seat="emerg" data-modal="seat"><span class="seat-number">15H</span><span class="seat-exp">非常口座席</span><span class="seat-status">選択可</span></button></div>
           </div>
           <div class="f-exit side_r"><img src="/webcheckin/common/images/label/label-emergencymark.png" alt="非常口"></div>
+          <div class="f-wing side_r"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
         </div>
         <div class="seat-row">
+          <div class="f-wing side_l"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
           <div class="f-exit side_l"><img src="/webcheckin/common/images/label/label-emergencymark.png" alt="非常口"></div>
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="emerg" data-modal="seat"><span class="seat-number">16A</span><span class="seat-exp">非常口座席</span><span class="seat-status">選択可</span></button></div>
@@ -402,8 +397,10 @@
             <div class="seat"><button type="button" class="seat-content" data-seat="emerg" data-modal="seat"><span class="seat-number">16H</span><span class="seat-exp">非常口座席</span><span class="seat-status">選択可</span></button></div>
           </div>
           <div class="f-exit side_r"><img src="/webcheckin/common/images/label/label-emergencymark.png" alt="非常口"></div>
+          <div class="f-wing side_r"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
         </div>
         <div class="seat-row">
+          <div class="f-wing side_l"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">17A</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">17B</span><span class="seat-status">選択可</span></button></div>
@@ -415,8 +412,10 @@
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">17G</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">17H</span><span class="seat-status">選択可</span></button></div>
           </div>
+          <div class="f-wing side_r"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
         </div>
         <div class="seat-row">
+          <div class="f-wing side_l"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">18A</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">18B</span><span class="seat-status">選択可</span></button></div>
@@ -428,8 +427,10 @@
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">18G</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">18H</span><span class="seat-status">選択可</span></button></div>
           </div>
+          <div class="f-wing side_r"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
         </div>
         <div class="seat-row">
+          <div class="f-wing side_l"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">19A</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">19B</span><span class="seat-status">選択可</span></button></div>
@@ -441,8 +442,10 @@
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">19G</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">19H</span><span class="seat-status">選択可</span></button></div>
           </div>
+          <div class="f-wing side_r"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
         </div>
         <div class="seat-row">
+          <div class="f-wing side_l"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">20A</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">20B</span><span class="seat-status">選択可</span></button></div>
@@ -454,8 +457,10 @@
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">20G</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">20H</span><span class="seat-status">選択可</span></button></div>
           </div>
+          <div class="f-wing side_r"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
         </div>
         <div class="seat-row">
+          <div class="f-wing side_l"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">21A</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">21B</span><span class="seat-status">選択可</span></button></div>
@@ -467,6 +472,7 @@
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">21G</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="avail"><span class="seat-number">21H</span><span class="seat-status">選択可</span></button></div>
           </div>
+          <div class="f-wing side_r"><img src="/webcheckin/common/images/wing.svg" alt="翼"></div>
         </div>
         <div class="seat-row">
           <div class="seat-set">
@@ -606,8 +612,8 @@
           </div>
           <div class="seat-order"></div>
           <div class="seat-set">
-            <div class="seat">D</div>
-            <div class="seat">E</div>
+            <div class="seat">F</div>
+            <div class="seat">G</div>
             <div class="seat">H</div>
           </div>
         </div>
@@ -629,13 +635,13 @@
       <div class="dialog-content">
         <div class="dialog-title">
           <div class="heading"><span class="js-modal-seat-number">3A</span><span class="js-modal-seat-text">非常口座席</span></div>
-          <button type="button" class="icon-button" onclick="event.stopPropagation(); this.closest('dialog').close('close')"><img src="/webcheckin/common/images/icon/close-circle.svg" class="icon-close" alt="閉じる"></button>
+          <button type="button" class="icon-button"><img src="/webcheckin/common/images/icon/close-circle.svg" class="icon-close i_grey" alt="閉じる"></button>
         </div>
         <div class="dialog-detail">
           <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
         </div>
         <menu class="dialog-menu">
-          <button autofocus type="reset" onclick="event.stopPropagation(); this.closest('dialog').close('cancel')" class="sky-btn btn_tertiary btn_s">閉じる</button>
+          <button autofocus type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
           <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">選択する</button>
         </menu>
       </div>
@@ -645,13 +651,13 @@
       <div class="dialog-content">
         <div class="dialog-title">
           <div class="heading"><span class="js-modal-seat-number">3A</span><span class="js-modal-seat-text">フォワードシート</span></div>
-          <button type="button" class="icon-button" onclick="event.stopPropagation(); this.closest('dialog').close('close')"><img src="/webcheckin/common/images/icon/close-circle.svg" class="icon-close" alt="閉じる"></button>
+          <button type="button" class="icon-button"><img src="/webcheckin/common/images/icon/close-circle.svg" class="icon-close i_grey" alt="閉じる"></button>
         </div>
         <div class="dialog-detail">
           <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
         </div>
         <menu class="dialog-menu">
-          <button autofocus type="reset" onclick="event.stopPropagation(); this.closest('dialog').close('cancel')" class="sky-btn btn_tertiary btn_s">閉じる</button>
+          <button autofocus type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
         </menu>
       </div>
     </dialog>
@@ -662,7 +668,7 @@
       <div class="sky-legend-wrap">
         <details class="sky-accordion acc_C">
           <summary class="accTitle">
-            シート凡例<span class="icon-arrow"></span>
+            <span class="text">シート凡例</span><span class="icon-arrow"></span>
           </summary>
           <div class="accDetail">
             <ul class="sky-legend-list">
@@ -671,8 +677,9 @@
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-noreclining.svg" class="icon-legend" alt=""></span>リクライニング不可</li>
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-emergency.svg" class="icon-legend" alt=""></span>非常口座席</li>
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-fwrd.svg" class="icon-legend" alt=""></span>フォワードシート</li>
-              <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-navail.svg" class="icon-legend" alt=""></span>選択済・選択不可</li>
-              <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-navail-inf.svg" class="icon-legend" alt=""></span>選択済（幼児連れ）</li>
+              <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-navail.svg" class="icon-legend" alt=""></span>選択済</li>
+              <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-navail-selected.svg" class="icon-legend" alt=""></span>選択不可</li>
+              <li class="legend-item"><span class="legend-label inf"><img src="/webcheckin/common/images/label/label-navail-inf.svg" class="icon-legend" alt=""></span>選択済（幼児連れ）</li>
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-selected.svg" class="icon-legend" alt=""></span>選択座席</li>
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-emergencymark.png" class="icon-legend" alt=""></span>非常口</li>
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-wing.svg" class="icon-legend" alt=""></span>翼</li>
