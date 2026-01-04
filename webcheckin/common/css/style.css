@@ -1359,6 +1359,9 @@ details.sky-accordion[open] summary.accTitle .icon-arrow {
     font-size: .9em !important;
     padding: .8rem 1.6rem !important;
   }
+  & .accDetail {
+    background-color: var(--color-white);
+  }
   &[open]::details-content { /* 展開時 */
     background-color: var(--color-white);
   }
@@ -2071,6 +2074,8 @@ html:has(dialog[open]) {
   overflow-y: visible;
   padding: 2rem;
   overscroll-behavior: auto !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 /* sky-ticket -------------------------------- */
@@ -2407,6 +2412,8 @@ html:has(dialog[open]) {
   overflow-y: scroll;
   position: relative;
   overscroll-behavior: auto !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 .sky-seatmap2 {
   background-color: var(--color-white);
@@ -2417,6 +2424,8 @@ html:has(dialog[open]) {
   height: fit-content;
   position: relative;
   overscroll-behavior: auto !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 .sky-seatmap3 {
   background-color: var(--color-white);
@@ -2427,6 +2436,8 @@ html:has(dialog[open]) {
   height: fit-content;
   position: relative;
   overscroll-behavior: auto !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 .airplane {
   /* background: url(/webcheckin/common/images/wing.svg) no-repeat;
