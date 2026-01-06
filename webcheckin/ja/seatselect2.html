@@ -213,7 +213,7 @@
           <div class="seat-set">
             <div class="seat"><button type="button" class="seat-content" data-seat="nowin"><span class="seat-number">3A</span><span class="seat-exp">窓なし</span><span class="seat-status">選択可</span></button></div>
             <div class="seat"><button type="button" class="seat-content" data-seat="norec"><span class="seat-number">3B</span><span class="seat-exp">リクライニング不可</span><span class="seat-status">選択可</span></button></div>
-            <div class="seat"><button type="button" class="seat-content" data-seat="emerg"><span class="seat-number">3C</span><span class="seat-exp">非常口座席</span><span class="seat-status">選択可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="emerg" data-modal="seat"><span class="seat-number">3C</span><span class="seat-exp">非常口座席</span><span class="seat-status">選択可</span></button></div>
           </div>
           <div class="seat-order">3</div>
           <div class="seat-set">
@@ -624,14 +624,24 @@
     </div>
 
     <!-- Modals -->
-    <dialog closedby="any" data-modal="seat" class="sky-modal">
+    <dialog closedby="any" data-modal="seat" class="sky-modal modal-seat">
       <div class="dialog-content">
         <div class="dialog-title">
           <div class="heading"><span class="js-modal-seat-number">3A</span><span class="js-modal-seat-text">非常口座席</span></div>
           <button type="button" class="icon-button"><img src="/webcheckin/common/images/icon/close-circle.svg" class="icon-close i_grey" alt="閉じる"></button>
         </div>
         <div class="dialog-detail">
-          <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+          <p class="sky-icontxt c_red"><span class="icon i_warning i_red"></span><span class="text">非常口に接している列にお座りのお客様には、万一の場合、緊急脱出時の援助をお願いすることがございます。<br>援助内容は、機内の客室乗務員が具体的に指示させていただきます。</span></p>
+          <div class="inner-blockA mt8">
+            <p>以下のお客様は座席選択いただけません。</p>
+            <ul class="sky-list_disc">
+              <li>15歳未満のお客様</li>
+              <li>杖などをご利用で緊急時に他のお客さまの援助ができないお客様</li>
+              <li>妊娠中のお客様</li>
+              <li>援助を行うにあたり、耐え得る体力が無いお客様</li>
+              <li>その他、緊急時に客室乗務員の手伝いを必要とするお客様</li>
+            </ul>
+          </div>
         </div>
         <menu class="dialog-menu">
           <button autofocus type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
@@ -640,14 +650,29 @@
       </div>
     </dialog>
 
-    <dialog closedby="any" data-modal="fwrd" class="sky-modal">
+    <dialog closedby="any" data-modal="fwrd" class="sky-modal modal-seat">
       <div class="dialog-content">
         <div class="dialog-title">
           <div class="heading"><span class="js-modal-seat-number">3A</span><span class="js-modal-seat-text">フォワードシート</span></div>
           <button type="button" class="icon-button"><img src="/webcheckin/common/images/icon/close-circle.svg" class="icon-close i_grey" alt="閉じる"></button>
         </div>
         <div class="dialog-detail">
-          <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+          <p class="sky-icontxt c_red"><span class="icon i_warning i_red"></span><span class="text">フォワードシートの選択にはアップグレードが必要になります。<br>予約詳細から座席変更をしてください。</span></p>
+        </div>
+        <menu class="dialog-menu">
+          <button autofocus type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
+        </menu>
+      </div>
+    </dialog>
+
+    <dialog closedby="any" data-modal="na-fwrd" class="sky-modal modal-seat">
+      <div class="dialog-content">
+        <div class="dialog-title">
+          <div class="heading"><span class="js-modal-seat-number">3A</span></div>
+          <button type="button" class="icon-button"><img src="/webcheckin/common/images/icon/close-circle.svg" class="icon-close i_grey" alt="閉じる"></button>
+        </div>
+        <div class="dialog-detail">
+          <p class="sky-icontxt c_red"><span class="icon i_warning i_red"></span><span class="text">フォワードシートを選択されている場合、普通席への変更は不可となります。<br>予約詳細から普通席へ座席変更ください。</span></p>
         </div>
         <menu class="dialog-menu">
           <button autofocus type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>

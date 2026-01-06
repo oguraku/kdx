@@ -1456,7 +1456,7 @@ html:has(dialog[open]) {
 }
 
 /* seat */
-.sky-modal[data-modal="seat"],.sky-modal[data-modal="fwrd"] {
+.sky-modal.modal-seat {
   & .dialog-content {
     & .dialog-title {
       border-bottom: 1px solid var(--color-black-a12);
@@ -2781,10 +2781,6 @@ html:has(dialog[open]) {
   }
 }
 @media (min-width: 1024px) {
-  .airplane {
-    /* background-position: 40% 455px;
-    background-size: auto 390px; */
-  }
   .seatmap-wrap {
     margin: 0 40px 0 auto;
   }
@@ -2796,10 +2792,6 @@ html:has(dialog[open]) {
     }
   }
   & .sky-seatmap3 {
-    .airplane {
-      /* background-position: 40% 455px;
-      background-size: auto 390px; */
-    }
     .seatmap-wrap {
       margin: 0 40px 0 auto;
     }

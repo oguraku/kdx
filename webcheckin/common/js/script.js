@@ -167,7 +167,7 @@ modalcloseBtns.forEach((btn) => {
  */
 
 // data-modal属性を持つすべてのボタンを取得
-const seatModalButtons = document.querySelectorAll('[data-modal="seat"],[data-modal="fwrd"]');
+const seatModalButtons = document.querySelectorAll('[data-modal="seat"],[data-modal="fwrd"],[data-modal="na-fwrd"]');
 
 seatModalButtons.forEach(button => {
   button.addEventListener('click', (event) => {
