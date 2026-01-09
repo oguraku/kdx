@@ -731,7 +731,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .btn_m {
-  padding: .8rem 1.6rem;
+  padding: .8rem 1rem;
 }
 
 .btn_s {
@@ -1894,7 +1894,6 @@ html:has(dialog[open]) {
     & .i_seat {
       display: inline-block;
       margin-right: .2em;
-      margin-top: -0.2em;
       width: 1.2em;
       height: 1.2em;
       min-width: 1.2em;
