@@ -705,6 +705,139 @@ function initPopover() {
   }
 }
 
+//-------------------------------------------------------
+/**
+ * 搭乗便情報・搭乗者リストの追従表示（SPのみ）
+ */
+function initStickyPaxList() {
+  const mapEl = document.getElementById('js-map');
+  const originalSlider = document.getElementById('js-slider_paxlist');
+  const originalFlightInfo = document.getElementById('js-flight-info'); 
+  const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
+
+  // 必須要素がない、またはPCサイズの場合は何もしない（初期判定）
+  if (!mapEl || !originalSlider) return;
+
+  let stickyContainer = null;
+  let stickySwiper = null;
+
+  // 追従用リストを作成・初期化する関数
+  const createStickyList = () => {
+    // 既に作成済みの場合は何もしない
+    if (document.getElementById('js-slider_paxlist2')) return;
+
+    // コンテナ作成
+    stickyContainer = document.createElement('div');
+    stickyContainer.classList.add('sticky-paxlist');
+
+    // 搭乗便情報を複製して追加
+    if (originalFlightInfo) {
+      const clonedFlightInfo = originalFlightInfo.cloneNode(true);
+      clonedFlightInfo.id = 'js-flight-info2'; // IDを変更
+      clonedFlightInfo.classList.add('sticky-flight-info'); // クラス追加
+      stickyContainer.appendChild(clonedFlightInfo);
+    }
+
+    // 搭乗者リストを複製
+    const clonedSlider = originalSlider.cloneNode(true);
+    clonedSlider.id = 'js-slider_paxlist2'; // IDを変更
+    clonedSlider.classList.remove('js-carousel'); // 既存の初期化対象から外すためクラス削除
+    
+    stickyContainer.appendChild(clonedSlider);
+    document.body.appendChild(stickyContainer);
+
+    // 元のスライダーのSwiperインスタンスを取得
+    const originalSwiper = mySwipers.find(swiper => swiper.el === originalSlider);
+    const initialSlideIndex = originalSwiper ? originalSwiper.realIndex : 0;
+
+    // 複製したリストのSwiperを初期化（元のスライド位置と同期）
+    stickySwiper = new Swiper(clonedSlider, {
+      initialSlide: initialSlideIndex,
+      direction: 'horizontal',
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      loop: false,
+      observer: true,
+      observeParents: true,
+      navigation: {
+        nextEl: clonedSlider.querySelector('.swiper-button-next'),
+        prevEl: clonedSlider.querySelector('.swiper-button-prev'),
+      },
+      a11y: {
+        prevSlideMessage: '前のスライドへ',
+        nextSlideMessage: '次のスライドへ',
+        slideLabelMessage: '{{index}}枚目',
+      },
+      on: {
+        slideChange: function() {
+          // sticky側のスライド変更を元のスライダーに反映
+          if (originalSwiper && originalSwiper.realIndex !== this.realIndex) {
+            originalSwiper.slideTo(this.realIndex);
+          }
+        }
+      }
+    });
+
+    // 元のスライダーのスライド変更をsticky側に反映
+    if (originalSwiper) {
+      originalSwiper.on('slideChange', function() {
+        if (stickySwiper && stickySwiper.realIndex !== this.realIndex) {
+          stickySwiper.slideTo(this.realIndex);
+        }
+      });
+    }
+
+    // Note: グローバルのmySwipers配列には追加しない（独立して管理）
+  };
+
+  // 追従用リストを破棄する関数
+  const destroyStickyList = () => {
+    if (stickySwiper) {
+      stickySwiper.destroy(true, true);
+      stickySwiper = null;
+    }
+    if (stickyContainer && stickyContainer.parentNode) {
+      stickyContainer.parentNode.removeChild(stickyContainer);
+      stickyContainer = null;
+    }
+  };
+
+  // スクロールハンドラ
+  const handleScroll = () => {
+    if (!stickyContainer) return;
+
+    const mapRect = mapEl.getBoundingClientRect();
+    const stickyHeight = stickyContainer.offsetHeight;
+
+    const isMapTopHit = mapRect.top <= 0;
+    const isMapRemaining = mapRect.bottom > stickyHeight;
+
+    if (isMapTopHit && isMapRemaining) {
+      stickyContainer.classList.add('is-visible');
+    } else {
+      stickyContainer.classList.remove('is-visible');
+    }
+  };
+
+  // SPレイアウト時のみ有効化する処理
+  const checkState = () => {
+    if (carouselMediaQuery.matches) {
+      // SPレイアウト：追従リストを作成してスクロール監視を開始
+      createStickyList();
+      window.addEventListener('scroll', handleScroll);
+      handleScroll(); // 初回チェック
+    } else {
+      // PCレイアウト：スクロール監視を解除し、追従リストを破棄
+      window.removeEventListener('scroll', handleScroll);
+      destroyStickyList();
+    }
+  };
+
+  // 初期実行とリサイズ監視
+  checkState();
+  carouselMediaQuery.addEventListener('change', checkState);
+}
+
 
 //-------------------------------------------------------
 /**
@@ -720,6 +853,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarouselToggle();
   initMapIndicator();
   initPopover();
+  initStickyPaxList();
 });
 
 
