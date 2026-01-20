@@ -2540,6 +2540,18 @@ html:has(dialog[open]) {
             color: var(--color-black-a60);
           }
         }
+        & .seat-content[data-seat="na-emerg"] {
+          background-image: url(/webcheckin/common/images/seat-na-emerg.svg);
+        }
+        & .seat-content[data-seat="na-fwrd"] {
+          background-image: url(/webcheckin/common/images/seat-na-fwrd.svg);
+        }
+        & .seat-content[data-seat="na-nowin"] {
+          background-image: url(/webcheckin/common/images/seat-na-nowin.svg);
+        }
+        & .seat-content[data-seat="na-norec"] {
+          background-image: url(/webcheckin/common/images/seat-na-norec.svg);
+        }
       }
     }
     & .f-exit {

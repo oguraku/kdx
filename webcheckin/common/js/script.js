@@ -69,7 +69,7 @@ function initTabs() {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabLists = document.querySelectorAll('[role="tablist"]');
 
-  // 各タブに click イベントハンドラーを追加
+  // 各タブに click イベントハンドラー を追加
   tabs.forEach(tab => {
     tab.addEventListener("click", changeTabs);
   });
@@ -167,7 +167,7 @@ modalcloseBtns.forEach((btn) => {
  */
 
 // data-modal属性を持つすべてのボタンを取得
-const seatModalButtons = document.querySelectorAll('[data-modal="seat"],[data-modal="fwrd"],[data-modal="na-fwrd"]');
+const seatModalButtons = document.querySelectorAll('[data-modal="seat"],[data-modal="seat-ch"],[data-modal="fwrd"],[data-modal="na-fwrd"]');
 
 seatModalButtons.forEach(button => {
   button.addEventListener('click', (event) => {
@@ -383,19 +383,64 @@ if (scrollElm && checkElm) {
 function initAnchorLinks() {
   // href属性が#で始まるすべてのリンクを取得
   const anchorLinks = document.querySelectorAll('a[href^="#"]');
+  const spMediaQuery = window.matchMedia('(max-width: 768px)');
   
   anchorLinks.forEach(link => {
     link.addEventListener('click', (event) => {
-      event.preventDefault(); // デフォルトの動作（URLに#を追加）を防ぐ
+      event.preventDefault(); // デフォルトの動作を防ぐ
       
-      const targetId = link.getAttribute('href').substring(1); // #を除いたIDを取得
+      const targetId = link.getAttribute('href').substring(1);
       const targetElement = document.getElementById(targetId);
       
-      if (targetElement) {
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
+      // ターゲット要素が存在し、かつ表示されている場合のみ処理
+      if (targetElement && targetElement.offsetParent !== null) {
+        
+        // SP表示時の処理
+        if (spMediaQuery.matches) {
+          const targetPos = targetElement.getBoundingClientRect().top + window.pageYOffset;
+          let scrollToPos;
+
+          if (targetId === 'seat-back') {
+            const marginBottom = parseFloat(getComputedStyle(document.documentElement).fontSize) * 5;
+            scrollToPos = targetPos - window.innerHeight + targetElement.offsetHeight + marginBottom;
+          } else { // #seat-frontなど
+            scrollToPos = targetPos;
+          }
+          
+          window.scrollTo({
+            top: scrollToPos,
+            behavior: 'smooth'
+          });
+
+        // PC表示時の処理
+        } else {
+          const scrollContainer = document.querySelector('.sky-seatmap');
+          if (!scrollContainer) return;
+
+          if (targetId === 'seat-back') {
+            // .sky-seatmap-wrap を画面下部に表示
+            const seatmapWrap = document.querySelector('.sky-seatmap-wrap');
+            if (seatmapWrap) {
+              seatmapWrap.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end'
+              });
+            }
+            
+            // .sky-seatmap 内部を一番下までスクロール
+            const maxScrollTop = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+            scrollContainer.scrollTo({
+              top: maxScrollTop,
+              behavior: 'smooth'
+            });
+
+          } else { // #seat-frontなど
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
       }
     });
   });
@@ -720,11 +765,36 @@ function initStickyPaxList() {
 
   let stickyContainer = null;
   let stickySwiper = null;
+  let currentSlideIndex = 0; // 現在のスライド位置を保持
+
+  // 元のスライダーのスライド位置を更新する関数
+  const updateOriginalSliderPosition = (index) => {
+    currentSlideIndex = index;
+    
+    // 元のスライダーのSwiperインスタンスを取得（動的に）
+    const originalSwiper = mySwipers.find(swiper => swiper.el === originalSlider);
+    
+    if (originalSwiper && originalSwiper.realIndex !== index) {
+      originalSwiper.slideTo(index);
+    }
+  };
+
+  // 元のスライダーの現在位置を取得する関数
+  const getCurrentSlideIndex = () => {
+    const originalSwiper = mySwipers.find(swiper => swiper.el === originalSlider);
+    if (originalSwiper) {
+      return originalSwiper.realIndex;
+    }
+    return currentSlideIndex;
+  };
 
   // 追従用リストを作成・初期化する関数
   const createStickyList = () => {
     // 既に作成済みの場合は何もしない
     if (document.getElementById('js-slider_paxlist2')) return;
+
+    // 現在のスライド位置を取得
+    const initialSlideIndex = getCurrentSlideIndex();
 
     // コンテナ作成
     stickyContainer = document.createElement('div');
@@ -733,24 +803,20 @@ function initStickyPaxList() {
     // 搭乗便情報を複製して追加
     if (originalFlightInfo) {
       const clonedFlightInfo = originalFlightInfo.cloneNode(true);
-      clonedFlightInfo.id = 'js-flight-info2'; // IDを変更
-      clonedFlightInfo.classList.add('sticky-flight-info'); // クラス追加
+      clonedFlightInfo.id = 'js-flight-info2';
+      clonedFlightInfo.classList.add('sticky-flight-info');
       stickyContainer.appendChild(clonedFlightInfo);
     }
 
     // 搭乗者リストを複製
     const clonedSlider = originalSlider.cloneNode(true);
-    clonedSlider.id = 'js-slider_paxlist2'; // IDを変更
-    clonedSlider.classList.remove('js-carousel'); // 既存の初期化対象から外すためクラス削除
+    clonedSlider.id = 'js-slider_paxlist2';
+    clonedSlider.classList.remove('js-carousel');
     
     stickyContainer.appendChild(clonedSlider);
     document.body.appendChild(stickyContainer);
 
-    // 元のスライダーのSwiperインスタンスを取得
-    const originalSwiper = mySwipers.find(swiper => swiper.el === originalSlider);
-    const initialSlideIndex = originalSwiper ? originalSwiper.realIndex : 0;
-
-    // 複製したリストのSwiperを初期化（元のスライド位置と同期）
+    // 複製したリストのSwiperを初期化
     stickySwiper = new Swiper(clonedSlider, {
       initialSlide: initialSlideIndex,
       direction: 'horizontal',
@@ -770,24 +836,33 @@ function initStickyPaxList() {
       },
       on: {
         slideChange: function() {
-          // sticky側のスライド変更を元のスライダーに反映
-          if (originalSwiper && originalSwiper.realIndex !== this.realIndex) {
-            originalSwiper.slideTo(this.realIndex);
-          }
+          // スティッキー側のスライド変更を元のスライダーに反映
+          updateOriginalSliderPosition(this.realIndex);
         }
       }
     });
 
-    // 元のスライダーのスライド変更をsticky側に反映
-    if (originalSwiper) {
-      originalSwiper.on('slideChange', function() {
-        if (stickySwiper && stickySwiper.realIndex !== this.realIndex) {
-          stickySwiper.slideTo(this.realIndex);
-        }
-      });
-    }
-
-    // Note: グローバルのmySwipers配列には追加しない（独立して管理）
+    // 元のスライダーのイベントリスナーを設定
+    const setupOriginalSwiperSync = () => {
+      const originalSwiper = mySwipers.find(swiper => swiper.el === originalSlider);
+      if (originalSwiper) {
+        originalSwiper.on('slideChange', function() {
+          currentSlideIndex = this.realIndex;
+          if (stickySwiper && stickySwiper.realIndex !== this.realIndex) {
+            stickySwiper.slideTo(this.realIndex);
+          }
+        });
+      }
+    };
+    
+    // 初回実行
+    setupOriginalSwiperSync();
+    
+    // カルーセル再初期化を監視（MutationObserverで監視）
+    const observer = new MutationObserver(() => {
+      setupOriginalSwiperSync();
+    });
+    observer.observe(originalSlider, { attributes: true, attributeFilter: ['class'] });
   };
 
   // 追従用リストを破棄する関数
@@ -822,12 +897,10 @@ function initStickyPaxList() {
   // SPレイアウト時のみ有効化する処理
   const checkState = () => {
     if (carouselMediaQuery.matches) {
-      // SPレイアウト：追従リストを作成してスクロール監視を開始
       createStickyList();
       window.addEventListener('scroll', handleScroll);
-      handleScroll(); // 初回チェック
+      handleScroll();
     } else {
-      // PCレイアウト：スクロール監視を解除し、追従リストを破棄
       window.removeEventListener('scroll', handleScroll);
       destroyStickyList();
     }
