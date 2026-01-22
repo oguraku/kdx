@@ -197,85 +197,216 @@ seatModalButtons.forEach(button => {
 /**
  * tooltip
  */
-function initializeTooltips() {
-  const triggers = document.querySelectorAll('[data-tooltip-trigger]');
-  /**
-   * ツールチップ表示
-   * @param {Event} event - イベントオブジェクト
-   */
-  function showTooltip(event) {
-    const trigger = event.currentTarget;
-    const wrap = trigger.closest('.sky-tooltip-wrap');
-    if (!wrap) return;
-    const tooltip = wrap.querySelector('[data-tooltip-content]');
-    if (!tooltip) return;
+function initTooltips() {
+  // --- 定数・設定 ---
+  const SELECTOR = {
+    WRAPPER: '.sky-tooltip-wrap',
+    TRIGGER: '[data-tooltip-trigger]',
+    CONTENT: '[data-tooltip-content]',
+    // フォーカス可能な要素（タブ移動用）
+    FOCUSABLE: 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  };
 
-    tooltip.style.visibility = 'visible';
-    tooltip.setAttribute('aria-hidden', 'false');
-  }
+  // --- 状態管理 ---
+  let activeTrigger = null; // 現在開いているトリガー
+  let activeContent = null; // 現在開いているコンテンツ
 
-  /**
-   * ツールチップ非表示
-   * @param {Event} event - イベントオブジェクト
-   */
-  function hiddenTooltip(event) {
-    const trigger = event.currentTarget;
-    const wrap = trigger.closest('.sky-tooltip-wrap');
-    if (!wrap) return;
-    const tooltip = wrap.querySelector('[data-tooltip-content]');
-    if (!tooltip) return;
+  // --- 1. 初期化処理 ---
+  const wrappers = document.querySelectorAll(SELECTOR.WRAPPER);
+  
+  wrappers.forEach((wrapper, index) => {
+    const trigger = wrapper.querySelector(SELECTOR.TRIGGER);
+    const content = wrapper.querySelector(SELECTOR.CONTENT);
 
-    tooltip.style.visibility = 'hidden';
-    tooltip.setAttribute('aria-hidden', 'true');
-  }
+    if (!trigger || !content) return;
 
-  // --- 各トリガーへのイベントリスナー設定 と IDの動的付与 ---
-  triggers.forEach((trigger, index) => {
-    // ユニークIDを生成 (例: 'sky-tooltip-generated-0', 'sky-tooltip-generated-1', ...)
-    const uniqueId = `sky-tooltip-generated-${index}`;
+    // IDとARIA属性の設定
+    const uniqueId = `sky-tooltip-${index}`;
+    content.setAttribute('id', uniqueId);
+    content.setAttribute('role', 'tooltip');
+    content.setAttribute('aria-hidden', 'true');
 
-    const wrap = trigger.closest('.sky-tooltip-wrap');
-    if (!wrap) return;
+    trigger.setAttribute('aria-controls', uniqueId);
+    trigger.setAttribute('aria-expanded', 'false');
+    if (!trigger.getAttribute('role')) trigger.setAttribute('role', 'button');
 
-    const tooltip = wrap.querySelector('[data-tooltip-content]');
-    if (!tooltip) return;
+    // コンテンツをbody直下へ移動（デザイン崩れ防止）
+    document.body.appendChild(content);
 
-    // ツールチップ([data-tooltip-content])にユニークIDを付与
-    tooltip.setAttribute('id', uniqueId);
+    // イベント登録（トリガー）
+    setupTriggerEvents(trigger, content);
     
-    // トリガー(data-tooltip-trigger)にaria-describedbyでユニークIDを紐付け
-    trigger.setAttribute('aria-describedby', uniqueId);
-
-    // イベントリスナー設定
-    trigger.addEventListener('mouseover', showTooltip);
-    trigger.addEventListener('mouseleave', hiddenTooltip);
-    trigger.addEventListener('focus', showTooltip);
-    trigger.addEventListener('blur', hiddenTooltip);
+    // イベント登録（コンテンツ）
+    setupContentEvents(trigger, content);
   });
 
-  // --- グローバルなEscapeキー処理 ---
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      const visibleTooltips = document.querySelectorAll('[data-tooltip-content][style*="visibility: visible"]');
-      visibleTooltips.forEach(tooltip => {
-        tooltip.style.visibility = 'hidden';
-        tooltip.setAttribute('aria-hidden', 'true');
-      });
+  // --- 2. 共通イベント（全体制御） ---
+  
+  // 外部クリックで閉じる
+  document.addEventListener('click', (e) => {
+    // ツールチップ内部やトリガーのクリックでなければ閉じる
+    if (!e.target.closest(SELECTOR.CONTENT) && !e.target.closest(SELECTOR.TRIGGER)) {
+      closeAll();
     }
   });
 
-  // --- 初期化処理 ---
-  // ページ読み込み時にすべてのツールチップを非表示状態にする
-  const allTooltips = document.querySelectorAll('[data-tooltip-content]');
-  allTooltips.forEach(tooltip => {
-    tooltip.style.visibility = 'hidden';
-    tooltip.setAttribute('aria-hidden', 'true');
+  // ESCキー制御
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && activeTrigger) {
+      const triggerToFocus = activeTrigger; // 閉じる前に保存
+      closeAll();
+      triggerToFocus.focus(); // フォーカスを戻す
+    }
   });
-}
 
-// DOMの読み込みが完了したら初期化関数を実行
-function initTooltips() {
-  initializeTooltips();
+  // スクロール・リサイズ時の位置調整（開いている時のみ実行）
+  const updatePositionOnEvent = () => {
+    if (activeTrigger && activeContent) {
+      updatePosition(activeTrigger, activeContent);
+    }
+  };
+  window.addEventListener('resize', updatePositionOnEvent, { passive: true });
+  // window.addEventListener('scroll', updatePositionOnEvent, { passive: true });
+
+
+  // --- 3. ロジック関数群 ---
+
+  function setupTriggerEvents(trigger, content) {
+    // クリックで開閉
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+      isExpanded ? close(trigger, content) : open(trigger, content);
+    });
+
+    // キーボード操作（Enter/Space）
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+          close(trigger, content);
+        } else {
+          open(trigger, content);
+          // 描画待ち後にコンテンツ内へフォーカス移動
+          setTimeout(() => {
+            const firstFocusable = content.querySelector(SELECTOR.FOCUSABLE);
+            if (firstFocusable) firstFocusable.focus();
+          }, 50);
+        }
+      }
+    });
+  }
+
+  function setupContentEvents(trigger, content) {
+    // コンテンツ内の非インタラクティブ要素クリックで閉じる
+    content.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!e.target.closest(SELECTOR.FOCUSABLE)) {
+        close(trigger, content);
+      }
+    });
+
+    // Tabキー制御（フォーカストラップ解除）
+    content.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+
+      const focusables = content.querySelectorAll(SELECTOR.FOCUSABLE);
+      if (focusables.length === 0) return;
+
+      const firstEl = focusables[0];
+      const lastEl = focusables[focusables.length - 1];
+
+      // Shift + Tab: 先頭ならトリガーに戻る
+      if (e.shiftKey && document.activeElement === firstEl) {
+        e.preventDefault();
+        trigger.focus();
+      } 
+      // Tab: 末尾なら閉じて次の要素へ
+      else if (!e.shiftKey && document.activeElement === lastEl) {
+        e.preventDefault();
+        close(trigger, content);
+        moveFocusToNextElement(trigger);
+      }
+    });
+  }
+
+  // ツールチップを開く
+  function open(trigger, content) {
+    closeAll(); // 他を閉じる
+
+    // 状態更新
+    activeTrigger = trigger;
+    activeContent = content;
+
+    content.classList.add('is-active');
+    updatePosition(trigger, content);
+    
+    trigger.setAttribute('aria-expanded', 'true');
+    content.setAttribute('aria-hidden', 'false');
+  }
+
+  // ツールチップを閉じる
+  function close(trigger, content) {
+    trigger.setAttribute('aria-expanded', 'false');
+    content.setAttribute('aria-hidden', 'true');
+    content.classList.remove('is-active');
+
+    if (activeTrigger === trigger) {
+      activeTrigger = null;
+      activeContent = null;
+    }
+  }
+
+  // 全て閉じる
+  function closeAll() {
+    if (activeTrigger && activeContent) {
+      close(activeTrigger, activeContent);
+    }
+  }
+
+  // 位置計算
+  function updatePosition(trigger, content) {
+    const triggerRect = trigger.getBoundingClientRect();
+    const contentRect = content.getBoundingClientRect();
+    
+    const viewportWidth = window.innerWidth;
+    const scrollX = window.pageXOffset;
+    const scrollY = window.pageYOffset;
+    const gap = 10; 
+
+    // 縦位置 (トリガーの上)
+    const top = triggerRect.top + scrollY - contentRect.height - gap;
+
+    // 横位置 (中央合わせ)
+    let left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2);
+
+    // 画面端の補正
+    if (left < 10) {
+      left = 10;
+    } else if (left + contentRect.width > viewportWidth - 10) {
+      left = viewportWidth - contentRect.width - 10;
+    }
+
+    // 矢印位置の調整
+    const triggerCenterAbs = triggerRect.left + scrollX + (triggerRect.width / 2);
+    const arrowRelPos = triggerCenterAbs - left;
+    
+    content.style.setProperty('--arrow-left', `${arrowRelPos}px`);
+    content.style.top = `${top}px`;
+    content.style.left = `${left}px`;
+  }
+
+  // 次の要素へフォーカスを移動するヘルパー
+  function moveFocusToNextElement(currentElement) {
+    const allFocusables = Array.from(document.querySelectorAll(SELECTOR.FOCUSABLE));
+    const index = allFocusables.indexOf(currentElement);
+    
+    if (index > -1 && index < allFocusables.length - 1) {
+      allFocusables[index + 1].focus();
+    }
+  }
 }
 
 
