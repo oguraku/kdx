@@ -371,40 +371,56 @@ function initTooltips() {
     const triggerRect = trigger.getBoundingClientRect();
     const contentRect = content.getBoundingClientRect();
     
+    // Visual Viewport APIを利用して正確なスクロール位置を取得
+    // visualViewport.pageLeft/Top は「拡大やスクロールを含めた」ページ左上からの距離を返す
+    const vv = window.visualViewport;
+    const scrollX = vv ? vv.pageLeft : (window.pageXOffset || document.documentElement.scrollLeft);
+    const scrollY = vv ? vv.pageTop  : (window.pageYOffset || document.documentElement.scrollTop);
+
     const viewportWidth = window.innerWidth;
-    const scrollX = window.pageXOffset;
-    const scrollY = window.pageYOffset;
     const gap = 10; 
 
-    // 縦位置 (トリガーの上)
-    const top = triggerRect.top + scrollY - contentRect.height - gap;
-
-    // 横位置 (中央合わせ)
+    // ■ 横位置の計算
     let left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2);
 
-    // 画面端の補正
+    // 横位置のはみ出し補正
+    // ※補正計算の基準も拡大率の影響を受ける可能性があるため、少し余裕を持たせます
     if (left < 10) {
       left = 10;
-    } else if (left + contentRect.width > viewportWidth - 10) {
-      left = viewportWidth - contentRect.width - 10;
+    } else if (left + contentRect.width > document.documentElement.clientWidth - 10) {
+      left = document.documentElement.clientWidth - contentRect.width - 10;
     }
 
-    // 矢印位置の調整
+    // ■ 縦位置の計算（上下フリップ機能付き）
+    const spaceAbove = triggerRect.top - gap - contentRect.height;
+
+    let top;
+    let isBottom = false;
+
+    // 「上にスペースがなく」かつ「下にスペースがある」場合
+    if (spaceAbove < 0 && (window.innerHeight - triggerRect.bottom > contentRect.height + gap)) {
+      // 下に表示
+      top = triggerRect.bottom + scrollY + gap;
+      isBottom = true;
+    } else {
+      // 上に表示
+      top = triggerRect.top + scrollY - contentRect.height - gap;
+      isBottom = false;
+    }
+
+    // ■ 矢印位置の調整
     const triggerCenterAbs = triggerRect.left + scrollX + (triggerRect.width / 2);
     const arrowRelPos = triggerCenterAbs - left;
     
     content.style.setProperty('--arrow-left', `${arrowRelPos}px`);
     content.style.top = `${top}px`;
     content.style.left = `${left}px`;
-  }
 
-  // 次の要素へフォーカスを移動するヘルパー
-  function moveFocusToNextElement(currentElement) {
-    const allFocusables = Array.from(document.querySelectorAll(SELECTOR.FOCUSABLE));
-    const index = allFocusables.indexOf(currentElement);
-    
-    if (index > -1 && index < allFocusables.length - 1) {
-      allFocusables[index + 1].focus();
+    // 矢印の向き用クラス
+    if (isBottom) {
+      content.classList.add('tooltip-bottom');
+    } else {
+      content.classList.remove('tooltip-bottom');
     }
   }
 }

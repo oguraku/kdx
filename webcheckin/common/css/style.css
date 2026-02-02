@@ -1550,17 +1550,28 @@ html:has(dialog[open]) {
   content: "";
   position: absolute;
   top: auto;
-  bottom: -6px;
+  bottom: -8px;
   left: var(--arrow-left, 50%); /* JSで計算された位置 */
   transform: translateX(-50%);
   
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid var(--color-white);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--color-white);
   border-bottom: none;
   
   filter: drop-shadow(0 1px 1px var(--color-black-a12));
   pointer-events: none;
+}
+
+/* 下に表示された時の矢印（上向き） */
+.tooltip-content.tooltip-bottom::before {
+  top: -8px;
+  bottom: auto;
+  
+  border-top: none;
+  border-bottom: 8px solid var(--color-white);
+  
+  filter: drop-shadow(0 -1px 1px var(--color-black-a12));
 }
 
 /* 表示状態 */
@@ -1570,7 +1581,7 @@ html:has(dialog[open]) {
   transition: opacity 0.2s ease, visibility 0s linear 0s;
 }
 
-/* 画面端用：右寄せクラス（念の為残す） */
+/* 画面端用：右寄せクラス */
 .tooltip-content.position-right {
   left: auto;
   right: 0;
@@ -1582,7 +1593,7 @@ html:has(dialog[open]) {
   transform: none;
 }
 
-/* 画面端用：左寄せクラス（念の為残す） */
+/* 画面端用：左寄せクラス */
 .tooltip-content.position-left {
   left: 0;
   transform: none;
