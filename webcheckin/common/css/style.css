@@ -59,7 +59,7 @@
 }
 
 * {
-  overscroll-behavior: contain;
+  overscroll-behavior: auto;
 }
 
 html {
@@ -2467,9 +2467,10 @@ html:has(dialog[open]) {
   justify-content: center;
   height: fit-content;
   position: relative;
-  overscroll-behavior: auto !important;
+  /* overscroll-behavior: auto !important; */
+  overscroll-behavior-y: auto;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
+  touch-action: auto;
 }
 .airplane {
   overflow: hidden;
@@ -2795,8 +2796,9 @@ html:has(dialog[open]) {
 
 @media (min-width: 768px) {
   & .sky-seatmap {
+    display: block;
     height: 600px;
-    overflow-y: scroll;
+    overflow-y: auto;
     .airplane {
       background-position: center 455px;
       background-size: auto 390px;

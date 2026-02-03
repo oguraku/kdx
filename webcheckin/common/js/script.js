@@ -547,10 +547,17 @@ function initAnchorLinks() {
           const targetPos = targetElement.getBoundingClientRect().top + window.pageYOffset;
           let scrollToPos;
 
+          // IDごとに着地地点の計算を分ける
           if (targetId === 'seat-back') {
+            // 機体後方：要素が画面下端に来るように計算
             const marginBottom = parseFloat(getComputedStyle(document.documentElement).fontSize) * 5;
             scrollToPos = targetPos - window.innerHeight + targetElement.offsetHeight + marginBottom;
-          } else { // #seat-frontなど
+          } else if (targetId === 'seat-front') {
+            // ★機体前方：要素の 5rem 手前に着地
+            const offset = parseFloat(getComputedStyle(document.documentElement).fontSize) * 5;
+            scrollToPos = targetPos - offset;
+          } else {
+            // その他のリンク：要素のちょうどTOPに着地
             scrollToPos = targetPos;
           }
           
@@ -673,6 +680,9 @@ function initSwiper(startIndices = {}) {
       spaceBetween: 8,
       loop: false,
       threshold: 15,
+      touchStartPreventDefault: false, // タッチ開始時のデフォルト動作防止を解除
+      edgeSwipeDetection: true,        // Edgeでのスワイプ検知を有効化
+      mousewheel: false,        // マウスホイールでカルーセルが動く必要がない
       navigation: {
         nextEl: carouselEl.querySelector('.swiper-button-next'),
         prevEl: carouselEl.querySelector('.swiper-button-prev'),
