@@ -229,6 +229,14 @@
  * wc-boardingpass
  */
 .wc-boardingpass {
+  &.sky-container {
+    padding: 0 0 4rem;
+    & .sky-content {
+      & > section:not(:first-child) {
+          margin-top: 1.6rem;
+      }
+    }
+  }
   & .ticket-footer {
     & .sky-btnList_flex {
       & > li {
@@ -250,10 +258,17 @@
 
   /* sky-carousel(Bordingpass) --------- */
   & .sky-carousel.swiper {
+    box-sizing: border-box;
+    margin: 0 calc(50% - 50vw);
+    overflow: hidden;
+    padding: 0 2% 1rem;
     position: relative;
+    width: 100vw;
     & .sky-carousel__slides.swiper-wrapper {
+      width: 100%;
       & .swiper-slide {
         visibility: hidden;
+        width: 100%;
         &.swiper-slide-active {
           visibility: visible;
         }
@@ -263,18 +278,15 @@
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      margin: 1rem;
       & .swiper-button-next, & .swiper-button-prev {
-        background-color: var(--color-sky-blue);
+        background-color: var(--color-sky-blue-a87);
         border: 1px solid var(--color-sky-blue);
-        border-radius: 9999px;
+        border-radius: 12px;
         color: var(--color-black-a87);
-        position: relative;
-        top: inherit;
-        left: inherit;
-        right: inherit;
-        width: 2em;
-        height: 2em;
+        position: absolute;
+        top: 40%;
+        width: 4.8rem;
+        height: 6.8rem;
         margin-top: 0;
         z-index: 10;
         display: flex;
@@ -290,8 +302,8 @@
           line-height: 1;
           position: relative;
           transform: translateX(-25%) rotate(45deg);
-          width: 1rem;
-          height: 1rem;
+          width: 1.2rem;
+          height: 1.2rem;
           vertical-align: middle;
           &::before,
           &::after {
@@ -315,17 +327,21 @@
         }
       }
       & .swiper-button-prev {
+        left: -.8rem;
+        border-radius: 0 12px 12px 0;
         & .icon-arrow {
           transform: translateX(25%) rotate(-135deg);
         }
       }
       & .swiper-button-next {
+        right: -.8rem;
+        border-radius: 12px 0 0 12px;
         & .icon-arrow {
           transform: translateX(-25%) rotate(45deg);
         }
       }
       & .swiper-button-next.swiper-button-disabled, & .swiper-button-prev.swiper-button-disabled {
-        background-color: var(--color-disabled);
+        background-color: var(--color-black-a40);
         border: 1px solid var(--color-disabled);
         cursor: not-allowed;
         opacity: 1;
@@ -372,31 +388,47 @@
       }
     }
   }
+  /* carousel not initialized */
+  & .sky-carousel.swiper.js-carousel-none {
+    overflow: visible;
+    & .sky-carousel__navigation, & .sky-carousel__controls {
+      display: none;
+    }
+  }
 }
 
 @media (min-width: 768px) {
   .wc-boardingpass {
-    & .ticket-footer {
-      & .sky-btnList_flex {
-        & > li:nth-of-type(1) {
-          width: 20rem;
-        }
-        & > li:nth-of-type(2) {
-          width: 20rem;
-        }
-        & > li:nth-of-type(3) {
-          width: 20rem;
+    &.sky-container {
+      & .sky-content {
+        & > section:not(:first-child) {
+            margin-top: 4rem;
         }
       }
     }
+
+    /* sky-carousel(Bordingpass) --------- */
     & .sky-carousel.swiper {
-      overflow: visible;
+      margin: 0 auto;
+      width: 90%;
       & .sky-carousel__slides.swiper-wrapper {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3.2rem;
+        width: 100%;
         & .swiper-slide {
           visibility: visible;
+          width: 100%;
+        }
+      }
+      & .sky-carousel__navigation {
+        & .swiper-button-next, & .swiper-button-prev {
+          top: 45%;
+        }
+        & .swiper-button-prev {
+          left: 4px;
+          border-radius: 12px;
+        }
+        & .swiper-button-next {
+          right: 4px;
+          border-radius: 12px;
         }
       }
     }
@@ -404,8 +436,8 @@
       overflow: visible;
       & .sky-carousel__slides.swiper-wrapper {
         display: grid;
-        grid-template-columns: 1fr;
         gap: 3.2rem;
+        justify-content: center;
         & .swiper-slide {
           visibility: visible;
         }
@@ -432,103 +464,244 @@
   }
   .wc-boardingpass {
     /* sky-ticket */
-    & .sky-ticket {
-      padding: 0;
-      border: none;
-      box-shadow:none;
-      color: var(--color-black);
-      & .ticket-container {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        grid-template-areas: 
-          "area1 area2"
-          "area3 area2";
-        column-gap: 2rem;
-        row-gap: .8rem;
-        & .ticket-title {
-          grid-area: area1;
-          justify-content: start;
-          .logo {
-            width: 110px;
+    .sky-ticket {
+      background-color: var(--color-white);
+      border: 1px solid var(--color-black-a12);
+      border-radius: 20px;
+      position: relative;
+      min-width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      font-family: var(--font-Num);
+      & .ticket-header {
+        background-color: var(--color-white);
+        color: var(--color-black);
+        line-height: 1;
+        padding: 1.6rem;
+        & .inner-head {
+          display: block;
+          justify-content: flex-start;
+          align-items: center;
+          & .ticket-logo {
+            width: 82px;
+            height: auto;
+            & .logo.active, & .logo.close {
+              display: none;
+            }
           }
-          .text {
-            font-size: 1.25em;
-          }
-        }
-        & .ticket-code {
-          grid-area: area2;
-          & .qr-code {
-            margin: 1rem auto 2rem;
-          }
-          & .receipt-number {
-            margin-top: 1.2rem;
-          }
-        }
-        & .ticket-info {
-          grid-area: area3;
-          & .pax-name {
-            border-top: none;
-            font-size: 1.3em;
+          & .ticket-info {
+            font-weight: 700;
+            display: flex;
             justify-content: flex-start;
-            padding-top: 0;
+            gap: 3rem;
+            margin-top: 1.6rem;
+            & .ticket-info-detail {
+              text-align: left;
+              display: flex;
+              align-items: center;
+              gap: .8rem;
+              & .title {
+                color: var(--color-black);
+                font-size: 1.2rem;
+                font-weight: 400;
+              }
+              & .detail {
+                font-size: 1.8rem;
+                margin-top: 0.4rem;
+              }
+            }
           }
-          & .flight-info {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            & .label-status[data-flight="connect"] {
+        }
+        & .inner-flex {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+          gap: 3rem;
+          margin-top: 1.6rem;
+          & .ticket-route-dep, & .ticket-route-arr {
+            & .sub {
+              color: var(--color-black);
+              display: block;
+              font-size: 1.4rem;
+              font-weight: 700;
+            }
+            & .main {
+              display: block;
+              font-size: 3rem;
+              margin-top: .4rem;
+            }
+          }
+          & .ticket-route-arr {
+            & .sub, & .main {
+              text-align: left;
+            }
+          }
+          & .arrow {
+            & span {
+              display: block;
+            }
+            & .label-connect {
+              background-color: var(--color-white);
               border: 1px solid var(--color-black);
               color: var(--color-black);
+              font-size: 1.2rem;
+              font-weight: 700;
+              margin-bottom: .6rem;
+              padding: 2px;
             }
-            & .flight-wrap {
-              display: flex;
-              flex-direction: column;
-              flex-wrap: wrap;
-              align-items: flex-start;
-              justify-content: flex-start;
-              column-gap: 2.4rem;
-              row-gap: 1rem;
-              & .flight-number {
-                display: flex;
-                gap: 1rem;
-                flex: 0 0 auto;
-                & .seat {
-                  & .seat-label {
-                    -webkit-print-color-adjust: exact;
-                    background-color: var(--color-black) !important;
-                    color: var(--color-white);
-                  }
-                }
-              }
-              & .flight-route2 {
-                display: flex;
-                flex-direction: column;
-                column-gap: 2.4rem;
-                row-gap: 1rem;
-                & .i_plane {
-                  display: none;
-                }
-              }
-            }
-            & .gate-info {
-              display: block;
-              & dl {
-                padding: 0;
-                & dt {
-                  display: flex;
-                  align-items: center;
-                  gap: 0;
-                  padding: 0;
-                  & .i_gate {
-                    display: none;
-                  }
-                }
-              }
-              & dl ~ p {
-                margin-top: 1.2rem;
-              }
+            & .icon {
+              width: 3.2rem;
+              height: auto;
+              margin: 0 auto;
+              text-align: center;
+              filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(21deg) brightness(97%) contrast(103%);
             }
           }
         }
+      }
+      & .ticket-body {
+        background-color: var(--color-white);
+        color: var(--color-black);
+        line-height: 1;
+        padding: 0 1.6rem 1.6rem;
+        & .ticket-info-detail {
+          font-weight: 700;
+          text-align: left;
+          word-break: break-all;
+          & .title {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--color-black);
+          }
+          & .detail {
+            font-size: 1.8rem;
+            margin-top: 0.4rem;
+          }
+        }
+        & .inner-flex {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 3rem;
+          justify-content: flex-start;
+          & .seat-exp {
+            font-size: 1em;
+          }
+          & .fwrd {
+            font-size: 1em;
+          }
+        }
+        & .inner-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.6rem;
+          justify-content: flex-start;
+          margin-top: .8rem;
+          & .pax-info {
+            & .name {
+              display: inline-block;
+              vertical-align: baseline;
+              & span {
+                padding-right: .25em;
+              }
+              & span:nth-of-type(3) {
+                font-size: .8em;
+                font-weight: 400;
+              }
+            }
+          }
+          & .flight-status {
+            min-width: fit-content;
+            max-width: fit-content;
+          }
+        }
+        & .infant-ticket {
+          align-items: center;
+          border: 1px solid var(--color-black);
+          display: flex;
+          font-size: 1.4rem;
+          font-weight: 700;
+          gap: .8rem;
+          justify-content: flex-start;
+          margin-top: 1.6rem;
+          padding: .8rem;
+          width: fit-content;
+          &::before, &::after {
+            content: none;
+          }
+          & .text {
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+            justify-content: center;
+            & .icon {
+              display: block;
+              width: 2rem;
+              height: auto;
+            }
+          }
+        }
+        & .gate-note {
+          border: 1px solid var(--color-black);
+          font-size: 1.4rem;
+          font-weight: 400;
+          line-height: 1.2;
+          margin-top: 1.6rem;
+          padding: .8rem;
+          text-align: center;
+          width: fit-content;
+          & strong {
+            color: var(--color-black);
+            font-weight: 700;
+            padding: 0 .2rem;
+          }
+        }
+      }
+      & .ticket-code {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        text-align: center;
+        & .barcode {
+          text-align: center;
+          & img {
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            min-width: 150px;
+            max-height: 150px;
+            aspect-ratio: 1;
+          }
+        }
+        & .wallet-button {
+          margin-top: .8rem;
+          & button, & a {
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            text-decoration: none;
+            &:hover {
+              opacity: .8;
+            }
+          }
+          & img {
+            display: inline-block;
+          }
+        }
+        & .receipt-number {
+          border: 1px solid var(--color-black-a12);
+          font-size: .8em;
+          display: inline-block;
+          margin-top: .6rem;
+          padding: .2rem .4rem;
+        }
+      }
+      & .ticket-footer {
+        border-top: 1px solid var(--color-black-a12);
+        margin-top: 2rem;
+        padding: 1.6rem;
+        display: flex;
+        justify-content: center;
       }
     }
     & .wc-attention {

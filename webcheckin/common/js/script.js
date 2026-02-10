@@ -12,9 +12,11 @@ function initPrintButton() {
     const targetSection = event.currentTarget.closest('.sky-ticket');
 
     if (targetSection) {
+      document.body.classList.add('is-printing');
+
       // 印刷前に「すべての」現在のスライド番号をIDごとに保存
-      if (isCarouselActive && mySwipers.length > 0) {
-        mySwipers.forEach(swiper => {
+      if (isCarouselActive && seatSwipers.length > 0) {
+        seatSwipers.forEach(swiper => {
           if (swiper.el.id) {
             activeIndices[swiper.el.id] = swiper.realIndex;
           }
@@ -22,8 +24,12 @@ function initPrintButton() {
       }
 
       if (isCarouselActive) {
-        destroySwiper();
+        destroySeatSwiper();
       }
+
+      // 高さ調整用クラスのリセット（印刷用）
+      const heightAdjustEls = document.querySelectorAll('.js-height-adjust');
+      heightAdjustEls.forEach(el => el.style.setProperty('height', 'auto', 'important'));
 
       targetSection.classList.remove('print_off');
       targetSection.classList.add('print_on');
@@ -36,6 +42,8 @@ function initPrintButton() {
   };
 
   const handleAfterPrint = () => {
+    document.body.classList.remove('is-printing');
+
     if (sectionToReset) {
       sectionToReset.classList.remove('print_on');
       sectionToReset.classList.add('print_off');
@@ -44,13 +52,26 @@ function initPrintButton() {
     
     // 再初期化時に、保存していたIDごとのインデックスを渡す
     if (carouselMediaQuery.matches && !isCarouselActive) {
-      initSwiper(activeIndices); // オブジェクトを渡す
+      initSeatSwiper(activeIndices); // オブジェクトを渡す
       
       const carouselTrigger = document.getElementById('sky-carousel__trigger');
       if (carouselTrigger) {
         carouselTrigger.setAttribute('aria-pressed', 'true');
       }
     }
+
+    // 高さ調整を再適用
+    // まずimportant付きのautoを削除
+    const heightAdjustEls = document.querySelectorAll('.js-height-adjust');
+    heightAdjustEls.forEach(el => el.style.removeProperty('height'));
+
+    const bpCarousels = document.querySelectorAll('.js-bpCarousel');
+    bpCarousels.forEach(carousel => {
+      // 関数が定義されているか確認してから実行
+      if (typeof alignTicketBodyHeights === 'function') {
+        alignTicketBodyHeights(carousel);
+      }
+    });
   };
 
   printButtons.forEach(button => {
@@ -603,10 +624,10 @@ function initAnchorLinks() {
 
 //-------------------------------------------------------
 /** 
- * カルーセル制御（768px以下）
+ * カルーセル制御（768px以下） - 座席選択
  */
 
-let mySwipers = [];
+let seatSwipers = [];
 const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
 let isCarouselActive = false; // カルーセルの状態を管理
 
@@ -643,17 +664,17 @@ function carouselNavFraction(swiper, carouselEl) {
 }
 
 /**
- * カルーセル初期化
+ * カルーセル初期化（座席選択）
  * @param {Object} startIndices - { 'ID名': インデックス番号 } の形式のオブジェクト
  */
-function initSwiper(startIndices = {}) {
+function initSeatSwiper(startIndices = {}) {
   // 既存のSwiperインスタンスがあれば全て破棄
-  mySwipers.forEach(swiper => {
+  seatSwipers.forEach(swiper => {
     if (swiper) {
       swiper.destroy(false, true);
     }
   });
-  mySwipers = [];
+  seatSwipers = [];
   
   // 全ての.js-carousel要素を取得して初期化
   const carouselEls = document.querySelectorAll('.js-carousel');
@@ -707,13 +728,13 @@ function initSwiper(startIndices = {}) {
         }
       },
     });
-    mySwipers.push(swiperInstance);
+    seatSwipers.push(swiperInstance);
     carouselNavFraction(swiperInstance, carouselEl);
   });
   
   // Swiperインスタンスが作成されなかった場合（スライドが0〜1枚）
   const carouselTrigger = document.getElementById('sky-carousel__trigger');
-  if (mySwipers.length === 0) {
+  if (seatSwipers.length === 0) {
     isCarouselActive = false;
     if (carouselTrigger) {
       carouselTrigger.style.display = 'none';
@@ -726,14 +747,14 @@ function initSwiper(startIndices = {}) {
   }
 }
 
-function destroySwiper() {
+function destroySeatSwiper() {
   // 全てのSwiperインスタンスを破棄
-  mySwipers.forEach(swiper => {
+  seatSwipers.forEach(swiper => {
     if (swiper) {
       swiper.destroy(false, true);
     }
   });
-  mySwipers = [];
+  seatSwipers = [];
   
   // 全ての.js-carousel要素にclass="js-carousel-none"を付与
   const carouselEls = document.querySelectorAll('.js-carousel');
@@ -746,13 +767,13 @@ function destroySwiper() {
 
 function checkBreakpoint(e) {
   if (e.matches) {
-    initSwiper();
+    initSeatSwiper();
     
     // カルーセルトグルボタンのテキストとaria-pressedを更新
     const carouselTrigger = document.getElementById('sky-carousel__trigger');
     if (carouselTrigger) {
       // Swiperインスタンスが作成された場合のみボタンを表示
-      if (mySwipers.length > 0) {
+      if (seatSwipers.length > 0) {
         const toggleText = carouselTrigger.querySelector('.js-toggle-text');
         const texts = getCarouselButtonTexts();
         
@@ -763,8 +784,8 @@ function checkBreakpoint(e) {
         carouselTrigger.style.display = 'none';
       }
     }
-  } else if (mySwipers.length > 0) {
-    destroySwiper();
+  } else if (seatSwipers.length > 0) {
+    destroySeatSwiper();
     
     // PC表示時はボタンを非表示
     const carouselTrigger = document.getElementById('sky-carousel__trigger');
@@ -794,15 +815,15 @@ function initCarouselToggle() {
       if (carouselMediaQuery.matches) {
         if (isCarouselActive) {
           // カルーセルがアクティブな場合は破棄（全て展開）
-          destroySwiper();
+          destroySeatSwiper();
           carouselTrigger.setAttribute('aria-pressed', 'false');
           if (toggleText) toggleText.textContent = texts.inactive;
           // スライドが2枚以上ある場合は「閉じる」ボタンとして表示したまま
         } else {
           // カルーセルが非アクティブな場合は初期化
-          initSwiper();
-          // initSwiper内でmySwipers.lengthに基づいて表示/非表示が制御される
-          if (mySwipers.length > 0) {
+          initSeatSwiper();
+          // initSeatSwiper内でseatSwipers.lengthに基づいて表示/非表示が制御される
+          if (seatSwipers.length > 0) {
             carouselTrigger.setAttribute('aria-pressed', 'true');
             if (toggleText) toggleText.textContent = texts.active;
           } else {
@@ -814,7 +835,7 @@ function initCarouselToggle() {
     });
     
     // 初期状態のaria-pressed属性とテキスト、表示/非表示を設定
-    if (carouselMediaQuery.matches && isCarouselActive && mySwipers.length > 0) {
+    if (carouselMediaQuery.matches && isCarouselActive && seatSwipers.length > 0) {
       carouselTrigger.setAttribute('aria-pressed', 'true');
       if (toggleText) toggleText.textContent = texts.active;
       carouselTrigger.style.display = ''; // 表示
@@ -929,7 +950,7 @@ function initStickyPaxList() {
     currentSlideIndex = index;
     
     // 元のスライダーのSwiperインスタンスを取得（動的に）
-    const originalSwiper = mySwipers.find(swiper => swiper.el === originalSlider);
+    const originalSwiper = seatSwipers.find(swiper => swiper.el === originalSlider);
     
     if (originalSwiper && originalSwiper.realIndex !== index) {
       originalSwiper.slideTo(index);
@@ -938,7 +959,7 @@ function initStickyPaxList() {
 
   // 元のスライダーの現在位置を取得する関数
   const getCurrentSlideIndex = () => {
-    const originalSwiper = mySwipers.find(swiper => swiper.el === originalSlider);
+    const originalSwiper = seatSwipers.find(swiper => swiper.el === originalSlider);
     if (originalSwiper) {
       return originalSwiper.realIndex;
     }
@@ -1001,7 +1022,7 @@ function initStickyPaxList() {
 
     // 元のスライダーのイベントリスナーを設定
     const setupOriginalSwiperSync = () => {
-      const originalSwiper = mySwipers.find(swiper => swiper.el === originalSlider);
+      const originalSwiper = seatSwipers.find(swiper => swiper.el === originalSlider);
       if (originalSwiper) {
         originalSwiper.on('slideChange', function() {
           currentSlideIndex = this.realIndex;
@@ -1068,8 +1089,145 @@ function initStickyPaxList() {
   carouselMediaQuery.addEventListener('change', checkState);
 }
 
+//-------------------------------------------------------
+/** 
+ * カルーセル制御（搭乗券）
+ */
+
+let bpSwipers = [];
+
+/**
+ * .ticket-bodyの高さを揃える
+ * @param {HTMLElement} carouselEl - カルーセルのコンテナ要素
+ */
+function alignTicketBodyHeights(carouselEl) {
+  // 印刷中は処理しない
+  if (document.body.classList.contains('is-printing')) return;
+
+  const ticketBodies = carouselEl.querySelectorAll('.sky-ticket .js-height-adjust');
+  if (ticketBodies.length === 0) return;
+
+  // 高さを一旦リセット
+  ticketBodies.forEach(el => el.style.height = 'auto');
+
+  // 最大の高さを計算
+  let maxHeight = 0;
+  ticketBodies.forEach(el => {
+    if (el.offsetHeight > maxHeight) {
+      maxHeight = el.offsetHeight;
+    }
+  });
+
+  // 高さを適用
+  if (maxHeight > 0) {
+    ticketBodies.forEach(el => el.style.height = `${maxHeight}px`);
+  }
+}
+
+
+/**
+ * 搭乗券カルーセル初期化
+ * @param {Object} startIndices - { 'ID名': インデックス番号 } の形式のオブジェクト
+ */
+function initBpSwiper(startIndices = {}) {
+  // 既存のSwiperインスタンスがあれば全て破棄
+  bpSwipers.forEach(swiper => {
+    if (swiper) {
+      swiper.destroy(false, true);
+    }
+  });
+  bpSwipers = [];
+  
+  // 全ての.js-bpCarousel要素を取得して初期化
+  const carouselEls = document.querySelectorAll('.js-bpCarousel');
+  carouselEls.forEach((carouselEl) => {
+    // スライドの枚数を確認
+    const slides = carouselEl.querySelectorAll('.swiper-slide');
+    
+    // スライドが1枚以下の場合はカルーセルを初期化しない
+    if (slides.length <= 1) {
+      carouselEl.classList.add('js-carousel-none');
+      return;
+    }
+    
+    // js-carousel-noneクラスを削除（カルーセル再初期化時）
+    carouselEl.classList.remove('js-carousel-none');
+
+    // このカルーセルのIDに対応する開始インデックスを取得（なければ0）
+    const startIndex = startIndices[carouselEl.id] || 0;
+    
+    const swiperInstance = new Swiper(carouselEl, {
+      initialSlide: startIndex,
+      direction: 'horizontal',
+      slidesPerView: 1,
+      centeredSlides: true, // アクティブなスライドを中央に配置
+      spaceBetween: 16,
+      loop: false,
+      breakpoints: {
+        768: {
+          slidesPerGroup: 2,
+          slidesPerView: 2,
+          centeredSlides: false,
+          spaceBetween: 32,
+        }
+      },
+      threshold: 15,
+      touchStartPreventDefault: false,
+      edgeSwipeDetection: true,
+      mousewheel: false,
+      navigation: {
+        nextEl: carouselEl.querySelector('.swiper-button-next'),
+        prevEl: carouselEl.querySelector('.swiper-button-prev'),
+      },
+      pagination: {
+        el: carouselEl.querySelector('.js-carousel-pagination'),
+        bulletElement: 'button',
+        clickable: true,
+      },
+      a11y: {
+        prevSlideMessage: '前のスライドへ',
+        nextSlideMessage: '次のスライドへ',
+        slideLabelMessage: '{{index}}枚目',
+        paginationBulletMessage: '{{index}}枚目のスライドを表示',
+      },
+      on: {
+        init: function() {
+          carouselNavFraction(this, carouselEl);
+          alignTicketBodyHeights(carouselEl);
+        },
+        slideChange: function() {
+          carouselNavFraction(this, carouselEl);
+        },
+        resize: function() {
+          alignTicketBodyHeights(carouselEl);
+        }
+      },
+    });
+    bpSwipers.push(swiperInstance);
+    carouselNavFraction(swiperInstance, carouselEl);
+  });
+}
+
+function destroyBpSwiper() {
+  // 全てのSwiperインスタンスを破棄
+  bpSwipers.forEach(swiper => {
+    if (swiper) {
+      swiper.destroy(false, true);
+    }
+  });
+  bpSwipers = [];
+  
+  // 全ての.js-bpCarousel要素にclass="js-carousel-none"を付与
+  const carouselEls = document.querySelectorAll('.js-bpCarousel');
+  carouselEls.forEach((carouselEl) => {
+    carouselEl.classList.add('js-carousel-none');
+  });
+}
 
 //-------------------------------------------------------
+
+
+
 /**
  * DOMContentLoaded - すべての初期化処理をまとめて実行
  */
@@ -1084,6 +1242,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMapIndicator();
   initPopover();
   initStickyPaxList();
+  initBpSwiper();
 });
 
 

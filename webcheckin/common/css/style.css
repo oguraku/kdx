@@ -360,6 +360,9 @@ h1, h2, h3, h4, h5 {
 .i_grey {
   filter: invert(65%) sepia(0%) saturate(1938%) hue-rotate(190deg) brightness(94%) contrast(92%);
 }
+.i_yellow {
+  filter: invert(84%) sepia(48%) saturate(2869%) hue-rotate(2deg) brightness(105%) contrast(107%);
+}
 
 /* hr -------------------------------- */
 .sky-border {
@@ -2137,322 +2140,283 @@ html:has(dialog[open]) {
 
 /* sky-ticket -------------------------------- */
 .sky-ticket {
-  & .ticket-container {
-    display: flex;
-    flex-direction: column;
-    row-gap: 1.6rem;
-    margin-top: .8rem;
-    position: relative;
-    & .ticket-title {
-      grid-area: area1;
-      display: inline-flex;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black-a12);
+  border-radius: 20px;
+  position: relative;
+  min-width: 320px;
+  max-width: 400px;
+  overflow: hidden;
+  font-family: var(--font-Num);
+  & .ticket-header {
+    background-color: var(--color-sky-blue);
+    color: var(--color-white);
+    line-height: 1;
+    padding: 1.6rem;
+    & .inner-head {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 1.6rem;
-      justify-content: center;
-      .logo {
+      & .ticket-logo {
         width: 82px;
         height: auto;
+        & .logo.active {
+          display: block;
+        }
+        & .logo.close {
+          display: none;
+        }
       }
-      .text {
-        font-size: 1.125em;
+      & .ticket-info {
         font-weight: 700;
-        padding-top: .6rem;
-      }
-    }
-    & .ticket-code {
-      grid-area: area2;
-      text-align: center;
-      & .qr-code {
         display: flex;
-        justify-content: center;
-        & img {
-          display: inline-block;
-          width: 180px;
-          height: 180px;
-          min-width: 180px;
-          max-height: 180px;
-          aspect-ratio: 1;
-        }
-      }
-      & .wallet-button {
-        margin-top: 1.6rem;
-        & button, & a {
-          background: none;
-          border: none;
-          cursor: pointer;
-          outline: none;
-          text-decoration: none;
-          &:hover {
-            opacity: .8;
+        justify-content: flex-end;
+        gap: 1.2rem;
+        & .ticket-info-detail {
+          text-align: right;
+          & .title {
+            font-size: 1.2rem;
+            color: var(--color-sky-yellow);
+          }
+          & .detail {
+            font-size: 1.8rem;
+            margin-top: 0.4rem;
           }
         }
-        & img {
-          display: inline-block;
-        }
-      }
-      & .receipt-number {
-        border: 1px solid var(--color-black-a12);
-        font-size: .8em;
-        display: inline-block;
-        margin-top: .6rem;
-        padding: .2rem .4rem;
       }
     }
-    & .ticket-info {
-      grid-area: area3;
-      & .pax-name {
-        border-bottom: 1px solid var(--color-black-a12);
-        border-top: 1px solid var(--color-black-a12);
-        font-size: 1.25em;
-        justify-content: center;
-        padding: 1.6rem 0;
-        & .name.infant {
-          font-size: 1em;
-          &::before {
-            content: none;
-          }
+    & .inner-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.6rem;
+      & .ticket-route-dep, & .ticket-route-arr {
+        & .sub {
+          color: var(--color-sky-yellow);
+          display: block;
+          font-size: 1.2rem;
+          font-weight: 700;
+        }
+        & .main {
+          display: block;
+          font-size: 3rem;
+          margin-top: .4rem;
         }
       }
-      & .flight-info {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
-        & .flight-date {
-          justify-content: flex-start;
+      & .ticket-route-arr {
+        & .sub, & .main {
+          text-align: right;
         }
-        & .flight-wrap {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: .8rem;
-          & .flight-number {
-            display: grid;
-            grid-template-columns: auto;
-            align-items: center;
-            row-gap: .8rem;
-            & .number {
-              & span {
-                border: 1px solid var(--color-black-a87);
-                color: var(--color-black-a87);
-                display: inline-block;
-                font-size: 1.1em;
-                font-weight: 700;
-                line-height: 1;
-                padding: .4rem;
-              }
-            }
-            & .seat {
-              display: flex;
-              align-items: center;
-              gap: 1em;
-              & .seat-number {
-                font-size: 1.1em;
-                font-weight: 700;
-              }
-              & .seat-label {
-                background-color: var(--color-black);
-                color: var(--color-white);
-                font-size: .9em;
-                font-weight: 700;
-                line-height: 1;
-                padding: .4rem;
-              }
-            }
-          }
-          & .flight-route2 {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            line-height: 1;
-            & .flight-dep, & .flight-arr {
-              display: flex;
-              flex-shrink: 0;
-              align-items: center;
-              gap: .5em;
-              & .airport {
-                display: flex;
-                align-items: center;
-                gap: .5em;
-                font-weight: 700;
-                & .code {
-                  background-color: var(--color-grey200);
-                  display: inline-block;
-                  padding: .2em;
-                }
-                & .port {
-                  font-size: 1.1em;
-                  font-weight: 700;
-                }
-              }
-              & .time {
-                & > span {
-                  font-weight: 400;
-                  font-size: .8em;
-                  margin-left: .25em;
-                }
-              }
-            }
-            & .icon {
-              display: none;
-            }
-          }
+      }
+      & .arrow {
+        & span {
+          display: block;
         }
-        & .gate-info {
-          & dl {
-            background-color: var(--color-yellow300);
-            font-weight: 700;
-            flex-shrink: 0;
-            display: inline-flex;
-            align-items: stretch;
-            padding: .4rem;
-            & dt {
-              background-color: var(--color-yellow300);
-              display: flex;
-              align-items: center;
-              gap: .4em;
-              padding: 0 1rem 0 .6rem;
-              & .i_gate {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 1.2em;
-                height: 1.2em;
-                min-width: 1.2em;
-                min-height: 1.2em;
-                aspect-ratio: 1;
-                position: relative;
-                &::before {
-                  background-size: contain;
-                  background-position: center;
-                  background-repeat: no-repeat;
-                  background-image: url("/webcheckin/common/images/icon/flight_dep.svg");
-                  content: "";
-                  display: block;
-                  flex-shrink: 0;
-                  width: 100%;
-                  height: 100%;
-                  position: absolute;
-                  left: 0;
-                  top: 0;
-                }
-              }
-            }
-            & dd {
-              background-color: var(--color-white);
-              font-size: 2em;
-              font-weight: 700;
-              line-height: 1;
-              padding: 0 .5em .1em;
-            }
-          }
-          & dl ~ p {
-            margin-top: 1rem;
-          }
+        & .label-connect {
+          background-color: var(--color-white);
+          color: var(--color-sky-blue);
+          font-size: 1.2rem;
+          font-weight: 700;
+          margin-bottom: .6rem;
+          padding: 2px;
+        }
+        & .icon {
+          width: 3.2rem;
+          height: auto;
+          margin: 0 auto;
+          text-align: center;
+          filter: invert(84%) sepia(48%) saturate(2869%) hue-rotate(2deg) brightness(105%) contrast(107%);
         }
       }
     }
   }
+  & .ticket-body {
+    background-color: var(--color-white);
+    color: var(--color-black);
+    line-height: 1;
+    padding: 1.6rem;
+    & .ticket-info-detail {
+      font-weight: 700;
+      text-align: left;
+      word-break: break-word;
+      & .title {
+        font-size: 1.1rem;
+        color: var(--color-black-a60);
+      }
+      & .detail {
+        font-size: 1.5rem;
+        margin-top: 0.4rem;
+      }
+    }
+    & .inner-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .8rem;
+      justify-content: space-between;
+      & .seat-exp {
+        font-size: .9em;
+      }
+      & .fwrd {
+        font-size: .9em;
+      }
+    }
+    & .inner-flex ~ .inner-flex {
+      margin-top: .8rem;
+    }
+    & .inner-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .8rem;
+      justify-content: space-between;
+      margin-top: .8rem;
+      & .pax-info {
+        & .name {
+          display: inline-block;
+          vertical-align: baseline;
+          & span {
+            padding-right: .25em;
+          }
+          & span:nth-of-type(3) {
+            font-size: .8em;
+            font-weight: 400;
+          }
+        }
+      }
+      & .flight-status {
+        min-width: 8rem;
+        max-width: 10rem;
+      }
+    }
+    & .inner-grid ~ .inner-grid {
+      margin-top: .8rem;
+    }
+    & .infant-ticket {
+      align-items: center;
+      display: flex;
+      font-weight: 700;
+      gap: .8rem;
+      justify-content: center;
+      margin-top: 1.2rem;
+      width: 100%;
+      &::before, &::after {
+        content: '';
+        flex-grow: 1;
+        height: 1px;
+        display: inline-block;
+        background-color: var(--color-black);
+      }
+      & .text {
+        display: flex;
+        align-items: center;
+        gap: .4rem;
+        justify-content: center;
+        & .icon {
+          display: block;
+          width: 2rem;
+          height: auto;
+        }
+      }
+    }
+    & .gate-note {
+      border: 1px solid var(--color-black);
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-top: 1.2rem;
+      padding: .8rem .6rem;
+      text-align: center;
+      & strong {
+        color: var(--color-alert100);
+        font-weight: 700;
+        padding: 0 .2rem;
+      }
+    }
+  }
+  & .ticket-code {
+    text-align: center;
+    & .barcode {
+      text-align: center;
+      & img {
+        display: inline-block;
+        width: 150px;
+        height: 150px;
+        min-width: 150px;
+        max-height: 150px;
+        aspect-ratio: 1;
+      }
+    }
+    & .wallet-button {
+      margin-top: .8rem;
+      & button, & a {
+        background: none;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        text-decoration: none;
+        &:hover {
+          opacity: .8;
+        }
+      }
+      & img {
+        display: inline-block;
+      }
+    }
+    & .receipt-number {
+      border: 1px solid var(--color-black-a12);
+      font-size: .8em;
+      display: inline-block;
+      margin-top: .6rem;
+      padding: .2rem .4rem;
+    }
+  }
   & .ticket-footer {
     border-top: 1px solid var(--color-black-a12);
-    margin-top: 2.4rem;
-    padding-top: 2.4rem;
+    margin-top: 2rem;
+    padding: 1.6rem;
     display: flex;
     justify-content: center;
   }
 }
 
+.sky-ticket.disabled {
+  background-color: var(--color-grey100) !important;
+  & .ticket-header {
+    background-color: var(--color-grey500);
+    & .inner-head {
+      & .ticket-logo {
+        & .logo.active {
+          display: none !important;
+        }
+        & .logo.close {
+          display: block !important;
+        }
+      }
+    }
+    & .inner-flex {
+      & .arrow {
+        & .label-connect {
+          color: var(--color-grey500) !important;
+        }
+      }
+    }
+  }
+  & .ticket-body {
+    background-color: var(--color-grey100) !important;
+  }
+  & .ticket-code {
+    & .barcode {
+      & img {
+        opacity: .3;
+      }
+    }
+  }
+}
+
 @media (min-width: 768px) {
 .sky-ticket {
-  & .ticket-container {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas: 
-      "area1 area2"
-      "area3 area2";
-    column-gap: 2rem;
-    row-gap: .8rem;
-    & .ticket-title {
-      grid-area: area1;
-      justify-content: start;
-      .logo {
-        width: 110px;
-      }
-      .text {
-        font-size: 1.25em;
-      }
-    }
-    & .ticket-code {
-      grid-area: area2;
-      & .wallet-button {
-        margin-top: 1.6rem;
-      }
-      & .receipt-number {
-        margin-top: 1.2rem;
-      }
-    }
-    & .ticket-info {
-      grid-area: area3;
-      & .pax-name {
-        border-top: none;
-        font-size: 1.3em;
-        justify-content: flex-start;
-        padding-top: 0;
-      }
-      & .flight-info {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        & .flight-wrap {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: flex-start;
-          justify-content: flex-start;
-          column-gap: 2.4rem;
-          row-gap: 1rem;
-          & .flight-number {
-            display: flex;
-            gap: 1rem;
-            flex: 0 0 auto;
-          }
-          & .flight-route2 {
-            display: flex;
-            flex-direction: row;
-            column-gap: 2.4rem;
-            row-gap: 1rem;
-            & .i_plane {
-              flex-shrink: 0;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              width: 1.2em;
-              height: 1.2em;
-              min-width: 1.2em;
-              min-height: 1.2em;
-              aspect-ratio: 1;
-              position: relative;
-              &::before {
-                background-size: contain;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-image: url("/webcheckin/common/images/icon/airplane.svg");
-                content: "";
-                display: block;
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                left: 0;
-                top: .1em;
-              }
-            }
-          }
-        }
-        & .gate-info {
-          display: flex;
-          align-items: center;
-          gap: 2rem;
-          & dl ~ p {
-            margin-top: 0;
-          }
-        }
-      }
+  & .ticket-body {
+    & .gate-note {
+      font-size: 1.3rem;
     }
   }
 }

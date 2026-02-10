@@ -17,23 +17,20 @@
 <!-- /local css -->
 </head>
 <body>
-<!-- HEADER START -->
-<div id="sky-header2"></div>
-<!-- HEADER END -->
 
 <main class="sky-container wc-boardingpass">
   <section class="sky-content">
-    <h1 class="heading200">搭乗券表示</h1>
+    <h1 class="sr-only">搭乗券表示</h1>
 
     <section>
     <div
-      class="sky-carousel swiper js-carousel"
+      class="sky-carousel swiper js-bpCarousel"
       id="slider_bp1"
       role="group"
       aria-roledescription="スライダー"
-      aria-label="記事のスライダー"
+      aria-label="搭乗券のスライダー"
     >
-      <div class="sp-only print_off">
+      <div class="print_off">
         <div
           class="sky-carousel__navigation"
           role="group"
@@ -41,79 +38,79 @@
           aria-label="ナビゲーション"
         >
           <button type="button" class="swiper-button-prev js-carousel-previous"><span class="icon-arrow"></span></button>
-          <div class="sky-carousel__num js-carousel-fraction"><span class="current-slide">1</span> of <span class="total-slide">1</span></div>
           <button type="button" class="swiper-button-next js-carousel-next"><span class="icon-arrow"></span></button>
         </div>
       </div>
 
       <div class="sky-carousel__slides swiper-wrapper">
-        <section class="sky-ticket sky-flame_02 shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
-          <div class="ticket-container">
-          <div class="ticket-title">
-            <img src="/webcheckin/common/images/logo_2.png" alt="SKYMARK AIRLINES" class="logo"><span class="text">搭乗券</span>
+        <section class="sky-ticket print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
+          <div class="ticket-header">
+            <div class="inner-head">
+              <div class="ticket-logo">
+                <img src="/webcheckin/common/images/logo2.svg" alt="SKYMARK AIRLINES" class="logo active print_off">
+                <img src="/webcheckin/common/images/logo1.svg" alt="SKYMARK AIRLINES" class="logo close print_off">
+                <img src="/webcheckin/common/images/logo3.svg" alt="SKYMARK AIRLINES" class="logo print-only">
+              </div>
+              <div class="ticket-info">
+                <dl class="ticket-info-detail"><dt class="title">搭乗口</dt><dd class="detail">000</dd></dl>
+                <dl class="ticket-info-detail"><dt class="title">搭乗日</dt><dd class="detail">12/31</dd></dl>
+              </div>
+            </div>
+            <div class="inner-flex">
+              <div class="ticket-route-dep"><span class="sub">ASJ</span><span class="main">奄美大島</span></div>
+              <div class="arrow">
+                <span class="label-connect">乗継便</span>
+                <span class="icon"><img src="/webcheckin/common/images/icon/airplane.svg" alt=""></span>
+              </div>
+              <div class="ticket-route-arr"><span class="sub">KOJ</span><span class="main">鹿児島</span></div>
+            </div>
           </div>
-
+          <div class="ticket-body">
+            <div class="js-height-adjust">
+              <div class="inner-flex">
+                <dl class="ticket-info-detail flight-number">
+                  <dt class="title">便名</dt>
+                  <dd class="detail">SKY0000</dd>
+                </dl>
+                <dl class="ticket-info-detail departure-time">
+                  <dt class="title">出発時刻</dt>
+                  <dd class="detail">00:00</dd>
+                </dl>
+                <dl class="ticket-info-detail seat-number">
+                  <dt class="title">座席</dt>
+                  <dd class="detail"><span class="seat-number">00A</span><span class="seat-exp">（通路席）</span></dd>
+                  <dd class="detail fwrd">フォワードシート</dd>
+                </dl>
+              </div>
+              <div class="inner-grid">
+                <dl class="ticket-info-detail pax-info">
+                  <dt class="title">搭乗者名</dt>
+                  <dd class="detail">
+                    <span class="name"><span>SORANO</span><span>ICHIRO</span><span>様</span></span>
+                  </dd>
+                </dl>
+                <dl class="ticket-info-detail flight-status">
+                  <dt class="title">運航状況</dt>
+                  <dd class="detail">遅延</dd>
+                </dl>
+              </div>
+              <div class="infant-ticket">
+                <div class="text"><span class="icon"><img src="/webcheckin/common/images/icon/baby.svg" alt=""></span><span>幼児用搭乗券</span></div>
+              </div>
+            </div>
+            <div class="gate-note">
+              <p>搭乗口には出発時刻の<strong>15分前</strong>までにお越しください。</p>
+            </div>
+          </div>
           <div class="ticket-code">
-            <div class="qr-code">
-              <img src="/webcheckin/common/images/qrcode.png" alt="搭乗券 QRコード">
+            <div class="barcode">
+              <img src="/webcheckin/common/images/qrcode.png" alt="2次元コード">
             </div>
             <div class="wallet-button">
               <button type="button"><img src="/webcheckin/common/images/JP_Add_to_Apple_Wallet_RGB_101821.svg" alt="Appleウォレットに追加"></button>
             </div>
             <p class="receipt-number">受付番号：0000 ABCDEF</p>
           </div>
-          
-          <div class="ticket-info">
-            <h2 class="pax-name">
-              <span class="name"><span>Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano</span><span>de la Santísima Trinidad Martyr Patricio Clito Ruíz y Picasso</span><span>様</span></span>
-            </h2>
-
-            <div class="flight-info">
-              <div class="flight-date">
-                <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
-                <span class="label-status" data-flight="connect">乗継便</span>
-              </div>
-              <div class="flight-wrap">
-                <div class="flight-number">
-                  <div class="number"><span>SKY0123</span></div>
-                  <div class="seat">
-                    <ul class="seat-number">
-                      <li><img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">00A</li>
-                    </ul>
-                    <span class="seat-exp">普通席</span>
-                    <span class="seat-label">Forward Seat</span>
-                  </div>
-                </div>
-                <div class="flight-route2">
-                  <div class="flight-dep">
-                    <div class="airport">
-                      <span class="code">HND</span>
-                      <span class="port">羽田</span>
-                    </div>
-                    <span class="time">00:00<span>発</span></span>
-                  </div>
-                  <span class="icon i_plane i_blue"></span>
-                  <div class="flight-arr">
-                    <div class="airport">
-                      <span class="code">ASJ</span>
-                      <span class="port">奄美大島</span>
-                    </div>
-                    <span class="time">00:00<span>着</span></span>
-                  </div>
-                </div>
-            </div>
-
-            <div class="gate-info">
-              <dl>
-                <dt class="gate-label"><span class="i_gate"></span>搭乗口</dt>
-                <dd class="gate-number">00</dd>
-              </dl>
-              <p class="gate-note">搭乗口には出発時刻の<span class="c_red fw_b">15分前</span>までにお越しください。</p>
-            </div>
-            </div>
-          </div>
-          </div>
-
           <div class="ticket-footer">
             <ul class="sky-btnList_flex">
               <li><button type="button" class="sky-btn btn_primary btn_m btn_icon" data-print="printOn"><span class="icon i_print i_white"></span>印刷する</button></li>
@@ -135,76 +132,73 @@
               <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_mail i_blue"></span>搭乗後アンケート</a></li>
             </ul>
           </div>
-
         </section>
 
-        <section class="sky-ticket sky-flame_02 shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
-          <div class="ticket-container">
-          <div class="ticket-title">
-            <img src="/webcheckin/common/images/logo_2.png" alt="SKYMARK AIRLINES" class="logo"><span class="text">搭乗券</span>
+        <section class="sky-ticket shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
+          <div class="ticket-header">
+            <div class="inner-head">
+              <div class="ticket-logo">
+                <img src="/webcheckin/common/images/logo2.svg" alt="SKYMARK AIRLINES" class="logo active print_off">
+                <img src="/webcheckin/common/images/logo1.svg" alt="SKYMARK AIRLINES" class="logo close print_off">
+                <img src="/webcheckin/common/images/logo3.svg" alt="SKYMARK AIRLINES" class="logo print-only">
+              </div>
+              <div class="ticket-info">
+                <dl class="ticket-info-detail"><dt class="title">搭乗口</dt><dd class="detail">000</dd></dl>
+                <dl class="ticket-info-detail"><dt class="title">搭乗日</dt><dd class="detail">12/31</dd></dl>
+              </div>
+            </div>
+            <div class="inner-flex">
+              <div class="ticket-route-dep"><span class="sub">ASJ</span><span class="main">奄美大島</span></div>
+              <div class="arrow">
+                <span class="label-connect">乗継便</span>
+                <span class="icon"><img src="/webcheckin/common/images/icon/airplane.svg" alt=""></span>
+              </div>
+              <div class="ticket-route-arr"><span class="sub">KOJ</span><span class="main">鹿児島</span></div>
+            </div>
           </div>
-
+          <div class="ticket-body">
+            <div class="js-height-adjust">
+              <div class="inner-flex">
+                <dl class="ticket-info-detail flight-number">
+                  <dt class="title">便名</dt>
+                  <dd class="detail">SKY0000</dd>
+                </dl>
+                <dl class="ticket-info-detail departure-time">
+                  <dt class="title">出発時刻</dt>
+                  <dd class="detail">00:00</dd>
+                </dl>
+                <dl class="ticket-info-detail seat-number">
+                  <dt class="title">座席</dt>
+                  <dd class="detail"><span class="seat-number">00A</span><span class="seat-exp">（通路席）</span></dd>
+                  <dd class="detail fwrd">フォワードシート</dd>
+                </dl>
+              </div>
+              <div class="inner-grid">
+                <dl class="ticket-info-detail pax-info">
+                  <dt class="title">搭乗者名</dt>
+                  <dd class="detail">
+                    <span class="name"><span>SORANOOOOOOOO</span><span>ICHIROOOOOOOOO</span><span>様</span></span>
+                  </dd>
+                </dl>
+                <dl class="ticket-info-detail flight-status">
+                  <dt class="title">運航状況</dt>
+                  <dd class="detail">遅延</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="gate-note">
+              <p>搭乗口には出発時刻の<strong>15分前</strong>までにお越しください。</p>
+            </div>
+          </div>
           <div class="ticket-code">
-            <div class="qr-code">
-              <img src="/webcheckin/common/images/qrcode.png" alt="搭乗券 QRコード">
+            <div class="barcode">
+              <img src="/webcheckin/common/images/qrcode.png" alt="2次元コード">
             </div>
             <div class="wallet-button">
-              <button type="button"><img src="/webcheckin/common/images/US-UK_Add_to_Apple_Wallet_RGB_101421.svg" alt="Add to Apple Wallet"></button>
+              <button type="button"><img src="/webcheckin/common/images/JP_Add_to_Apple_Wallet_RGB_101821.svg" alt="Appleウォレットに追加"></button>
             </div>
             <p class="receipt-number">受付番号：0000 ABCDEF</p>
           </div>
-          
-          <div class="ticket-info">
-            <h2 class="pax-name">
-              <span class="name"><span>SORANO</span><span>ICHIRO</span><span>様</span></span>
-            </h2>
-
-            <div class="flight-info">
-              <div class="flight-date">
-                <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
-                <span class="label-status" data-flight="connect">乗継便</span>
-              </div>
-              <div class="flight-wrap">
-                <div class="flight-number">
-                  <div class="number"><span>SKY0123</span></div>
-                  <div class="seat">
-                    <ul class="seat-number">
-                      <li><img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">00A</li>
-                    </ul>
-                    <span class="seat-exp">普通席</span>
-                    <span class="seat-label">Forward Seat</span>
-                  </div>
-                </div>
-                <div class="flight-route2">
-                  <div class="flight-dep">
-                    <div class="airport">
-                      <span class="code">HND</span>
-                      <span class="port">羽田</span>
-                    </div>
-                    <span class="time">00:00<span>発</span></span>
-                  </div>
-                  <span class="icon i_plane i_blue"></span>
-                  <div class="flight-arr">
-                    <div class="airport">
-                      <span class="code">ASJ</span>
-                      <span class="port">奄美大島</span>
-                    </div>
-                    <span class="time">00:00<span>着</span></span>
-                  </div>
-                </div>
-            </div>
-
-            <div class="gate-info">
-              <dl>
-                <dt class="gate-label"><span class="i_gate"></span>搭乗口</dt>
-                <dd class="gate-number">00</dd>
-              </dl>
-              <p class="gate-note">搭乗口には出発時刻の<span class="c_red fw_b">15分前</span>までにお越しください。</p>
-            </div>
-            </div>
-          </div>
-          </div>
-
           <div class="ticket-footer">
             <ul class="sky-btnList_flex">
               <li><button type="button" class="sky-btn btn_primary btn_m btn_icon" data-print="printOn"><span class="icon i_print i_white"></span>印刷する</button></li>
@@ -214,8 +208,7 @@
                   <div class="dialog-content">
                     <div class="dialog-detail">
                       <label class="skyInputLabel" for="skyInputMail"><span class="btn_icon"><span class="icon i_mail"></span>メールを送る</span></label>
-                      <input autofocus class="skyInputText error" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
-                      <div class="skyInputErrorText" role="alert"><p class="sky-icontxt"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</span></p></div>
+                      <input autofocus class="skyInputText" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
                     </div>
                     <menu class="dialog-menu">
                       <button type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
@@ -227,76 +220,73 @@
               <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_mail i_blue"></span>搭乗後アンケート</a></li>
             </ul>
           </div>
-
         </section>
 
-        <section class="sky-ticket sky-flame_02 shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
-          <div class="ticket-container">
-          <div class="ticket-title">
-            <img src="/webcheckin/common/images/logo_2.png" alt="SKYMARK AIRLINES" class="logo"><span class="text">搭乗券</span>
+        <section class="sky-ticket shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
+          <div class="ticket-header">
+            <div class="inner-head">
+              <div class="ticket-logo">
+                <img src="/webcheckin/common/images/logo2.svg" alt="SKYMARK AIRLINES" class="logo active print_off">
+                <img src="/webcheckin/common/images/logo1.svg" alt="SKYMARK AIRLINES" class="logo close print_off">
+                <img src="/webcheckin/common/images/logo3.svg" alt="SKYMARK AIRLINES" class="logo print-only">
+              </div>
+              <div class="ticket-info">
+                <dl class="ticket-info-detail"><dt class="title">搭乗口</dt><dd class="detail">000</dd></dl>
+                <dl class="ticket-info-detail"><dt class="title">搭乗日</dt><dd class="detail">12/31</dd></dl>
+              </div>
+            </div>
+            <div class="inner-flex">
+              <div class="ticket-route-dep"><span class="sub">ASJ</span><span class="main">奄美大島</span></div>
+              <div class="arrow">
+                <span class="label-connect">乗継便</span>
+                <span class="icon"><img src="/webcheckin/common/images/icon/airplane.svg" alt=""></span>
+              </div>
+              <div class="ticket-route-arr"><span class="sub">KOJ</span><span class="main">鹿児島</span></div>
+            </div>
           </div>
-
+          <div class="ticket-body">
+            <div class="js-height-adjust">
+              <div class="inner-flex">
+                <dl class="ticket-info-detail flight-number">
+                  <dt class="title">便名</dt>
+                  <dd class="detail">SKY0000</dd>
+                </dl>
+                <dl class="ticket-info-detail departure-time">
+                  <dt class="title">出発時刻</dt>
+                  <dd class="detail">00:00</dd>
+                </dl>
+                <dl class="ticket-info-detail seat-number">
+                  <dt class="title">座席</dt>
+                  <dd class="detail"><span class="seat-number">00A</span><span class="seat-exp">（通路席）</span></dd>
+                  <dd class="detail fwrd">フォワードシート</dd>
+                </dl>
+              </div>
+              <div class="inner-grid">
+                <dl class="ticket-info-detail pax-info">
+                  <dt class="title">搭乗者名</dt>
+                  <dd class="detail">
+                    <span class="name"><span>SORANOOOOOOOO</span><span>JIROOOOOOOOO</span><span>様</span></span>
+                  </dd>
+                </dl>
+                <dl class="ticket-info-detail flight-status">
+                  <dt class="title">運航状況</dt>
+                  <dd class="detail">遅延</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="gate-note">
+              <p>搭乗口には出発時刻の<strong>15分前</strong>までにお越しください。</p>
+            </div>
+          </div>
           <div class="ticket-code">
-            <div class="qr-code">
-              <img src="/webcheckin/common/images/qrcode.png" alt="搭乗券 QRコード">
+            <div class="barcode">
+              <img src="/webcheckin/common/images/qrcode.png" alt="2次元コード">
             </div>
             <div class="wallet-button">
-              <button type="button"><img src="/webcheckin/common/images/TWTC_Add_to_Apple_Wallet_RGB_102121.svg" alt="加到 Apple 錢包"></button>
+              <button type="button"><img src="/webcheckin/common/images/JP_Add_to_Apple_Wallet_RGB_101821.svg" alt="Appleウォレットに追加"></button>
             </div>
             <p class="receipt-number">受付番号：0000 ABCDEF</p>
           </div>
-          
-          <div class="ticket-info">
-            <h2 class="pax-name">
-              <span class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>SORANO</span><span>JIRO</span><span>様</span></span>
-            </h2>
-
-            <div class="flight-info">
-              <div class="flight-date">
-                <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
-                <span class="label-status" data-flight="connect">乗継便</span>
-              </div>
-              <div class="flight-wrap">
-                <div class="flight-number">
-                  <div class="number"><span>SKY0123</span></div>
-                  <div class="seat">
-                    <ul class="seat-number">
-                      <li><img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">00A</li>
-                    </ul>
-                    <span class="seat-exp">普通席</span>
-                    <span class="seat-label">Forward Seat</span>
-                  </div>
-                </div>
-                <div class="flight-route2">
-                  <div class="flight-dep">
-                    <div class="airport">
-                      <span class="code">HND</span>
-                      <span class="port">羽田</span>
-                    </div>
-                    <span class="time">00:00<span>発</span></span>
-                  </div>
-                  <span class="icon i_plane i_blue"></span>
-                  <div class="flight-arr">
-                    <div class="airport">
-                      <span class="code">ASJ</span>
-                      <span class="port">奄美大島</span>
-                    </div>
-                    <span class="time">00:00<span>着</span></span>
-                  </div>
-                </div>
-            </div>
-
-            <div class="gate-info">
-              <dl>
-                <dt class="gate-label"><span class="i_gate"></span>搭乗口</dt>
-                <dd class="gate-number">00</dd>
-              </dl>
-              <p class="gate-note">搭乗口には出発時刻の<span class="c_red fw_b">15分前</span>までにお越しください。</p>
-            </div>
-            </div>
-          </div>
-          </div>
-
           <div class="ticket-footer">
             <ul class="sky-btnList_flex">
               <li><button type="button" class="sky-btn btn_primary btn_m btn_icon" data-print="printOn"><span class="icon i_print i_white"></span>印刷する</button></li>
@@ -305,17 +295,12 @@
                 <dialog closedby="any" data-modal="mail" class="sky-modal">
                   <div class="dialog-content">
                     <div class="dialog-detail">
-                      <div class="error-message">
-                        <p class="sky-icontxt" role="alert"><span class="icon i_error i_red"></span><span class="text">エラーの場合のテキストが入ります。</span></p>
-                      </div>
-                      <p class="fw_b mb8">宛先にお間違えがないことをご確認のうえ送信ボタンを押してください。</p>
-                      <ul class="sky-list_disc">
-                        <li>sample@skymark.jp</li>
-                      </ul>
+                      <label class="skyInputLabel" for="skyInputMail"><span class="btn_icon"><span class="icon i_mail"></span>メールを送る</span></label>
+                      <input autofocus class="skyInputText" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
                     </div>
                     <menu class="dialog-menu">
-                      <button autofocus type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
-                      <button type="submit" value="confirm" class="sky-btn btn_submit btn_s">送信</button>
+                      <button type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
+                      <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">内容確認</button>
                     </menu>
                   </div>
                 </dialog>
@@ -323,12 +308,190 @@
               <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_mail i_blue"></span>搭乗後アンケート</a></li>
             </ul>
           </div>
+        </section>
 
+        <section class="sky-ticket shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
+          <div class="ticket-header">
+            <div class="inner-head">
+              <div class="ticket-logo">
+                <img src="/webcheckin/common/images/logo2.svg" alt="SKYMARK AIRLINES" class="logo active print_off">
+                <img src="/webcheckin/common/images/logo1.svg" alt="SKYMARK AIRLINES" class="logo close print_off">
+                <img src="/webcheckin/common/images/logo3.svg" alt="SKYMARK AIRLINES" class="logo print-only">
+              </div>
+              <div class="ticket-info">
+                <dl class="ticket-info-detail"><dt class="title">搭乗口</dt><dd class="detail">000</dd></dl>
+                <dl class="ticket-info-detail"><dt class="title">搭乗日</dt><dd class="detail">12/31</dd></dl>
+              </div>
+            </div>
+            <div class="inner-flex">
+              <div class="ticket-route-dep"><span class="sub">ASJ</span><span class="main">奄美大島</span></div>
+              <div class="arrow">
+                <span class="label-connect">乗継便</span>
+                <span class="icon"><img src="/webcheckin/common/images/icon/airplane.svg" alt=""></span>
+              </div>
+              <div class="ticket-route-arr"><span class="sub">KOJ</span><span class="main">鹿児島</span></div>
+            </div>
+          </div>
+          <div class="ticket-body">
+            <div class="js-height-adjust">
+              <div class="inner-flex">
+                <dl class="ticket-info-detail flight-number">
+                  <dt class="title">便名</dt>
+                  <dd class="detail">SKY0000</dd>
+                </dl>
+                <dl class="ticket-info-detail departure-time">
+                  <dt class="title">出発時刻</dt>
+                  <dd class="detail">00:00</dd>
+                </dl>
+                <dl class="ticket-info-detail seat-number">
+                  <dt class="title">座席</dt>
+                  <dd class="detail"><span class="seat-number">00A</span><span class="seat-exp">（通路席）</span></dd>
+                  <dd class="detail fwrd">フォワードシート</dd>
+                </dl>
+              </div>
+              <div class="inner-grid">
+                <dl class="ticket-info-detail pax-info">
+                  <dt class="title">搭乗者名</dt>
+                  <dd class="detail">
+                    <span class="name"><span>SORANOOOOOOOO</span><span>SABUROOOOOOOOO</span><span>様</span></span>
+                  </dd>
+                </dl>
+                <dl class="ticket-info-detail flight-status">
+                  <dt class="title">運航状況</dt>
+                  <dd class="detail">遅延</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="gate-note">
+              <p>搭乗口には出発時刻の<strong>15分前</strong>までにお越しください。</p>
+            </div>
+          </div>
+          <div class="ticket-code">
+            <div class="barcode">
+              <img src="/webcheckin/common/images/qrcode.png" alt="2次元コード">
+            </div>
+            <div class="wallet-button">
+              <button type="button"><img src="/webcheckin/common/images/JP_Add_to_Apple_Wallet_RGB_101821.svg" alt="Appleウォレットに追加"></button>
+            </div>
+            <p class="receipt-number">受付番号：0000 ABCDEF</p>
+          </div>
+          <div class="ticket-footer">
+            <ul class="sky-btnList_flex">
+              <li><button type="button" class="sky-btn btn_primary btn_m btn_icon" data-print="printOn"><span class="icon i_print i_white"></span>印刷する</button></li>
+              <li>
+                <button type="button" class="sky-btn btn_primary btn_m btn_icon" data-modal="mail"><span class="icon i_mail i_white"></span>メールを送る</button>
+                <dialog closedby="any" data-modal="mail" class="sky-modal">
+                  <div class="dialog-content">
+                    <div class="dialog-detail">
+                      <label class="skyInputLabel" for="skyInputMail"><span class="btn_icon"><span class="icon i_mail"></span>メールを送る</span></label>
+                      <input autofocus class="skyInputText" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
+                    </div>
+                    <menu class="dialog-menu">
+                      <button type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
+                      <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">内容確認</button>
+                    </menu>
+                  </div>
+                </dialog>
+              </li>
+              <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_mail i_blue"></span>搭乗後アンケート</a></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="sky-ticket shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
+          <div class="ticket-header">
+            <div class="inner-head">
+              <div class="ticket-logo">
+                <img src="/webcheckin/common/images/logo2.svg" alt="SKYMARK AIRLINES" class="logo active print_off">
+                <img src="/webcheckin/common/images/logo1.svg" alt="SKYMARK AIRLINES" class="logo close print_off">
+                <img src="/webcheckin/common/images/logo3.svg" alt="SKYMARK AIRLINES" class="logo print-only">
+              </div>
+              <div class="ticket-info">
+                <dl class="ticket-info-detail"><dt class="title">GATE</dt><dd class="detail">000</dd></dl>
+                <dl class="ticket-info-detail"><dt class="title">DATE</dt><dd class="detail">12/31</dd></dl>
+              </div>
+            </div>
+            <div class="inner-flex">
+              <div class="ticket-route-dep"><span class="sub">Amamioshima</span><span class="main">ASJ</span></div>
+              <div class="arrow">
+                <span class="label-connect">Connection</span>
+                <span class="icon"><img src="/webcheckin/common/images/icon/airplane.svg" alt=""></span>
+              </div>
+              <div class="ticket-route-arr"><span class="sub">Kagoshima</span><span class="main">KOJ</span></div>
+            </div>
+          </div>
+          <div class="ticket-body">
+            <div class="js-height-adjust">
+              <div class="inner-flex">
+                <dl class="ticket-info-detail flight-number">
+                  <dt class="title">FLIGHT</dt>
+                  <dd class="detail">SKY0000</dd>
+                </dl>
+                <dl class="ticket-info-detail departure-time">
+                  <dt class="title">DEP.TIME</dt>
+                  <dd class="detail">00:00</dd>
+                </dl>
+                <dl class="ticket-info-detail seat-number">
+                  <dt class="title">SEAT</dt>
+                  <dd class="detail"><span class="seat-number">00A</span><span class="seat-exp">(AISLE)</span></dd>
+                  <dd class="detail fwrd">FOWARD SEAT</dd>
+                </dl>
+              </div>
+              <div class="inner-grid">
+                <dl class="ticket-info-detail pax-info">
+                  <dt class="title">NAME</dt>
+                  <dd class="detail">
+                    <span class="name"><span>SORANOOOOOOOO</span><span>GOROOOOOOOOO</span></span>
+                  </dd>
+                </dl>
+                <dl class="ticket-info-detail flight-status">
+                  <dt class="title">STATUS</dt>
+                  <dd class="detail">Flight with condition</dd>
+                </dl>
+              </div>
+              <div class="infant-ticket">
+                <div class="text"><span class="icon"><img src="/webcheckin/common/images/icon/baby.svg" alt=""></span><span>INFANT BOARDING PASS</span></div>
+              </div>
+            </div>
+            <div class="gate-note">
+              <p>Please be at the boarding gate at least<strong>15 minutes</strong>before departure.</p>
+            </div>
+          </div>
+          <div class="ticket-code">
+            <div class="barcode">
+              <img src="/webcheckin/common/images/qrcode.png" alt="2次元コード">
+            </div>
+            <div class="wallet-button">
+              <button type="button"><img src="/webcheckin/common/images/US-UK_Add_to_Apple_Wallet_RGB_101421.svg" alt="Add to Apple Wallet"></button>
+            </div>
+            <p class="receipt-number">Reception number: 0000 ABCDEF</p>
+          </div>
+          <div class="ticket-footer">
+            <ul class="sky-btnList_flex">
+              <li><button type="button" class="sky-btn btn_primary btn_m btn_icon" data-print="printOn"><span class="icon i_print i_white"></span>印刷する</button></li>
+              <li>
+                <button type="button" class="sky-btn btn_primary btn_m btn_icon" data-modal="mail"><span class="icon i_mail i_white"></span>メールを送る</button>
+                <dialog closedby="any" data-modal="mail" class="sky-modal">
+                  <div class="dialog-content">
+                    <div class="dialog-detail">
+                      <label class="skyInputLabel" for="skyInputMail"><span class="btn_icon"><span class="icon i_mail"></span>メールを送る</span></label>
+                      <input autofocus class="skyInputText" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
+                    </div>
+                    <menu class="dialog-menu">
+                      <button type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
+                      <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">内容確認</button>
+                    </menu>
+                  </div>
+                </dialog>
+              </li>
+              <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_mail i_blue"></span>搭乗後アンケート</a></li>
+            </ul>
+          </div>
         </section>
       </div>
 
-      <div class="sp-only print_off">
-        <div class="sky-carousel__controls sp-only">
+      <div class="print_off">
+        <div class="sky-carousel__controls">
           <div
             class="sky-carousel__pagination swiper-pagination js-carousel-pagination"
             role="group"
@@ -344,13 +507,13 @@
 
     <section>
     <div
-      class="sky-carousel swiper js-carousel"
+      class="sky-carousel swiper js-bpCarousel"
       id="slider_bp2"
       role="group"
       aria-roledescription="スライダー"
-      aria-label="記事のスライダー"
+      aria-label="搭乗券のスライダー"
     >
-      <div class="sp-only print_off">
+      <div class="print_off">
         <div
           class="sky-carousel__navigation"
           role="group"
@@ -358,79 +521,79 @@
           aria-label="ナビゲーション"
         >
           <button type="button" class="swiper-button-prev js-carousel-previous"><span class="icon-arrow"></span></button>
-          <div class="sky-carousel__num js-carousel-fraction"><span class="current-slide">1</span> of <span class="total-slide">1</span></div>
           <button type="button" class="swiper-button-next js-carousel-next"><span class="icon-arrow"></span></button>
         </div>
       </div>
 
       <div class="sky-carousel__slides swiper-wrapper">
-        <section class="sky-ticket sky-flame_02 shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
-          <div class="ticket-container">
-          <div class="ticket-title">
-            <img src="/webcheckin/common/images/logo_2.png" alt="SKYMARK AIRLINES" class="logo"><span class="text">搭乗券</span>
+        <section class="sky-ticket disabled print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
+          <div class="ticket-header">
+            <div class="inner-head">
+              <div class="ticket-logo">
+                <img src="/webcheckin/common/images/logo2.svg" alt="SKYMARK AIRLINES" class="logo active print_off">
+                <img src="/webcheckin/common/images/logo1.svg" alt="SKYMARK AIRLINES" class="logo close print_off">
+                <img src="/webcheckin/common/images/logo3.svg" alt="SKYMARK AIRLINES" class="logo print-only">
+              </div>
+              <div class="ticket-info">
+                <dl class="ticket-info-detail"><dt class="title">搭乗口</dt><dd class="detail">000</dd></dl>
+                <dl class="ticket-info-detail"><dt class="title">搭乗日</dt><dd class="detail">12/31</dd></dl>
+              </div>
+            </div>
+            <div class="inner-flex">
+              <div class="ticket-route-dep"><span class="sub">ASJ</span><span class="main">奄美大島</span></div>
+              <div class="arrow">
+                <span class="label-connect">乗継便</span>
+                <span class="icon"><img src="/webcheckin/common/images/icon/airplane.svg" alt=""></span>
+              </div>
+              <div class="ticket-route-arr"><span class="sub">KOJ</span><span class="main">鹿児島</span></div>
+            </div>
           </div>
-
+          <div class="ticket-body">
+            <div class="js-height-adjust">
+              <div class="inner-flex">
+                <dl class="ticket-info-detail flight-number">
+                  <dt class="title">便名</dt>
+                  <dd class="detail">SKY0000</dd>
+                </dl>
+                <dl class="ticket-info-detail departure-time">
+                  <dt class="title">出発時刻</dt>
+                  <dd class="detail">00:00</dd>
+                </dl>
+                <dl class="ticket-info-detail seat-number">
+                  <dt class="title">座席</dt>
+                  <dd class="detail"><span class="seat-number">00A</span><span class="seat-exp">（通路席）</span></dd>
+                  <dd class="detail fwrd">フォワードシート</dd>
+                </dl>
+              </div>
+              <div class="inner-grid">
+                <dl class="ticket-info-detail pax-info">
+                  <dt class="title">搭乗者名</dt>
+                  <dd class="detail">
+                    <span class="name"><span>SORANO</span><span>ICHIRO</span><span>様</span></span>
+                  </dd>
+                </dl>
+                <dl class="ticket-info-detail flight-status">
+                  <dt class="title">運航状況</dt>
+                  <dd class="detail">遅延</dd>
+                </dl>
+              </div>
+              <div class="infant-ticket">
+                <div class="text"><span class="icon"><img src="/webcheckin/common/images/icon/baby.svg" alt=""></span><span>幼児用搭乗券</span></div>
+              </div>
+            </div>
+            <div class="gate-note">
+              <p>搭乗口には出発時刻の<strong>15分前</strong>までにお越しください。</p>
+            </div>
+          </div>
           <div class="ticket-code">
-            <div class="qr-code">
-              <img src="/webcheckin/common/images/qrcode.png" alt="搭乗券 QRコード">
+            <div class="barcode">
+              <img src="/webcheckin/common/images/qrcode.png" alt="2次元コード">
             </div>
             <div class="wallet-button">
-              <button type="button"><img src="/webcheckin/common/images/KR_Add_to_Apple_Wallet_RGB_102221.svg" alt="Apple 지갑 에 추가"></button>
+              <button type="button"><img src="/webcheckin/common/images/JP_Add_to_Apple_Wallet_RGB_101821.svg" alt="Appleウォレットに追加"></button>
             </div>
             <p class="receipt-number">受付番号：0000 ABCDEF</p>
           </div>
-          
-          <div class="ticket-info">
-            <h2 class="pax-name">
-              <span class="name"><span>Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano</span><span>de la Santísima Trinidad Martyr Patricio Clito Ruíz y Picasso</span><span>様</span></span>
-            </h2>
-
-            <div class="flight-info">
-              <div class="flight-date">
-                <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
-                <span class="label-status" data-flight="connect">乗継便</span>
-              </div>
-              <div class="flight-wrap">
-                <div class="flight-number">
-                  <div class="number"><span>SKY0234</span></div>
-                  <div class="seat">
-                    <ul class="seat-number">
-                      <li><img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">00A</li>
-                    </ul>
-                    <span class="seat-exp">普通席</span>
-                    <span class="seat-label">Forward Seat</span>
-                  </div>
-                </div>
-                <div class="flight-route2">
-                  <div class="flight-dep">
-                    <div class="airport">
-                      <span class="code">ASJ</span>
-                      <span class="port">奄美大島</span>
-                    </div>
-                    <span class="time">00:00<span>発</span></span>
-                  </div>
-                  <span class="icon i_plane i_blue"></span>
-                  <div class="flight-arr">
-                    <div class="airport">
-                      <span class="code">SHI</span>
-                      <span class="port">下地島</span>
-                    </div>
-                    <span class="time">00:00<span>着</span></span>
-                  </div>
-                </div>
-            </div>
-
-            <div class="gate-info">
-              <dl>
-                <dt class="gate-label"><span class="i_gate"></span>搭乗口</dt>
-                <dd class="gate-number">00</dd>
-              </dl>
-              <p class="gate-note">搭乗口には出発時刻の<span class="c_red fw_b">15分前</span>までにお越しください。</p>
-            </div>
-            </div>
-          </div>
-          </div>
-
           <div class="ticket-footer">
             <ul class="sky-btnList_flex">
               <li><button type="button" class="sky-btn btn_primary btn_m btn_icon" data-print="printOn"><span class="icon i_print i_white"></span>印刷する</button></li>
@@ -452,76 +615,73 @@
               <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_mail i_blue"></span>搭乗後アンケート</a></li>
             </ul>
           </div>
-
         </section>
 
-        <section class="sky-ticket sky-flame_02 shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
-          <div class="ticket-container">
-          <div class="ticket-title">
-            <img src="/webcheckin/common/images/logo_2.png" alt="SKYMARK AIRLINES" class="logo"><span class="text">搭乗券</span>
+        <section class="sky-ticket disabled shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
+          <div class="ticket-header">
+            <div class="inner-head">
+              <div class="ticket-logo">
+                <img src="/webcheckin/common/images/logo2.svg" alt="SKYMARK AIRLINES" class="logo active print_off">
+                <img src="/webcheckin/common/images/logo1.svg" alt="SKYMARK AIRLINES" class="logo close print_off">
+                <img src="/webcheckin/common/images/logo3.svg" alt="SKYMARK AIRLINES" class="logo print-only">
+              </div>
+              <div class="ticket-info">
+                <dl class="ticket-info-detail"><dt class="title">搭乗口</dt><dd class="detail">000</dd></dl>
+                <dl class="ticket-info-detail"><dt class="title">搭乗日</dt><dd class="detail">12/31</dd></dl>
+              </div>
+            </div>
+            <div class="inner-flex">
+              <div class="ticket-route-dep"><span class="sub">ASJ</span><span class="main">奄美大島</span></div>
+              <div class="arrow">
+                <span class="label-connect">乗継便</span>
+                <span class="icon"><img src="/webcheckin/common/images/icon/airplane.svg" alt=""></span>
+              </div>
+              <div class="ticket-route-arr"><span class="sub">KOJ</span><span class="main">鹿児島</span></div>
+            </div>
           </div>
-
+          <div class="ticket-body">
+            <div class="js-height-adjust">
+              <div class="inner-flex">
+                <dl class="ticket-info-detail flight-number">
+                  <dt class="title">便名</dt>
+                  <dd class="detail">SKY0000</dd>
+                </dl>
+                <dl class="ticket-info-detail departure-time">
+                  <dt class="title">出発時刻</dt>
+                  <dd class="detail">00:00</dd>
+                </dl>
+                <dl class="ticket-info-detail seat-number">
+                  <dt class="title">座席</dt>
+                  <dd class="detail"><span class="seat-number">00A</span><span class="seat-exp">（通路席）</span></dd>
+                  <dd class="detail fwrd">フォワードシート</dd>
+                </dl>
+              </div>
+              <div class="inner-grid">
+                <dl class="ticket-info-detail pax-info">
+                  <dt class="title">搭乗者名</dt>
+                  <dd class="detail">
+                    <span class="name"><span>SORANOOOOOOOO</span><span>ICHIROOOOOOOOO</span><span>様</span></span>
+                  </dd>
+                </dl>
+                <dl class="ticket-info-detail flight-status">
+                  <dt class="title">運航状況</dt>
+                  <dd class="detail">遅延</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="gate-note">
+              <p>搭乗口には出発時刻の<strong>15分前</strong>までにお越しください。</p>
+            </div>
+          </div>
           <div class="ticket-code">
-            <div class="qr-code">
-              <img src="/webcheckin/common/images/qrcode.png" alt="搭乗券 QRコード">
+            <div class="barcode">
+              <img src="/webcheckin/common/images/qrcode.png" alt="2次元コード">
             </div>
             <div class="wallet-button">
               <button type="button"><img src="/webcheckin/common/images/JP_Add_to_Apple_Wallet_RGB_101821.svg" alt="Appleウォレットに追加"></button>
             </div>
             <p class="receipt-number">受付番号：0000 ABCDEF</p>
           </div>
-          
-          <div class="ticket-info">
-            <h2 class="pax-name">
-              <span class="name"><span>SORANO</span><span>ICHIRO</span><span>様</span></span>
-            </h2>
-
-            <div class="flight-info">
-              <div class="flight-date">
-                <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
-                <span class="label-status" data-flight="connect">乗継便</span>
-              </div>
-              <div class="flight-wrap">
-                <div class="flight-number">
-                  <div class="number"><span>SKY0234</span></div>
-                  <div class="seat">
-                    <ul class="seat-number">
-                      <li><img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">00A</li>
-                    </ul>
-                    <span class="seat-exp">普通席</span>
-                    <span class="seat-label">Forward Seat</span>
-                  </div>
-                </div>
-                <div class="flight-route2">
-                  <div class="flight-dep">
-                    <div class="airport">
-                      <span class="code">ASJ</span>
-                      <span class="port">奄美大島</span>
-                    </div>
-                    <span class="time">00:00<span>発</span></span>
-                  </div>
-                  <span class="icon i_plane i_blue"></span>
-                  <div class="flight-arr">
-                    <div class="airport">
-                      <span class="code">SHI</span>
-                      <span class="port">下地島</span>
-                    </div>
-                    <span class="time">00:00<span>着</span></span>
-                  </div>
-                </div>
-            </div>
-
-            <div class="gate-info">
-              <dl>
-                <dt class="gate-label"><span class="i_gate"></span>搭乗口</dt>
-                <dd class="gate-number">00</dd>
-              </dl>
-              <p class="gate-note">搭乗口には出発時刻の<span class="c_red fw_b">15分前</span>までにお越しください。</p>
-            </div>
-            </div>
-          </div>
-          </div>
-
           <div class="ticket-footer">
             <ul class="sky-btnList_flex">
               <li><button type="button" class="sky-btn btn_primary btn_m btn_icon" data-print="printOn"><span class="icon i_print i_white"></span>印刷する</button></li>
@@ -531,8 +691,7 @@
                   <div class="dialog-content">
                     <div class="dialog-detail">
                       <label class="skyInputLabel" for="skyInputMail"><span class="btn_icon"><span class="icon i_mail"></span>メールを送る</span></label>
-                      <input autofocus class="skyInputText error" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
-                      <div class="skyInputErrorText" role="alert"><p class="sky-icontxt"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</span></p></div>
+                      <input autofocus class="skyInputText" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
                     </div>
                     <menu class="dialog-menu">
                       <button type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
@@ -544,76 +703,73 @@
               <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_mail i_blue"></span>搭乗後アンケート</a></li>
             </ul>
           </div>
-
         </section>
 
-        <section class="sky-ticket sky-flame_02 shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
-          <div class="ticket-container">
-          <div class="ticket-title">
-            <img src="/webcheckin/common/images/logo_2.png" alt="SKYMARK AIRLINES" class="logo"><span class="text">搭乗券</span>
+        <section class="sky-ticket disabled shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
+          <div class="ticket-header">
+            <div class="inner-head">
+              <div class="ticket-logo">
+                <img src="/webcheckin/common/images/logo2.svg" alt="SKYMARK AIRLINES" class="logo active print_off">
+                <img src="/webcheckin/common/images/logo1.svg" alt="SKYMARK AIRLINES" class="logo close print_off">
+                <img src="/webcheckin/common/images/logo3.svg" alt="SKYMARK AIRLINES" class="logo print-only">
+              </div>
+              <div class="ticket-info">
+                <dl class="ticket-info-detail"><dt class="title">搭乗口</dt><dd class="detail">000</dd></dl>
+                <dl class="ticket-info-detail"><dt class="title">搭乗日</dt><dd class="detail">12/31</dd></dl>
+              </div>
+            </div>
+            <div class="inner-flex">
+              <div class="ticket-route-dep"><span class="sub">ASJ</span><span class="main">奄美大島</span></div>
+              <div class="arrow">
+                <span class="label-connect">乗継便</span>
+                <span class="icon"><img src="/webcheckin/common/images/icon/airplane.svg" alt=""></span>
+              </div>
+              <div class="ticket-route-arr"><span class="sub">KOJ</span><span class="main">鹿児島</span></div>
+            </div>
           </div>
-
+          <div class="ticket-body">
+            <div class="js-height-adjust">
+              <div class="inner-flex">
+                <dl class="ticket-info-detail flight-number">
+                  <dt class="title">便名</dt>
+                  <dd class="detail">SKY0000</dd>
+                </dl>
+                <dl class="ticket-info-detail departure-time">
+                  <dt class="title">出発時刻</dt>
+                  <dd class="detail">00:00</dd>
+                </dl>
+                <dl class="ticket-info-detail seat-number">
+                  <dt class="title">座席</dt>
+                  <dd class="detail"><span class="seat-number">00A</span><span class="seat-exp">（通路席）</span></dd>
+                  <dd class="detail fwrd">フォワードシート</dd>
+                </dl>
+              </div>
+              <div class="inner-grid">
+                <dl class="ticket-info-detail pax-info">
+                  <dt class="title">搭乗者名</dt>
+                  <dd class="detail">
+                    <span class="name"><span>SORANOOOOOOOO</span><span>JIROOOOOOOOO</span><span>様</span></span>
+                  </dd>
+                </dl>
+                <dl class="ticket-info-detail flight-status">
+                  <dt class="title">運航状況</dt>
+                  <dd class="detail">遅延</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="gate-note">
+              <p>搭乗口には出発時刻の<strong>15分前</strong>までにお越しください。</p>
+            </div>
+          </div>
           <div class="ticket-code">
-            <div class="qr-code">
-              <img src="/webcheckin/common/images/qrcode.png" alt="搭乗券 QRコード">
+            <div class="barcode">
+              <img src="/webcheckin/common/images/qrcode.png" alt="2次元コード">
             </div>
             <div class="wallet-button">
               <button type="button"><img src="/webcheckin/common/images/JP_Add_to_Apple_Wallet_RGB_101821.svg" alt="Appleウォレットに追加"></button>
             </div>
             <p class="receipt-number">受付番号：0000 ABCDEF</p>
           </div>
-          
-          <div class="ticket-info">
-            <h2 class="pax-name">
-              <span class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>SORANO</span><span>JIRO</span><span>様</span></span>
-            </h2>
-
-            <div class="flight-info">
-              <div class="flight-date">
-                <div class="flight-skd"><span class="date">00月00日</span><span class="week">（月）</span></div>
-                <span class="label-status" data-flight="connect">乗継便</span>
-              </div>
-              <div class="flight-wrap">
-                <div class="flight-number">
-                  <div class="number"><span>SKY0234</span></div>
-                  <div class="seat">
-                    <ul class="seat-number">
-                      <li><img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">00A</li>
-                    </ul>
-                    <span class="seat-exp">普通席</span>
-                    <span class="seat-label">Forward Seat</span>
-                  </div>
-                </div>
-                <div class="flight-route2">
-                  <div class="flight-dep">
-                    <div class="airport">
-                      <span class="code">ASJ</span>
-                      <span class="port">奄美大島</span>
-                    </div>
-                    <span class="time">00:00<span>発</span></span>
-                  </div>
-                  <span class="icon i_plane i_blue"></span>
-                  <div class="flight-arr">
-                    <div class="airport">
-                      <span class="code">SHI</span>
-                      <span class="port">下地島</span>
-                    </div>
-                    <span class="time">00:00<span>着</span></span>
-                  </div>
-                </div>
-            </div>
-
-            <div class="gate-info">
-              <dl>
-                <dt class="gate-label"><span class="i_gate"></span>搭乗口</dt>
-                <dd class="gate-number">00</dd>
-              </dl>
-              <p class="gate-note">搭乗口には出発時刻の<span class="c_red fw_b">15分前</span>までにお越しください。</p>
-            </div>
-            </div>
-          </div>
-          </div>
-
           <div class="ticket-footer">
             <ul class="sky-btnList_flex">
               <li><button type="button" class="sky-btn btn_primary btn_m btn_icon" data-print="printOn"><span class="icon i_print i_white"></span>印刷する</button></li>
@@ -622,17 +778,12 @@
                 <dialog closedby="any" data-modal="mail" class="sky-modal">
                   <div class="dialog-content">
                     <div class="dialog-detail">
-                      <div class="error-message">
-                        <p class="sky-icontxt" role="alert"><span class="icon i_error i_red"></span><span class="text">エラーの場合のテキストが入ります。</span></p>
-                      </div>
-                      <p class="fw_b mb8">宛先にお間違えがないことをご確認のうえ送信ボタンを押してください。</p>
-                      <ul class="sky-list_disc">
-                        <li>sample@skymark.jp</li>
-                      </ul>
+                      <label class="skyInputLabel" for="skyInputMail"><span class="btn_icon"><span class="icon i_mail"></span>メールを送る</span></label>
+                      <input autofocus class="skyInputText" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
                     </div>
                     <menu class="dialog-menu">
-                      <button autofocus type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
-                      <button type="submit" value="confirm" class="sky-btn btn_submit btn_s">送信</button>
+                      <button type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
+                      <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">内容確認</button>
                     </menu>
                   </div>
                 </dialog>
@@ -640,12 +791,190 @@
               <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_mail i_blue"></span>搭乗後アンケート</a></li>
             </ul>
           </div>
+        </section>
 
+        <section class="sky-ticket disabled shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
+          <div class="ticket-header">
+            <div class="inner-head">
+              <div class="ticket-logo">
+                <img src="/webcheckin/common/images/logo2.svg" alt="SKYMARK AIRLINES" class="logo active print_off">
+                <img src="/webcheckin/common/images/logo1.svg" alt="SKYMARK AIRLINES" class="logo close print_off">
+                <img src="/webcheckin/common/images/logo3.svg" alt="SKYMARK AIRLINES" class="logo print-only">
+              </div>
+              <div class="ticket-info">
+                <dl class="ticket-info-detail"><dt class="title">搭乗口</dt><dd class="detail">000</dd></dl>
+                <dl class="ticket-info-detail"><dt class="title">搭乗日</dt><dd class="detail">12/31</dd></dl>
+              </div>
+            </div>
+            <div class="inner-flex">
+              <div class="ticket-route-dep"><span class="sub">ASJ</span><span class="main">奄美大島</span></div>
+              <div class="arrow">
+                <span class="label-connect">乗継便</span>
+                <span class="icon"><img src="/webcheckin/common/images/icon/airplane.svg" alt=""></span>
+              </div>
+              <div class="ticket-route-arr"><span class="sub">KOJ</span><span class="main">鹿児島</span></div>
+            </div>
+          </div>
+          <div class="ticket-body">
+            <div class="js-height-adjust">
+              <div class="inner-flex">
+                <dl class="ticket-info-detail flight-number">
+                  <dt class="title">便名</dt>
+                  <dd class="detail">SKY0000</dd>
+                </dl>
+                <dl class="ticket-info-detail departure-time">
+                  <dt class="title">出発時刻</dt>
+                  <dd class="detail">00:00</dd>
+                </dl>
+                <dl class="ticket-info-detail seat-number">
+                  <dt class="title">座席</dt>
+                  <dd class="detail"><span class="seat-number">00A</span><span class="seat-exp">（通路席）</span></dd>
+                  <dd class="detail fwrd">フォワードシート</dd>
+                </dl>
+              </div>
+              <div class="inner-grid">
+                <dl class="ticket-info-detail pax-info">
+                  <dt class="title">搭乗者名</dt>
+                  <dd class="detail">
+                    <span class="name"><span>SORANOOOOOOOO</span><span>SABUROOOOOOOOO</span><span>様</span></span>
+                  </dd>
+                </dl>
+                <dl class="ticket-info-detail flight-status">
+                  <dt class="title">運航状況</dt>
+                  <dd class="detail">遅延</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="gate-note">
+              <p>搭乗口には出発時刻の<strong>15分前</strong>までにお越しください。</p>
+            </div>
+          </div>
+          <div class="ticket-code">
+            <div class="barcode">
+              <img src="/webcheckin/common/images/qrcode.png" alt="2次元コード">
+            </div>
+            <div class="wallet-button">
+              <button type="button"><img src="/webcheckin/common/images/JP_Add_to_Apple_Wallet_RGB_101821.svg" alt="Appleウォレットに追加"></button>
+            </div>
+            <p class="receipt-number">受付番号：0000 ABCDEF</p>
+          </div>
+          <div class="ticket-footer">
+            <ul class="sky-btnList_flex">
+              <li><button type="button" class="sky-btn btn_primary btn_m btn_icon" data-print="printOn"><span class="icon i_print i_white"></span>印刷する</button></li>
+              <li>
+                <button type="button" class="sky-btn btn_primary btn_m btn_icon" data-modal="mail"><span class="icon i_mail i_white"></span>メールを送る</button>
+                <dialog closedby="any" data-modal="mail" class="sky-modal">
+                  <div class="dialog-content">
+                    <div class="dialog-detail">
+                      <label class="skyInputLabel" for="skyInputMail"><span class="btn_icon"><span class="icon i_mail"></span>メールを送る</span></label>
+                      <input autofocus class="skyInputText" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
+                    </div>
+                    <menu class="dialog-menu">
+                      <button type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
+                      <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">内容確認</button>
+                    </menu>
+                  </div>
+                </dialog>
+              </li>
+              <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_mail i_blue"></span>搭乗後アンケート</a></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="sky-ticket disabled shdw_01 print_off sky-carousel__slide swiper-slide" aria-roledescription="スライド">
+          <div class="ticket-header">
+            <div class="inner-head">
+              <div class="ticket-logo">
+                <img src="/webcheckin/common/images/logo2.svg" alt="SKYMARK AIRLINES" class="logo active print_off">
+                <img src="/webcheckin/common/images/logo1.svg" alt="SKYMARK AIRLINES" class="logo close print_off">
+                <img src="/webcheckin/common/images/logo3.svg" alt="SKYMARK AIRLINES" class="logo print-only">
+              </div>
+              <div class="ticket-info">
+                <dl class="ticket-info-detail"><dt class="title">GATE</dt><dd class="detail">000</dd></dl>
+                <dl class="ticket-info-detail"><dt class="title">DATE</dt><dd class="detail">12/31</dd></dl>
+              </div>
+            </div>
+            <div class="inner-flex">
+              <div class="ticket-route-dep"><span class="sub">Amamioshima</span><span class="main">ASJ</span></div>
+              <div class="arrow">
+                <span class="label-connect">Connection</span>
+                <span class="icon"><img src="/webcheckin/common/images/icon/airplane.svg" alt=""></span>
+              </div>
+              <div class="ticket-route-arr"><span class="sub">Kagoshima</span><span class="main">KOJ</span></div>
+            </div>
+          </div>
+          <div class="ticket-body">
+            <div class="js-height-adjust">
+              <div class="inner-flex">
+                <dl class="ticket-info-detail flight-number">
+                  <dt class="title">FLIGHT</dt>
+                  <dd class="detail">SKY0000</dd>
+                </dl>
+                <dl class="ticket-info-detail departure-time">
+                  <dt class="title">DEP.TIME</dt>
+                  <dd class="detail">00:00</dd>
+                </dl>
+                <dl class="ticket-info-detail seat-number">
+                  <dt class="title">SEAT</dt>
+                  <dd class="detail"><span class="seat-number">00A</span><span class="seat-exp">(AISLE)</span></dd>
+                  <dd class="detail fwrd">FOWARD SEAT</dd>
+                </dl>
+              </div>
+              <div class="inner-grid">
+                <dl class="ticket-info-detail pax-info">
+                  <dt class="title">NAME</dt>
+                  <dd class="detail">
+                    <span class="name"><span>SORANOOOOOOOO</span><span>GOROOOOOOOOO</span></span>
+                  </dd>
+                </dl>
+                <dl class="ticket-info-detail flight-status">
+                  <dt class="title">STATUS</dt>
+                  <dd class="detail">Flight with condition</dd>
+                </dl>
+              </div>
+              <div class="infant-ticket">
+                <div class="text"><span class="icon"><img src="/webcheckin/common/images/icon/baby.svg" alt=""></span><span>INFANT BOARDING PASS</span></div>
+              </div>
+            </div>
+            <div class="gate-note">
+              <p>Please be at the boarding gate at least<strong>15 minutes</strong>before departure.</p>
+            </div>
+          </div>
+          <div class="ticket-code">
+            <div class="barcode">
+              <img src="/webcheckin/common/images/qrcode.png" alt="2次元コード">
+            </div>
+            <div class="wallet-button">
+              <button type="button"><img src="/webcheckin/common/images/US-UK_Add_to_Apple_Wallet_RGB_101421.svg" alt="Add to Apple Wallet"></button>
+            </div>
+            <p class="receipt-number">Reception number: 0000 ABCDEF</p>
+          </div>
+          <div class="ticket-footer">
+            <ul class="sky-btnList_flex">
+              <li><button type="button" class="sky-btn btn_primary btn_m btn_icon" data-print="printOn"><span class="icon i_print i_white"></span>印刷する</button></li>
+              <li>
+                <button type="button" class="sky-btn btn_primary btn_m btn_icon" data-modal="mail"><span class="icon i_mail i_white"></span>メールを送る</button>
+                <dialog closedby="any" data-modal="mail" class="sky-modal">
+                  <div class="dialog-content">
+                    <div class="dialog-detail">
+                      <label class="skyInputLabel" for="skyInputMail"><span class="btn_icon"><span class="icon i_mail"></span>メールを送る</span></label>
+                      <input autofocus class="skyInputText" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
+                    </div>
+                    <menu class="dialog-menu">
+                      <button type="reset" class="sky-btn btn_tertiary btn_s">閉じる</button>
+                      <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">内容確認</button>
+                    </menu>
+                  </div>
+                </dialog>
+              </li>
+              <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_mail i_blue"></span>搭乗後アンケート</a></li>
+            </ul>
+          </div>
         </section>
       </div>
 
-      <div class="sp-only print_off">
-        <div class="sky-carousel__controls sp-only">
+      <div class="print_off">
+        <div class="sky-carousel__controls">
           <div
             class="sky-carousel__pagination swiper-pagination js-carousel-pagination"
             role="group"
@@ -657,7 +986,7 @@
     </div>
     </section>
 
-    <hr class="sky-border">
+    <hr class="sky-border print_off">
 
     <section class="sky-flame_03 sky-btnList_grid print_off">
       <button type="button" class="sky-btn btn_secondary btn_l btn_icon-r"><span>座席変更</span><span class="icon i_arr-r i_blue"></span></button>
@@ -692,7 +1021,6 @@
 <!-- globalscript -->
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/webcheckin/common/js/script.js?ver=1"></script>
-<script type="text/javascript" src="/webcheckin/common/js/header.js?ver=1"></script>
 <script type="text/javascript" src="/webcheckin/common/js/footer.js?ver=1"></script>
 <!-- localscript -->
 </body>
