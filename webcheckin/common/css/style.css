@@ -796,6 +796,21 @@ h1, h2, h3, h4, h5 {
     filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%) !important;
   }
 }
+/* disabled */
+.btn-disabled {
+  background-color: var(--color-disabled);
+  border: 2px solid var(--color-disabled);
+  box-shadow: none;
+  color: var(--color-white);
+  cursor: not-allowed;
+  pointer-events: none;
+  &:hover {
+    opacity: 1;
+  }
+  & .icon {
+    filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%) !important;
+  }
+}
 
 .btn_icon-r, .btn_icon-l {
   justify-content: space-between;
@@ -2188,7 +2203,7 @@ html:has(dialog[open]) {
     & .inner-flex {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
       margin-top: 1.6rem;
       & .ticket-route-dep, & .ticket-route-arr {
         & .sub {
@@ -2251,8 +2266,8 @@ html:has(dialog[open]) {
     & .inner-flex {
       display: flex;
       flex-wrap: wrap;
-      gap: .8rem;
-      justify-content: space-between;
+      gap: 2rem;
+      justify-content: flex-start;
       & .seat-exp {
         font-size: .9em;
       }
@@ -2266,7 +2281,7 @@ html:has(dialog[open]) {
     & .inner-grid {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: .8rem;
+      gap: 2rem;
       justify-content: space-between;
       margin-top: .8rem;
       & .pax-info {
