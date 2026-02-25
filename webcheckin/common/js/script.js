@@ -562,6 +562,13 @@ function initAnchorLinks() {
       
       // ターゲット要素が存在し、かつ表示されている場合のみ処理
       if (targetElement && targetElement.offsetParent !== null) {
+
+        // フォーカス移動（フォーカスを受け取れるようにtabindexを設定）
+        if (!targetElement.getAttribute('tabindex')) {
+          targetElement.setAttribute('tabindex', '-1');
+          targetElement.style.outline = 'none'; // プログラムによるフォーカス時の枠線を消す
+        }
+        targetElement.focus();
         
         // SP表示時の処理
         if (spMediaQuery.matches) {
@@ -682,6 +689,7 @@ function initSeatSwiper(startIndices = {}) {
       direction: 'horizontal',
       slidesPerView: 'auto',
       spaceBetween: 8,
+      watchSlidesProgress: true,
       loop: false,
       threshold: 15,
       touchStartPreventDefault: false, // タッチ開始時のデフォルト動作防止を解除
@@ -703,6 +711,20 @@ function initSeatSwiper(startIndices = {}) {
         paginationBulletMessage: '{{index}}枚目のスライドを表示',
       },
       on: {
+        // 各タイミングでフォーカス制御を実行
+        init: function() {
+          controlSlideFocus(this);
+        },
+        resize: function() {
+          controlSlideFocus(this);
+        },
+        slideChange: function() {
+          controlSlideFocus(this);
+        },
+        // アニメーション完了後も念のため更新
+        transitionEnd: function() {
+          controlSlideFocus(this);
+        }
       },
     });
     seatSwipers.push(swiperInstance);
@@ -883,14 +905,38 @@ function initPopover() {
   if (popoverElm && typeof popoverElm.showPopover === 'function') {
     // ページ読み込み時にpopoverを表示
     popoverElm.showPopover();
+
+    // ポップオーバー内の最初のフォーカス可能要素へフォーカス移動
+    setTimeout(() => {
+      const firstFocusable = popoverElm.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (firstFocusable) {
+        firstFocusable.focus();
+      }
+    }, 100);
     
     // フェードアウトして非表示にする関数
-    const fadeOutAndHide = () => {
+    const fadeOutAndHide = (event) => {
+      // イベント発生元のIDを事前に取得しておく（setTimeout内ではevent参照が不安定になる可能性があるため）
+      // また、event.currentTarget はイベントハンドラが設定された要素
+      const targetId = event && event.currentTarget ? event.currentTarget.id : '';
+      const isLink = targetId === 'js-popover-link';
+
       popoverElm.classList.add('fade-out');
       setTimeout(() => {
         popoverElm.hidePopover();
         popoverElm.style.display = 'none';
         popoverElm.classList.add('hidden');
+
+        // リンククリック以外の場合のみ、マップエリアへフォーカスを戻す
+        if (!isLink) {
+          const mapArea = document.getElementById('js-map');
+          if (mapArea) {
+            if (!mapArea.hasAttribute('tabindex')) {
+              mapArea.setAttribute('tabindex', '-1');
+            }
+            mapArea.focus();
+          }
+        }
       }, 300); // CSSのtransition時間と同じ
     };
     
@@ -1138,6 +1184,7 @@ function initBpSwiper(startIndices = {}) {
       initialSlide: startIndex,
       direction: 'horizontal',
       slidesPerView: 1,
+      watchSlidesProgress: true, 
       centeredSlides: true, // アクティブなスライドを中央に配置
       spaceBetween: 16,
       loop: false,
@@ -1171,10 +1218,21 @@ function initBpSwiper(startIndices = {}) {
       on: {
         init: function() {
           alignTicketBodyHeights(carouselEl);
+          // フォーカス制御を実行
+          controlSlideFocus(this);
         },
-        // resizeイベントで高さを再計算
         resize: function() {
           alignTicketBodyHeights(carouselEl);
+          // リサイズ時のフォーカス制御を実行
+          controlSlideFocus(this);
+        },
+        // スライド変更時のフォーカス制御を実行
+        slideChange: function() {
+          controlSlideFocus(this);
+        },
+        // アニメーション完了後も念のため更新
+        transitionEnd: function() {
+          controlSlideFocus(this);
         }
       },
     });
@@ -1195,6 +1253,23 @@ function destroyBpSwiper() {
   const carouselEls = document.querySelectorAll('.js-bpCarousel');
   carouselEls.forEach((carouselEl) => {
     carouselEl.classList.add('js-carousel-none');
+  });
+}
+
+/**
+ * Swiperの表示中スライド以外のフォーカスを無効化
+ * ※ Swiper設定で watchSlidesProgress: true が必要
+ */
+function controlSlideFocus(swiper) {
+  swiper.slides.forEach(slide => {
+    // swiper-slide-visible クラスが付いている（＝画面内に見えている）場合
+    if (slide.classList.contains('swiper-slide-visible')) {
+      slide.removeAttribute('inert');
+      slide.removeAttribute('aria-hidden'); // スクリーンリーダー用にも表示
+    } else {
+      slide.setAttribute('inert', ''); // フォーカスもクリックも無効化
+      slide.setAttribute('aria-hidden', 'true');
+    }
   });
 }
 
