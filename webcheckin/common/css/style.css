@@ -1685,9 +1685,9 @@ html:has(dialog[open]) {
   word-wrap: break-word;
 }
 .label-status[data-flight="connect"] {
-  background-color: var(--color-accent03);
-  border-radius: 0px;
-  color: var(--color-white);
+  background-color: var(--color-accent03) !important;
+  border-radius: 0px !important;
+  color: var(--color-white) !important;
 }
 [data-status="canc"] .number {
   color: var(--color-grey500);
@@ -1759,6 +1759,9 @@ html:has(dialog[open]) {
       & .week {
         font-size: .9em;
         font-weight: 400;
+        :is(:lang(en), :lang(zh), :lang(ko)) & {
+          margin-left: .4rem;
+        }
       }
     }
   }
@@ -1864,12 +1867,7 @@ html:has(dialog[open]) {
     gap: .8rem;
     & .flight-routeWrap {
       margin-top: 0;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      grid-template-rows: auto auto;
-      column-gap: 2rem;
       & .sky-icontxt {
-        margin-top: 0;
         grid-column: 1 / span 2;
         grid-row: 2;
         width: 100%;
@@ -2167,6 +2165,7 @@ html:has(dialog[open]) {
     background-color: var(--color-sky-blue);
     color: var(--color-white);
     line-height: 1;
+    min-height: 136px;
     padding: 1.6rem;
     & .inner-head {
       display: flex;

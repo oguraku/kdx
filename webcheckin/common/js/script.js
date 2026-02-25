@@ -646,23 +646,6 @@ function getCarouselButtonTexts() {
   return buttonTexts[currentLang] || buttonTexts['ja'];
 }
 
-function carouselNavFraction(swiper, carouselEl) {
-  const nav = carouselEl.querySelector('.js-carousel-fraction');
-  if (!nav) return;
-  const current = nav.querySelector('.current-slide');
-  const total = nav.querySelector('.total-slide');
-  if (current && total) {
-    current.textContent = swiper.realIndex + 1;
-    if (swiper.params.loop) {
-      // loop時はダミー分を除外
-      total.textContent = swiper.slides.length - swiper.loopedSlides * 2;
-    } else {
-      // loopなしはそのまま
-      total.textContent = swiper.slides.length;
-    }
-  }
-}
-
 /**
  * カルーセル初期化（座席選択）
  * @param {Object} startIndices - { 'ID名': インデックス番号 } の形式のオブジェクト
@@ -720,16 +703,9 @@ function initSeatSwiper(startIndices = {}) {
         paginationBulletMessage: '{{index}}枚目のスライドを表示',
       },
       on: {
-        init: function() {
-          carouselNavFraction(this, carouselEl);
-        },
-        slideChange: function() {
-          carouselNavFraction(this, carouselEl);
-        }
       },
     });
     seatSwipers.push(swiperInstance);
-    carouselNavFraction(swiperInstance, carouselEl);
   });
   
   // Swiperインスタンスが作成されなかった場合（スライドが0〜1枚）
@@ -902,7 +878,9 @@ function initMapIndicator() {
  */
 function initPopover() {
   const popoverElm = document.getElementById('js-popover');
-  if (popoverElm) {
+  
+  // ブラウザがPopover APIに対応しているかチェック
+  if (popoverElm && typeof popoverElm.showPopover === 'function') {
     // ページ読み込み時にpopoverを表示
     popoverElm.showPopover();
     
@@ -1192,19 +1170,15 @@ function initBpSwiper(startIndices = {}) {
       },
       on: {
         init: function() {
-          carouselNavFraction(this, carouselEl);
           alignTicketBodyHeights(carouselEl);
         },
-        slideChange: function() {
-          carouselNavFraction(this, carouselEl);
-        },
+        // resizeイベントで高さを再計算
         resize: function() {
           alignTicketBodyHeights(carouselEl);
         }
       },
     });
     bpSwipers.push(swiperInstance);
-    carouselNavFraction(swiperInstance, carouselEl);
   });
 }
 

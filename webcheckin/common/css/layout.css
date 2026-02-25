@@ -705,7 +705,7 @@
       }
     }
     & .wc-attention {
-      break-before: page;
+      /* break-before: page; */
     }
     /* carousel */
     & .sky-carousel.swiper {
@@ -1065,6 +1065,7 @@
         & .flight-routeWrap {
           display: flex;
           column-gap: .8rem;
+          row-gap: .4rem;
           flex-wrap: wrap;
           margin-top: 0;
         }
@@ -1170,4 +1171,33 @@
     opacity: 0;
     visibility: hidden;
   }
+}
+
+
+/** --------------------------------------------------------
+ * wc-complete-seat
+ */
+.wc-complete-seat {
+  .sky-rsvflight {
+    .sky-border {
+      width: calc(100% + 2em);
+      margin-left: -1em;
+    }
+    .pax-list {
+      & > li:last-of-type {
+        border: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+.wc-complete-seat {
+  .sky-rsvflight {
+    .sky-border {
+      width: calc(100% + 2.5em);
+      margin-left: -1.25em;
+    }
+  }
+}
 }
