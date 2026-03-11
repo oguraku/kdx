@@ -2263,15 +2263,15 @@ html:has(dialog[open]) {
       }
     }
     & .inner-flex {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
+      display: grid;
+      grid-template-columns: 32% 32% 32%;
+      gap: 1%;
       justify-content: flex-start;
       & .seat-exp {
         font-size: .9em;
       }
       & .fwrd {
-        font-size: .9em;
+        font-size: .8em;
       }
     }
     & .inner-flex ~ .inner-flex {
@@ -2279,9 +2279,8 @@ html:has(dialog[open]) {
     }
     & .inner-grid {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 2rem;
-      justify-content: space-between;
+      grid-template-columns: 62% 32%;
+      gap: 4%;
       margin-top: .8rem;
       & .pax-info {
         & .name {
@@ -2295,10 +2294,6 @@ html:has(dialog[open]) {
             font-weight: 400;
           }
         }
-      }
-      & .flight-status {
-        min-width: 8rem;
-        max-width: 10rem;
       }
     }
     & .inner-grid ~ .inner-grid {
