@@ -2272,6 +2272,7 @@ html:has(dialog[open]) {
       }
       & .fwrd {
         font-size: .8em;
+        letter-spacing: -2%;
       }
     }
     & .inner-flex ~ .inner-flex {
