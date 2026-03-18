@@ -872,6 +872,9 @@
         pointer-events: none;
         & .icon-arrow {
           color: var(--color-grey400);
+          &::before, &::after {
+            background-color:var(--color-grey400);
+          }
         }
       }
     }
@@ -948,6 +951,17 @@
       max-width: 32rem;
     }
   }
+}
+
+/* カルーセル内の非活性スライドのスタイル */
+.sky-seat-paxlist .pax-item[data-paxSeat="disabled"] {
+  pointer-events: none;  /* クリックやタップを無効化 */
+  cursor: default;
+}
+
+/* スライダーの矢印などが disabled 要素の上に来ても反応しないようにする */
+.pax-item[data-paxSeat="disabled"] * {
+  user-select: none;
 }
 
 @media (min-width: 768px) {
@@ -1151,6 +1165,9 @@
         pointer-events: none;
         & .icon-arrow {
           color: var(--color-grey400);
+          &::before, &::after {
+            background-color:var(--color-grey400);
+          }
         }
       }
     }

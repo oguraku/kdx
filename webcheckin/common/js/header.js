@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </button>
           <option value="ja" selected>日本語</option>
           <option value="en">English</option>
-          <option value="zh_TW">中文(繁体)</option>
+          <option value="zh_TW">中文(繁體)</option>
           <option value="ko">한국어</option>
           </select>
         </div>

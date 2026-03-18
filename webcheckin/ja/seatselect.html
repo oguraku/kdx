@@ -48,7 +48,6 @@
             <div class="flight-routeWrap">
               <div class="flight-number" data-status="delay">
                 <span class="number">SKY0123</span>
-                <span class="label-status" data-flight="connect">乗継運賃</span>
                 <span class="label-status">遅延</span>
               </div>
               <div class="flight-route">
@@ -106,11 +105,14 @@
           <div class="item-inner">
             <div class="pax-number">2</div>
             <div class="pax-name">
-                <div class="name"><span>SORANO</span><span>ICHIRO</span><span>様</span></div>
+                <div class="name"><span>SORANO</span><span>JIRO</span><span>様</span></div>
                 <div class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>SORANO</span><span>JIRO</span><span>様</span></div>
             </div>
-            <ul class="seat-number">
-              <li><img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">未指定</li>
+            <ul class="seat-number notifs">
+              <li>
+                <img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">未指定
+                <img src="/webcheckin/common/images/icon/alert-fill1.svg" alt="確認" class="i_notifs">
+              </li>
             </ul>
           </div>
         </li>
@@ -118,10 +120,13 @@
           <div class="item-inner">
             <div class="pax-number" data-paxNum="selected">3</div>
             <div class="pax-name">
-                <div class="name"><span>SORANONONO</span><span>ICHIRORORO</span><span>様</span></div>
+                <div class="name"><span>SORANONONO</span><span>SABURORORO</span><span>様</span></div>
             </div>
-            <ul class="seat-number">
-              <li><img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">00A</li>
+            <ul class="seat-number notifs">
+              <li>
+                <img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">00A
+                <img src="/webcheckin/common/images/icon/alert-fill1.svg" alt="確認" class="i_notifs">
+              </li>
             </ul>
           </div>
         </li>
@@ -129,7 +134,7 @@
           <div class="item-inner">
             <div class="pax-number" data-paxNum="selected">4</div>
             <div class="pax-name">
-                <div class="name"><span>SORANO</span><span>ICHIRO</span><span>様</span></div>
+                <div class="name"><span>SORANO</span><span>SHIRO</span><span>様</span></div>
             </div>
             <ul class="seat-number">
               <li><img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">未指定</li>
@@ -141,13 +146,27 @@
           <div class="item-inner">
             <div class="pax-number" data-paxNum="selected">5</div>
             <div class="pax-name">
-                <div class="name"><span>SORANO</span><span>ICHIRO</span><span>様</span></div>
+                <div class="name"><span>SORANO</span><span>GORO</span><span>様</span></div>
                 <div class="name infant"><img src="/webcheckin/common/images/icon/baby.svg" alt="幼児" class="i_inf"><span>SORANO</span><span>JIRO</span><span>様</span></div>
             </div>
             <ul class="seat-number">
               <li><img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">00A</li>
             </ul>
             <div class="text-disabled">チェックイン済</div>
+          </div>
+        </li>
+        <li class="pax-item sky-carousel__slide swiper-slide" tabindex="0">
+          <div class="item-inner">
+            <div class="pax-number" data-paxNum="selected">6</div>
+            <div class="pax-name">
+                <div class="name"><span>SORANO</span><span>ROKURO</span><span>様</span></div>
+            </div>
+            <ul class="seat-number notifs">
+              <li>
+                <img src="/webcheckin/common/images/icon/seat2.svg" alt="座席番号" class="i_seat">00A
+                <img src="/webcheckin/common/images/icon/alert-fill1.svg" alt="確認" class="i_notifs">
+              </li>
+            </ul>
           </div>
         </li>
       </ul>
@@ -239,9 +258,9 @@
         </div>
         <div class="seat-row">
           <div class="seat-set">
-            <div class="seat"><button type="button" class="seat-content" data-seat="na" data-modal="na-fwrd"><span class="seat-number">6A</span><span class="seat-status">選択不可</span></button></div>
-            <div class="seat"><button type="button" class="seat-content" data-seat="na" data-modal="na-fwrd"><span class="seat-number">6B</span><span class="seat-status">選択不可</span></button></div>
-            <div class="seat"><button type="button" class="seat-content" data-seat="na" data-modal="na-fwrd"><span class="seat-number">6C</span><span class="seat-status">選択不可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="inelig" data-modal="na-fwrd"><span class="seat-number">6A</span><span class="seat-status">選択不可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="inelig" data-modal="na-fwrd"><span class="seat-number">6B</span><span class="seat-status">選択不可</span></button></div>
+            <div class="seat"><button type="button" class="seat-content" data-seat="inelig" data-modal="na-fwrd"><span class="seat-number">6C</span><span class="seat-status">選択不可</span></button></div>
           </div>
           <div class="seat-order">6</div>
           <div class="seat-set">
@@ -722,8 +741,9 @@
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-noreclining.svg" class="icon-legend" alt=""></span>リクライニング不可</li>
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-emergency.svg" class="icon-legend" alt=""></span>非常口座席</li>
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-fwrd.svg" class="icon-legend" alt=""></span>フォワードシート</li>
-              <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-navail.svg" class="icon-legend" alt=""></span>選択済・選択不可</li>
+              <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-navail.svg" class="icon-legend" alt=""></span>選択済</li>
               <li class="legend-item"><span class="legend-label inf"><img src="/webcheckin/common/images/label/label-navail-inf.svg" class="icon-legend" alt=""></span>選択済（幼児連れ）</li>
+              <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-navail-selected.svg" class="icon-legend" alt=""></span>選択不可</li>
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-selected.svg" class="icon-legend" alt=""></span>選択座席</li>
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-emergencymark.svg" class="icon-legend" alt=""></span>非常口</li>
               <li class="legend-item"><span class="legend-label"><img src="/webcheckin/common/images/label/label-wing.svg" class="icon-legend" alt=""></span>翼</li>

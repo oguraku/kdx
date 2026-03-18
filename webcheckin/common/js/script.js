@@ -670,7 +670,7 @@ function initSeatSwiper(startIndices = {}) {
   const carouselEls = document.querySelectorAll('.js-carousel');
   carouselEls.forEach((carouselEl) => {
     // スライドの枚数を確認
-    const slides = carouselEl.querySelectorAll('.swiper-slide');
+    const slides = Array.from(carouselEl.querySelectorAll('.swiper-slide'));
     
     // スライドが1枚以下の場合はカルーセルを初期化しない
     if (slides.length <= 1) {
@@ -681,8 +681,12 @@ function initSeatSwiper(startIndices = {}) {
     // js-carousel-noneクラスを削除（カルーセル再初期化時）
     carouselEl.classList.remove('js-carousel-none');
 
-    // このカルーセルのIDに対応する開始インデックスを取得（なければ0）
-    const startIndex = startIndices[carouselEl.id] || 0;
+    // "active" なスライドのインデックスを探す ---
+    let startIndex = startIndices[carouselEl.id];
+    if (startIndex === undefined) {
+      const activeIdx = slides.findIndex(slide => slide.getAttribute('data-paxSeat') === 'active');
+      startIndex = activeIdx !== -1 ? activeIdx : 0;
+    }
     
     const swiperInstance = new Swiper(carouselEl, {
       initialSlide: startIndex,
@@ -693,8 +697,9 @@ function initSeatSwiper(startIndices = {}) {
       loop: false,
       threshold: 15,
       touchStartPreventDefault: false, // タッチ開始時のデフォルト動作防止を解除
-      edgeSwipeDetection: true,        // Edgeでのスワイプ検知を有効化
-      mousewheel: false,        // マウスホイールでカルーセルが動く必要がない
+      edgeSwipeDetection: true, // Edgeでのスワイプ検知を有効化
+      mousewheel: false, // マウスホイールでカルーセルが動く必要がない
+      freeMode: false, // ユーザー操作による「中途半端な位置」での停止を防ぐ
       navigation: {
         nextEl: carouselEl.querySelector('.swiper-button-next'),
         prevEl: carouselEl.querySelector('.swiper-button-prev'),
@@ -715,14 +720,24 @@ function initSeatSwiper(startIndices = {}) {
         init: function() {
           controlSlideFocus(this);
         },
-        resize: function() {
-          controlSlideFocus(this);
+        slideChangeTransitionStart: function() {
+          const swiper = this;
+          const currentSlide = swiper.slides[swiper.activeIndex];
+          
+          // disabledなスライドだった場合
+          if (currentSlide.getAttribute('data-paxSeat') === 'disabled') {
+            const isMovingForward = swiper.previousIndex < swiper.activeIndex;
+            
+            if (isMovingForward) {
+              // 次のスライドへ（最後なら戻るなどの処理が必要な場合は要調整）
+              swiper.slideNext();
+            } else {
+              // 前のスライドへ
+              swiper.slidePrev();
+            }
+          }
         },
         slideChange: function() {
-          controlSlideFocus(this);
-        },
-        // アニメーション完了後も念のため更新
-        transitionEnd: function() {
           controlSlideFocus(this);
         }
       },

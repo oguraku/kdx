@@ -45,6 +45,8 @@
   --color-alert-a04: rgba(192, 15, 12, 0.04);
   --color-warning100: #eaaa00;
   --color-warning200: #f67700;
+  --color-warning300: rgba(213, 64, 0, 0.87);
+  --color-warning400: #C23A00;
   --color-disabled: #b3b3b3;
   --color-accent01: #0303DE;
   --color-accent02: #d54000;
@@ -596,7 +598,7 @@ h1, h2, h3, h4, h5 {
 }
 
 /* maintenanceBlock -------------------------------- */
-.sky-maintenance_01,.sky-maintenance_02 {
+.sky-maintenance_01,.sky-maintenance_02,.sky-maintenance_03 {
   padding: 1.25em;
   & .heading {
     font-size: 1em;
@@ -632,6 +634,15 @@ h1, h2, h3, h4, h5 {
   color: var(--color-alert100);
   & .heading {
     border-bottom: 1px solid var(--color-alert-a80);
+  }
+}
+
+.sky-maintenance_03 {
+  background-color: var(--color-yellow200);
+  border: 1px solid var(--color-warning300);
+  color: var(--color-warning400);
+  & .heading {
+    border-bottom: 1px solid var(--color-warning300);
   }
 }
 
@@ -708,8 +719,8 @@ h1, h2, h3, h4, h5 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: .4rem;
-  font-size: 1em;
+  /* gap: .4rem; */
+  font-size: .9em;
   font-weight: bold;
   position: relative;
   text-align: center;
@@ -1022,6 +1033,9 @@ h1, h2, h3, h4, h5 {
     }
     &.i_info::before {
       background-image: url("/webcheckin/common/images/icon/info.svg");
+    }
+    &.i_info-warning::before {
+      background-image: url("/webcheckin/common/images/icon/info_warning.svg");
     }
   }
 }
@@ -1851,6 +1865,7 @@ html:has(dialog[open]) {
   & .flight-date {
     display: inline-flex;
     justify-content: start;
+    gap: .8rem;
   }
   & .flight-number {
     grid-column: 1;
@@ -1962,6 +1977,9 @@ html:has(dialog[open]) {
 
 /* seat-number */
 .seat-number {
+  background-color: transparent;
+  border-radius: 4px;
+  position: relative;
   & li {
     display: flex;
     gap: 0em;
@@ -1974,6 +1992,17 @@ html:has(dialog[open]) {
       min-height: 1.2em;
       aspect-ratio: 1;
       vertical-align: middle;
+    }
+  }
+  &.notifs {
+    background-color: #FDD3D0;
+    & .i_notifs {
+      position: absolute;
+      top: -6px;
+      right: -4px;
+      width: 1.2rem;
+      height: 1.2rem;
+      aspect-ratio: 1;
     }
   }
 }
@@ -2165,7 +2194,7 @@ html:has(dialog[open]) {
     background-color: var(--color-sky-blue);
     color: var(--color-white);
     line-height: 1;
-    min-height: 136px;
+    min-height: 128px;
     padding: 1.6rem;
     & .inner-head {
       display: flex;
@@ -2263,15 +2292,31 @@ html:has(dialog[open]) {
       }
     }
     & .inner-flex {
-      display: grid;
-      grid-template-columns: 32% 32% 32%;
-      gap: 1%;
+      display: flex;
+      flex-wrap: nowrap;
       justify-content: flex-start;
+      /* 3つの時 */
+      &:has(> .ticket-info-detail:nth-child(3):last-child) {
+        gap: 2%;
+        & .ticket-info-detail {
+          flex: 32%;
+          width: 0;
+          min-width: 0;
+        }
+      }
+      /* 4つの時 */
+      &:has(> .ticket-info-detail:nth-child(4):last-child) {
+        gap: 1.6rem;
+        & .ticket-info-detail {
+          flex: 0 0 auto;
+          width: auto;
+        }
+      }
       & .seat-exp {
-        font-size: .9em;
+        font-size: .9em!important;
       }
       & .fwrd {
-        font-size: .8em;
+        font-size: .8em!important;
         letter-spacing: -2%;
       }
     }
@@ -2280,7 +2325,7 @@ html:has(dialog[open]) {
     }
     & .inner-grid {
       display: grid;
-      grid-template-columns: 62% 32%;
+      grid-template-columns: 64% 32%;
       gap: 4%;
       margin-top: .8rem;
       & .pax-info {
@@ -2324,6 +2369,18 @@ html:has(dialog[open]) {
           display: block;
           width: 2rem;
           height: auto;
+        }
+      }
+    }
+    & .status-message {
+      font-size: 1.2rem;
+      line-height: 1.2;
+      margin-top: .8rem;
+      & .sky-icontxt {
+        & .icon {
+          &::before {
+            top: 0;
+          }
         }
       }
     }
@@ -2561,6 +2618,9 @@ html:has(dialog[open]) {
         }
         & .seat-content[data-seat="na"] {
           background-image: url(/webcheckin/common/images/seat-navail.svg);
+        }
+        & .seat-content[data-seat="inelig"] {
+          background-image: url(/webcheckin/common/images/seat-na-selected.svg);
         }
         & .seat-content[data-seat="slctd"] {
           background-image: url(/webcheckin/common/images/seat-selected.svg);
@@ -2855,6 +2915,7 @@ html:has(dialog[open]) {
       }
       & .seat-number {
         font-size: .8em;
+        padding: 4px;
       }
       & .pax-number {
         background-color: var(--color-white);
