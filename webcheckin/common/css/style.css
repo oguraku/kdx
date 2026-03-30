@@ -2298,26 +2298,33 @@ html:has(dialog[open]) {
       /* 3つの時 */
       &:has(> .ticket-info-detail:nth-child(3):last-child) {
         gap: 2%;
-        & .ticket-info-detail {
-          flex: 32%;
-          width: 0;
-          min-width: 0;
+        /* 1番目と2番目 */
+        & .ticket-info-detail:nth-child(1),
+        & .ticket-info-detail:nth-child(2) {
+          flex: auto;
+        }
+        /* 3番目 */
+        & .ticket-info-detail:nth-child(3) {
+          flex: 0 0 32%;
         }
       }
-      /* 4つの時 */
-      &:has(> .ticket-info-detail:nth-child(4):last-child) {
-        gap: 1.6rem;
-        & .ticket-info-detail {
-          flex: 0 0 auto;
-          width: auto;
+      & .departure-time.status-delay {
+        & .detail {
+          display: flex;
+          gap: .8rem;
+          & .std {
+            text-decoration: line-through;
+            color: var(--color-black-a60);
+          }
+          & .etd {
+            color: var(--color-alert100);
+          }
         }
       }
-      & .seat-exp {
-        font-size: .9em!important;
-      }
-      & .fwrd {
-        font-size: .8em!important;
-        letter-spacing: -2%;
+      & .flight-status.status-delay {
+        & .detail {
+          color: var(--color-alert100);
+        }
       }
     }
     & .inner-flex ~ .inner-flex {
@@ -2340,6 +2347,13 @@ html:has(dialog[open]) {
             font-weight: 400;
           }
         }
+      }
+      & .seat-exp {
+        font-size: .9em!important;
+      }
+      & .fwrd {
+        font-size: .8em!important;
+        letter-spacing: -2%;
       }
     }
     & .inner-grid ~ .inner-grid {
