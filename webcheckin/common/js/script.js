@@ -698,7 +698,8 @@ function initSeatSwiper(startIndices = {}) {
 
     // "active" なスライドのインデックスを探す ---
     let startIndex = startIndices[carouselEl.id];
-    if (startIndex === undefined) {
+    if (startIndex === undefined || startIndex < 0 || startIndex >= slides.length) {
+      // フォールバック: 有効な"active" スライドを優先、なければ最初のスライド
       const activeIdx = slides.findIndex(slide => slide.getAttribute('data-paxSeat') === 'active');
       startIndex = activeIdx !== -1 ? activeIdx : 0;
     }
@@ -719,16 +720,10 @@ function initSeatSwiper(startIndices = {}) {
         nextEl: carouselEl.querySelector('.swiper-button-next'),
         prevEl: carouselEl.querySelector('.swiper-button-prev'),
       },
-      pagination: {
-        el: carouselEl.querySelector('.js-carousel-pagination'),
-        bulletElement: 'button',
-        clickable: true,
-      },
       a11y: {
         prevSlideMessage: '前のスライドへ',
         nextSlideMessage: '次のスライドへ',
         slideLabelMessage: '{{index}}枚目',
-        paginationBulletMessage: '{{index}}枚目のスライドを表示',
       },
       on: {
         // 各タイミングでフォーカス制御を実行
@@ -788,6 +783,13 @@ function destroySeatSwiper() {
   const carouselEls = document.querySelectorAll('.js-carousel');
   carouselEls.forEach((carouselEl) => {
     carouselEl.classList.add('js-carousel-none');
+    
+    // カルーセル破棄時にスライド要素のinert/aria-hidden属性を削除
+    const slides = carouselEl.querySelectorAll('.swiper-slide');
+    slides.forEach((slide) => {
+      slide.removeAttribute('inert');
+      slide.removeAttribute('aria-hidden');
+    });
   });
   
   isCarouselActive = false; // カルーセルが非アクティブ状態
@@ -1045,6 +1047,15 @@ function initStickyPaxList() {
     clonedSlider.id = 'js-slider_paxlist2';
     clonedSlider.classList.remove('js-carousel');
     
+    // cloneNode直後にスライド属性をクリア（アクセシビリティ属性のみリセット、data-pax-seatは残す）
+    clonedSlider.querySelectorAll('.swiper-slide').forEach(slide => {
+      // data-pax-seatは残す（disabled判定に必要）
+      slide.removeAttribute('aria-disabled');  // Swiper自動設定
+      slide.removeAttribute('tabindex');       // Swiper自動設定
+      slide.removeAttribute('inert');          // controlSlideFocus()で再設定
+      slide.removeAttribute('aria-hidden');    // controlSlideFocus()で再設定
+    });
+    
     stickyContainer.appendChild(clonedSlider);
     document.body.appendChild(stickyContainer);
 
@@ -1054,9 +1065,13 @@ function initStickyPaxList() {
       direction: 'horizontal',
       slidesPerView: 'auto',
       spaceBetween: 8,
+      watchSlidesProgress: true,
       loop: false,
-      observer: true,
-      observeParents: true,
+      threshold: 15,
+      touchStartPreventDefault: false,
+      edgeSwipeDetection: true,
+      mousewheel: false,
+      freeMode: false,
       navigation: {
         nextEl: clonedSlider.querySelector('.swiper-button-next'),
         prevEl: clonedSlider.querySelector('.swiper-button-prev'),
@@ -1067,9 +1082,31 @@ function initStickyPaxList() {
         slideLabelMessage: '{{index}}枚目',
       },
       on: {
+        init: function() {
+          controlSlideFocus(this);
+        },
+        slideChangeTransitionStart: function() {
+          const swiper = this;
+          const currentSlide = swiper.slides[swiper.activeIndex];
+          
+          // disabledなスライドだった場合
+          if (currentSlide.getAttribute('data-paxSeat') === 'disabled') {
+            const isMovingForward = swiper.previousIndex < swiper.activeIndex;
+            
+            if (isMovingForward) {
+              // 次のスライドへ
+              swiper.slideNext();
+            } else {
+              // 前のスライドへ
+              swiper.slidePrev();
+            }
+          }
+        },
         slideChange: function() {
           // スティッキー側のスライド変更を元のスライダーに反映
           updateOriginalSliderPosition(this.realIndex);
+          // フォーカス制御を実行
+          controlSlideFocus(this);
         }
       }
     });
