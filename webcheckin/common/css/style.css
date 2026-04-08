@@ -1905,11 +1905,13 @@ html:has(dialog[open]) {
       grid-template-columns: 1fr;
       & .pax-detail {
         font-size: .9em;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: .8rem;
-        padding-top: .8rem;
+        margin-top: .8rem;
+        & .inner-wrap {
+          display: flex;
+          align-items: center;
+          gap: .8rem;
+          justify-content: space-between;
+        }
         & .seat-number {
           flex-shrink: 0;
         }
@@ -1919,7 +1921,6 @@ html:has(dialog[open]) {
           gap: .4rem;
           justify-content: end;
           line-height: 1.2;
-          padding-right: .75em;
           & > span {
             text-align: right;
           }
@@ -1930,7 +1931,9 @@ html:has(dialog[open]) {
       display: grid;
       grid-template-columns: 1fr;
       & .pax-detail {
+        display: flex;
         align-items: flex-start;
+        justify-content: space-between;
         margin-top: .8rem;
         & .inner-wrap {
           display: block;
@@ -2019,10 +2022,13 @@ html:has(dialog[open]) {
       grid-template-columns: 1fr auto;
       column-gap: 1rem;
       & .pax-detail {
-        display: flex;
-        justify-content: start;
-        gap: 1.6rem;
-        padding-top: 0;
+        font-size: .9em;
+        margin-top: 0;
+        & .inner-wrap {
+          display: flex;
+          gap: 1.6rem;
+          justify-content: start;
+        }
         & .seat-number {
           width: 10em;
         }
@@ -2033,7 +2039,10 @@ html:has(dialog[open]) {
     }
     & dl.boarding {
       & .pax-detail {
+        display: flex;
+        gap: 1.6rem;
         justify-content: space-between;
+        margin-top: .8rem;
         & .inner-wrap {
           display: flex;
           align-items: center;

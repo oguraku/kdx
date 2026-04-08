@@ -1,5 +1,20 @@
 //-------------------------------------------------------
 /**
+ * 指定要素の次のフォーカス可能な要素へフォーカスを移動
+ * @param {HTMLElement} currentElement - 現在の要素
+ */
+function moveFocusToNextElement(currentElement) {
+  const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const allFocusables = Array.from(document.querySelectorAll(focusableSelector));
+  const currentIndex = allFocusables.indexOf(currentElement);
+  
+  if (currentIndex !== -1 && currentIndex + 1 < allFocusables.length) {
+    allFocusables[currentIndex + 1].focus();
+  }
+}
+
+//-------------------------------------------------------
+/**
  * 印刷ボタンのクリックと印刷後の処理
  */
 function initPrintButton() {
