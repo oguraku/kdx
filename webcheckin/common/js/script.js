@@ -966,7 +966,11 @@ function initPopover() {
             if (!mapArea.hasAttribute('tabindex')) {
               mapArea.setAttribute('tabindex', '-1');
             }
+            // スクロール位置を保存してからfocusを実行
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
             mapArea.focus();
+            // スクロール位置を復元
+            window.scrollTo(0, scrollTop);
           }
         }
       }, 300); // CSSのtransition時間と同じ
