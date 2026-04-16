@@ -15,32 +15,17 @@ function moveFocusToNextElement(currentElement) {
 
 //-------------------------------------------------------
 /**
- * 印刷ボタンのクリックと印刷後の処理
+ * 印刷ボタンのクリックと印刷後の処理（搭乗券ページ用）
  */
 function initPrintButton() {
   const printButtons = document.querySelectorAll('[data-print="printOn"]');
   let sectionToReset = null;
-  // カルーセルのIDごとにスライド番号を保持するオブジェクト
-  let activeIndices = {}; 
 
   const handlePrintClick = (event) => {
     const targetSection = event.currentTarget.closest('.sky-ticket');
 
     if (targetSection) {
       document.body.classList.add('is-printing');
-
-      // 印刷前に「すべての」現在のスライド番号をIDごとに保存
-      if (isCarouselActive && seatSwipers.length > 0) {
-        seatSwipers.forEach(swiper => {
-          if (swiper.el.id) {
-            activeIndices[swiper.el.id] = swiper.realIndex;
-          }
-        });
-      }
-
-      if (isCarouselActive) {
-        destroySeatSwiper();
-      }
 
       // 高さ調整用クラスのリセット（印刷用）
       const heightAdjustEls = document.querySelectorAll('.js-height-adjust');
@@ -63,16 +48,6 @@ function initPrintButton() {
       sectionToReset.classList.remove('print_on');
       sectionToReset.classList.add('print_off');
       sectionToReset = null;
-    }
-    
-    // 再初期化時に、保存していたIDごとのインデックスを渡す
-    if (carouselMediaQuery.matches && !isCarouselActive) {
-      initSeatSwiper(activeIndices); // オブジェクトを渡す
-      
-      const carouselTrigger = document.getElementById('sky-carousel__trigger');
-      if (carouselTrigger) {
-        carouselTrigger.setAttribute('aria-pressed', 'true');
-      }
     }
 
     // 高さ調整を再適用
@@ -652,6 +627,7 @@ function initAnchorLinks() {
 let seatSwipers = [];
 const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
 let isCarouselActive = false; // カルーセルの状態を管理
+const removedDisabledSlides = {}; // { carouselId: { slides: [Element...], positions: [index...] } }
 
 /**
  * カルーセルトグルボタンの言語別テキストを取得
@@ -684,6 +660,32 @@ function initSeatSwiper(startIndices = {}) {
   // 全ての.js-carousel要素を取得して初期化
   const carouselEls = document.querySelectorAll('.js-carousel');
   carouselEls.forEach((carouselEl) => {
+    // 前回削除されたスライドを復元
+    if (removedDisabledSlides[carouselEl.id]) {
+      const { slides: disabledSlides, metadata: disabledMetadata } = removedDisabledSlides[carouselEl.id];
+      disabledSlides.forEach((slide, idx) => {
+        const meta = disabledMetadata[idx];
+        let insertedBefore = false;
+        
+        if (meta.nextVisibleOriginalIndex !== null) {
+          // 同じoriginalIndexを持つスライドを探す
+          const allCurrentSlides = carouselEl.querySelectorAll('.swiper-slide');
+          for (let currentSlide of allCurrentSlides) {
+            if (parseInt(currentSlide.dataset.originalIndex) === meta.nextVisibleOriginalIndex) {
+              carouselEl.insertBefore(slide, currentSlide);
+              insertedBefore = true;
+              break;
+            }
+          }
+        }
+        
+        if (!insertedBefore) {
+          carouselEl.appendChild(slide);
+        }
+      });
+      delete removedDisabledSlides[carouselEl.id];
+    }
+    
     // スライドの枚数を確認
     const slides = Array.from(carouselEl.querySelectorAll('.swiper-slide'));
     
@@ -696,16 +698,62 @@ function initSeatSwiper(startIndices = {}) {
     // js-carousel-noneクラスを削除（カルーセル再初期化時）
     carouselEl.classList.remove('js-carousel-none');
 
+    // disabledスライドをDOMから削除して、表示スライドのみの配列を作成
+    const visibleSlides = [];
+    const disabledSlidesToRemove = [];
+    const disabledMetadata = [];
+    
+    slides.forEach((slide, originalIndex) => {
+      if (slide.getAttribute('data-paxSeat') === 'disabled') {
+        disabledSlidesToRemove.push(slide);
+        slide.dataset.originalIndex = originalIndex; // 元のインデックスを保存
+        
+        // 次のvisibleスライドのoriginalIndexを探す
+        let nextVisibleOriginalIndex = null;
+        for (let i = originalIndex + 1; i < slides.length; i++) {
+          if (slides[i].getAttribute('data-paxSeat') !== 'disabled') {
+            nextVisibleOriginalIndex = i;
+            break;
+          }
+        }
+        disabledMetadata.push({ nextVisibleOriginalIndex });
+      } else {
+        slide.dataset.originalIndex = originalIndex;
+        visibleSlides.push({ slide, originalIndex });
+      }
+    });
+
+    // disabledスライドをDOMから削除
+    if (disabledSlidesToRemove.length > 0) {
+      removedDisabledSlides[carouselEl.id] = {
+        slides: disabledSlidesToRemove,
+        metadata: disabledMetadata
+      };
+      disabledSlidesToRemove.forEach(slide => slide.remove());
+    }
+
+    // disabledを除いた後、スライドが1枚以下の場合は初期化しない
+    if (visibleSlides.length <= 1) {
+      carouselEl.classList.add('js-carousel-none');
+      return;
+    }
+
     // "active" なスライドのインデックスを探す ---
-    let startIndex = startIndices[carouselEl.id];
-    if (startIndex === undefined || startIndex < 0 || startIndex >= slides.length) {
-      // フォールバック: 有効な"active" スライドを優先、なければ最初のスライド
-      const activeIdx = slides.findIndex(slide => slide.getAttribute('data-paxSeat') === 'active');
+    let startIndex = 0;
+    
+    if (startIndices[carouselEl.id] !== undefined) {
+      // 保存されたインデックスに対応するスライドを探す
+      const savedOriginalIndex = startIndices[carouselEl.id];
+      startIndex = visibleSlides.findIndex(item => item.originalIndex === savedOriginalIndex);
+      if (startIndex === -1) startIndex = 0; // 見つからない場合は0から開始
+    } else {
+      // activeアトリビュートを持つスライドを探す
+      const activeIdx = visibleSlides.findIndex(item => item.slide.getAttribute('data-paxSeat') === 'active');
       startIndex = activeIdx !== -1 ? activeIdx : 0;
     }
     
     const swiperInstance = new Swiper(carouselEl, {
-      initialSlide: startIndex,
+      initialSlide: 0, // 仮に0から開始（init内で正しいスライドに移動）
       direction: 'horizontal',
       slidesPerView: 'auto',
       spaceBetween: 8,
@@ -728,26 +776,14 @@ function initSeatSwiper(startIndices = {}) {
       on: {
         // 各タイミングでフォーカス制御を実行
         init: function() {
+          // 正しいスライドに移動
+          if (startIndex > 0) {
+            this.slideTo(startIndex, 0, false);
+          }
           controlSlideFocus(this);
         },
-        slideChangeTransitionStart: function() {
-          const swiper = this;
-          const currentSlide = swiper.slides[swiper.activeIndex];
-          
-          // disabledなスライドだった場合
-          if (currentSlide.getAttribute('data-paxSeat') === 'disabled') {
-            const isMovingForward = swiper.previousIndex < swiper.activeIndex;
-            
-            if (isMovingForward) {
-              // 次のスライドへ（最後なら戻るなどの処理が必要な場合は要調整）
-              swiper.slideNext();
-            } else {
-              // 前のスライドへ
-              swiper.slidePrev();
-            }
-          }
-        },
         slideChange: function() {
+          // disabledスライド検出ロジックは不要（display: noneで隠されているため）
           controlSlideFocus(this);
         }
       },
@@ -790,6 +826,39 @@ function destroySeatSwiper() {
       slide.removeAttribute('inert');
       slide.removeAttribute('aria-hidden');
     });
+    
+    // 削除されたdisabledスライドをDOMに復元
+    if (removedDisabledSlides[carouselEl.id]) {
+      const { slides: disabledSlides, metadata: disabledMetadata } = removedDisabledSlides[carouselEl.id];
+      disabledSlides.forEach((slide, idx) => {
+        const meta = disabledMetadata[idx];
+        let insertedBefore = false;
+        
+        if (meta.nextVisibleOriginalIndex !== null) {
+          // 同じoriginalIndexを持つスライドを探す
+          const allCurrentSlides = carouselEl.querySelectorAll('.swiper-slide');
+          for (let currentSlide of allCurrentSlides) {
+            if (parseInt(currentSlide.dataset.originalIndex) === meta.nextVisibleOriginalIndex) {
+              // currentSlideの実際の親に対して挿入（swiper-wrapperの中にある場合も対応）
+              currentSlide.parentNode.insertBefore(slide, currentSlide);
+              insertedBefore = true;
+              break;
+            }
+          }
+        }
+        
+        if (!insertedBefore) {
+          // スライドがwrapper内にある場合はwrapperに、そうでなければcarouselに追加
+          const swiperWrapper = carouselEl.querySelector('.swiper-wrapper');
+          if (swiperWrapper) {
+            swiperWrapper.appendChild(slide);
+          } else {
+            carouselEl.appendChild(slide);
+          }
+        }
+      });
+      delete removedDisabledSlides[carouselEl.id];
+    }
   });
   
   isCarouselActive = false; // カルーセルが非アクティブ状態
@@ -797,6 +866,7 @@ function destroySeatSwiper() {
 
 function checkBreakpoint(e) {
   if (e.matches) {
+    // SP表示（768px以下）
     initSeatSwiper();
     
     // カルーセルトグルボタンのテキストとaria-pressedを更新
@@ -814,8 +884,12 @@ function checkBreakpoint(e) {
         carouselTrigger.style.display = 'none';
       }
     }
-  } else if (seatSwipers.length > 0) {
-    destroySeatSwiper();
+  } else {
+    // PC表示（768px以上）
+    // destroySeatSwiper()内で復元処理を行うため、ここでは単に破棄を呼ぶ
+    if (seatSwipers.length > 0) {
+      destroySeatSwiper();
+    }
     
     // PC表示時はボタンを非表示
     const carouselTrigger = document.getElementById('sky-carousel__trigger');
@@ -851,6 +925,41 @@ function initCarouselToggle() {
           // スライドが2枚以上ある場合は「閉じる」ボタンとして表示したまま
         } else {
           // カルーセルが非アクティブな場合は初期化
+          // SP状態のdisabledスライドをDOMから復元（念のため）
+          const carouselEls = document.querySelectorAll('.js-carousel');
+          carouselEls.forEach((carouselEl) => {
+            if (removedDisabledSlides[carouselEl.id]) {
+              const { slides: disabledSlides, metadata: disabledMetadata } = removedDisabledSlides[carouselEl.id];
+              disabledSlides.forEach((slide, idx) => {
+                const meta = disabledMetadata[idx];
+                let insertedBefore = false;
+                
+                if (meta.nextVisibleOriginalIndex !== null) {
+                  const allCurrentSlides = carouselEl.querySelectorAll('.swiper-slide');
+                  for (let currentSlide of allCurrentSlides) {
+                    if (parseInt(currentSlide.dataset.originalIndex) === meta.nextVisibleOriginalIndex) {
+                      // currentSlideの実際の親に対して挿入
+                      currentSlide.parentNode.insertBefore(slide, currentSlide);
+                      insertedBefore = true;
+                      break;
+                    }
+                  }
+                }
+                
+                if (!insertedBefore) {
+                  // スライドがwrapper内にある場合はwrapperに、そうでなければcarouselに追加
+                  const swiperWrapper = carouselEl.querySelector('.swiper-wrapper');
+                  if (swiperWrapper) {
+                    swiperWrapper.appendChild(slide);
+                  } else {
+                    carouselEl.appendChild(slide);
+                  }
+                }
+              });
+              delete removedDisabledSlides[carouselEl.id];
+            }
+          });
+          
           initSeatSwiper();
           // initSeatSwiper内でseatSwipers.lengthに基づいて表示/非表示が制御される
           if (seatSwipers.length > 0) {
@@ -1063,9 +1172,30 @@ function initStickyPaxList() {
     stickyContainer.appendChild(clonedSlider);
     document.body.appendChild(stickyContainer);
 
+    // 複製したリスト内のdisabledスライドをDOMから削除
+    const clonedSlides = Array.from(clonedSlider.querySelectorAll('.swiper-slide'));
+    let clonedVisibleSlides = [];
+    let clonedStartIndex = 0;
+    
+    clonedSlides.forEach((slide, originalIndex) => {
+      if (slide.getAttribute('data-paxSeat') === 'disabled') {
+        slide.dataset.originalIndex = originalIndex; // 削除前に元のインデックスを保存
+        slide.remove();
+      } else {
+        slide.dataset.originalIndex = originalIndex;
+        clonedVisibleSlides.push({ slide, originalIndex });
+      }
+    });
+    
+    // 表示スライド内での正しいインデックスを計算
+    if (initialSlideIndex !== undefined) {
+      clonedStartIndex = clonedVisibleSlides.findIndex(item => item.originalIndex === initialSlideIndex);
+      if (clonedStartIndex === -1) clonedStartIndex = 0;
+    }
+
     // 複製したリストのSwiperを初期化
     stickySwiper = new Swiper(clonedSlider, {
-      initialSlide: initialSlideIndex,
+      initialSlide: 0, // 仮に0から開始（init内で正しいスライドに移動）
       direction: 'horizontal',
       slidesPerView: 'auto',
       spaceBetween: 8,
@@ -1087,26 +1217,14 @@ function initStickyPaxList() {
       },
       on: {
         init: function() {
+          // 正しいスライドに移動
+          if (clonedStartIndex > 0) {
+            this.slideTo(clonedStartIndex, 0, false);
+          }
           controlSlideFocus(this);
         },
-        slideChangeTransitionStart: function() {
-          const swiper = this;
-          const currentSlide = swiper.slides[swiper.activeIndex];
-          
-          // disabledなスライドだった場合
-          if (currentSlide.getAttribute('data-paxSeat') === 'disabled') {
-            const isMovingForward = swiper.previousIndex < swiper.activeIndex;
-            
-            if (isMovingForward) {
-              // 次のスライドへ
-              swiper.slideNext();
-            } else {
-              // 前のスライドへ
-              swiper.slidePrev();
-            }
-          }
-        },
         slideChange: function() {
+          // disabledスライド検出ロジックは不要（display: noneで隠されているため）
           // スティッキー側のスライド変更を元のスライダーに反映
           updateOriginalSliderPosition(this.realIndex);
           // フォーカス制御を実行
