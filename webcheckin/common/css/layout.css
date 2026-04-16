@@ -554,7 +554,7 @@
               height: auto;
               margin: 0 auto;
               text-align: center;
-              filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(21deg) brightness(97%) contrast(103%);
+              filter: none;
             }
           }
         }
@@ -579,17 +579,41 @@
           }
         }
         & .inner-flex {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 3rem;
-          justify-content: flex-start;
-          & .seat-exp {
-            font-size: 1em;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        /* 3つの時 */
+        &:has(> .ticket-info-detail:nth-child(3):last-child) {
+          gap: 2%;
+          /* 1番目と2番目 */
+          & .ticket-info-detail:nth-child(1),
+          & .ticket-info-detail:nth-child(2) {
+            flex: initial;
           }
-          & .fwrd {
-            font-size: 1em;
+          /* 3番目 */
+          & .ticket-info-detail:nth-child(3) {
+            flex: initial;
           }
         }
+        & .departure-time.status-delay {
+          & .detail {
+            display: flex;
+            gap: .8rem;
+            & .std {
+              text-decoration: line-through;
+              color: var(--color-black-a60);
+            }
+            & .etd {
+              color: var(--color-black);
+            }
+          }
+        }
+        & .flight-status.status-delay {
+          & .detail {
+            color: var(--color-black);
+          }
+        }
+      }
         & .inner-grid {
           display: grid;
           grid-template-columns: 1fr;
@@ -637,6 +661,17 @@
               display: block;
               width: 2rem;
               height: auto;
+            }
+          }
+        }
+        & .status-message {
+          font-size: 1.6rem;
+          font-weight: 700;
+          margin-top: 1.6rem;
+          & .sky-icontxt.c_red {
+            color: var(--color-black);
+            & .icon {
+              display: none;
             }
           }
         }

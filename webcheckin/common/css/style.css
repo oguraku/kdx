@@ -39,7 +39,7 @@
   --color-yellow200: #F2EECA;
   --color-yellow300: #F9E547;
   
-  --color-alert100: #c00f0c;
+  --color-alert100: #c00d1e;
   --color-alert-a80: rgba(192, 15, 12, 0.80);
   --color-alert-a12: rgba(192, 15, 12, 0.12);
   --color-alert-a04: rgba(192, 15, 12, 0.04);
@@ -347,7 +347,7 @@ h1, h2, h3, h4, h5 {
 .disabled { background-color: #E6E6E6 !important;}
 
 /* icon color -------------------------------- */
-.i_white {
+/* .i_white {
   filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%);
 }
 .i_red {
@@ -364,7 +364,7 @@ h1, h2, h3, h4, h5 {
 }
 .i_yellow {
   filter: invert(84%) sepia(48%) saturate(2869%) hue-rotate(2deg) brightness(105%) contrast(107%);
-}
+} */
 
 /* hr -------------------------------- */
 .sky-border {
@@ -804,7 +804,24 @@ h1, h2, h3, h4, h5 {
     opacity: 1;
   }
   & .icon {
-    filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%) !important;
+    &.i_arr-r::after {
+      background-image: url("/webcheckin/common/images/icon/arrow1-right-white.svg")!important;
+    }
+    &.i_arr-r.i_blue::after {
+      background-image: url("/webcheckin/common/images/icon/arrow1-right-white.svg")!important;
+    }
+    &.i_arr-r.i_white::after {
+      background-image: url("/webcheckin/common/images/icon/arrow1-right-white.svg")!important;
+    }
+    &.i_arr-l::before {
+      background-image: url("/webcheckin/common/images/icon/arrow1-left-white.svg")!important;
+    }
+    &.i_arr-l.i_blue::before {
+      background-image: url("/webcheckin/common/images/icon/arrow1-left-white.svg")!important;
+    }
+    &.i_arr-l.i_white::before {
+      background-image: url("/webcheckin/common/images/icon/arrow1-left-white.svg")!important;
+    }
   }
 }
 /* disabled */
@@ -819,7 +836,24 @@ h1, h2, h3, h4, h5 {
     opacity: 1;
   }
   & .icon {
-    filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%) !important;
+    &.i_arr-r::after {
+      background-image: url("/webcheckin/common/images/icon/arrow1-right-white.svg")!important;
+    }
+    &.i_arr-r.i_blue::after {
+      background-image: url("/webcheckin/common/images/icon/arrow1-right-white.svg")!important;
+    }
+    &.i_arr-r.i_white::after {
+      background-image: url("/webcheckin/common/images/icon/arrow1-right-white.svg")!important;
+    }
+    &.i_arr-l::before {
+      background-image: url("/webcheckin/common/images/icon/arrow1-left-white.svg")!important;
+    }
+    &.i_arr-l.i_blue::before {
+      background-image: url("/webcheckin/common/images/icon/arrow1-left-white.svg")!important;
+    }
+    &.i_arr-l.i_white::before {
+      background-image: url("/webcheckin/common/images/icon/arrow1-left-white.svg")!important;
+    }
   }
 }
 
@@ -853,6 +887,12 @@ h1, h2, h3, h4, h5 {
     &.i_arr-r::after {
       background-image: url("/webcheckin/common/images/icon/arrow1-right.svg");
     }
+    &.i_arr-r.i_blue::after {
+      background-image: url("/webcheckin/common/images/icon/arrow1-right-blue.svg");
+    }
+    &.i_arr-r.i_white::after {
+      background-image: url("/webcheckin/common/images/icon/arrow1-right-white.svg");
+    }
   }
 }
 .btn_icon-l {
@@ -872,6 +912,12 @@ h1, h2, h3, h4, h5 {
     }
     &.i_arr-l::before {
       background-image: url("/webcheckin/common/images/icon/arrow1-left.svg");
+    }
+    &.i_arr-l.i_blue::before {
+      background-image: url("/webcheckin/common/images/icon/arrow1-left-blue.svg");
+    }
+    &.i_arr-l.i_white::before {
+      background-image: url("/webcheckin/common/images/icon/arrow1-left-white.svg");
     }
   }
 }
@@ -902,7 +948,7 @@ h1, h2, h3, h4, h5 {
       height: 100%;
     }
     &.i_seat::before {
-      background-image: url("/webcheckin/common/images/icon/seat.svg");
+      background-image: url("/webcheckin/common/images/icon/seat-blue.svg");
     }
     &.i_mail::before {
       background-image: url("/webcheckin/common/images/icon/mail.svg");
@@ -913,8 +959,19 @@ h1, h2, h3, h4, h5 {
     &.i_ticket::before {
       background-image: url("/webcheckin/common/images/icon/ticket.svg");
     }
+    &.i_memo::before {
+      background-image: url("/webcheckin/common/images/icon/memo.svg");
+    }
+  }
+  &:disabled {
+    & .icon {
+      &.i_seat::before {
+        background-image: url("/webcheckin/common/images/icon/seat-white.svg")!important;
+      }
+    }
   }
 }
+
 
 .text-link {
   color: var(--color-sky-blue);
@@ -963,7 +1020,6 @@ h1, h2, h3, h4, h5 {
     background-size: contain;
     content: "";
     display: block;
-    filter: invert(14%) sepia(27%) saturate(7426%) hue-rotate(221deg) brightness(81%) contrast(115%);
     width: 1em;
     height: 1em;
   }
@@ -1022,17 +1078,29 @@ h1, h2, h3, h4, h5 {
       left: 0;
       top: .2em;
     }
-    &.i_error::before {
-      background-image: url("/webcheckin/common/images/icon/alert-circle.svg");
+    &.i_error.i_red::before {
+      background-image: url("/webcheckin/common/images/icon/alert-circle-red.svg");
     }
-    &.i_warning::before {
-      background-image: url("/webcheckin/common/images/icon/warning.svg");
+    &.i_warning.i_red::before {
+      background-image: url("/webcheckin/common/images/icon/warning-red.svg");
+    }
+    &.i_warning.i_red::before {
+      background-image: url("/webcheckin/common/images/icon/warning-red.svg");
+    }
+    &.i_warning.i_blue::before {
+      background-image: url("/webcheckin/common/images/icon/warning-blue.svg");
     }
     &.i_check::before {
       background-image: url("/webcheckin/common/images/icon/check-circle.svg");
     }
+    &.i_check.i_green::before {
+      background-image: url("/webcheckin/common/images/icon/check-circle-green.svg");
+    }
     &.i_info::before {
       background-image: url("/webcheckin/common/images/icon/info.svg");
+    }
+    &.i_info.i_blue::before {
+      background-image: url("/webcheckin/common/images/icon/info-blue.svg");
     }
     &.i_info-warning::before {
       background-image: url("/webcheckin/common/images/icon/info_warning.svg");
@@ -1704,7 +1772,7 @@ html:has(dialog[open]) {
   color: var(--color-white) !important;
 }
 [data-status="canc"] .number {
-  color: var(--color-grey500);
+  color: var(--color-grey500) !important;
   text-decoration: line-through;
 }
 [data-status="canc"] .label-status {
@@ -1821,7 +1889,7 @@ html:has(dialog[open]) {
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        background-image: url("/webcheckin/common/images/icon/airplane.svg");
+        background-image: url("/webcheckin/common/images/icon/airplane-blue.svg");
         content: "";
         display: block;
         width: 100%;
@@ -1984,6 +2052,7 @@ html:has(dialog[open]) {
   border-radius: 4px;
   position: relative;
   & li {
+    align-items: baseline;
     display: flex;
     gap: 0em;
     & .i_seat {
@@ -2123,7 +2192,6 @@ html:has(dialog[open]) {
       background-position: center;
       background-repeat: no-repeat;
       content: "";
-      filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(306deg) brightness(115%) contrast(100%);
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -2343,7 +2411,7 @@ html:has(dialog[open]) {
       display: grid;
       grid-template-columns: 64% 32%;
       gap: 4%;
-      margin-top: .8rem;
+      margin-top: 1.2rem;
       & .pax-info {
         & .name {
           display: inline-block;
@@ -2398,7 +2466,7 @@ html:has(dialog[open]) {
     & .status-message {
       font-size: 1.2rem;
       line-height: 1.2;
-      margin-top: .8rem;
+      margin-top: 1.2rem;
       & .sky-icontxt {
         & .icon {
           &::before {
