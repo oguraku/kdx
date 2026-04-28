@@ -1037,6 +1037,17 @@ h1, h2, h3, h4, h5 {
     color: inherit;
   }
 }
+.sky-list_circle > li {
+  margin-left: 1.25em;
+  list-style-type: circle;
+  list-style-position: outside;
+  & + li {
+    margin-top: .5em;
+  }
+  &::marker {
+    color: inherit;
+  }
+}
 
 .sky-list_note > li {
   display: flex;
@@ -1510,6 +1521,9 @@ details.sky-accordion[open] summary.accTitle .icon-arrow {
       gap: 28px;
       margin: 0;
       padding: 0;
+      & li {
+        list-style: none;
+      }
       & .sky-btn {
         min-width: 6em;
       }

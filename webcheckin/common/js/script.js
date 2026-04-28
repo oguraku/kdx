@@ -134,7 +134,7 @@ function changeTabs(e) {
   // すべてのタブパネルを非表示にします
   grandparent
     .querySelectorAll('[role="tabpanel"]')
-    .forEach(p => p.setAttribute("hidden", true));
+    .forEach(p => p.setAttribute("hidden", ""));
 
   // 選択されたパネルを表示します
   grandparent.parentNode
@@ -170,6 +170,60 @@ modalcloseBtns.forEach((btn) => {
     btn.parentElement.close();
   });
 });
+
+/**
+ * メール送信モーダルのinput/label ID重複をJSで解消
+ * 動的にDOM追加された場合にも追従する
+ */
+function initUniqueMailInputIds() {
+  const baseId = 'skyInputMail';
+  const root = document.querySelector('.wc-boardingpass') || document;
+  let nextNumber = 1;
+
+  const getUniqueId = () => {
+    let candidate = `${baseId}-${String(nextNumber).padStart(2, '0')}`;
+    while (document.getElementById(candidate)) {
+      nextNumber += 1;
+      candidate = `${baseId}-${String(nextNumber).padStart(2, '0')}`;
+    }
+    nextNumber += 1;
+    return candidate;
+  };
+
+  const resolveDuplicateIds = () => {
+    const labels = root.querySelectorAll(`label[for="${baseId}"]`);
+
+    labels.forEach((label) => {
+      const dialog = label.closest('dialog[data-modal="mail"]');
+      if (!dialog) return;
+
+      const input = dialog.querySelector(`input#${baseId}`);
+      if (!input) return;
+
+      const uniqueId = getUniqueId();
+      input.id = uniqueId;
+      label.setAttribute('for', uniqueId);
+    });
+  };
+
+  resolveDuplicateIds();
+
+  const observer = new MutationObserver((mutations) => {
+    const hasRelevantChange = mutations.some((mutation) => {
+      return Array.from(mutation.addedNodes).some((node) => {
+        if (!(node instanceof Element)) return false;
+        return node.matches('dialog[data-modal="mail"], label[for="skyInputMail"], input#skyInputMail')
+          || Boolean(node.querySelector('dialog[data-modal="mail"], label[for="skyInputMail"], input#skyInputMail'));
+      });
+    });
+
+    if (hasRelevantChange) {
+      resolveDuplicateIds();
+    }
+  });
+
+  observer.observe(root, { childList: true, subtree: true });
+}
 
 
 //-------------------------------------------------------
@@ -1470,6 +1524,7 @@ function controlSlideFocus(swiper) {
  * DOMContentLoaded - すべての初期化処理をまとめて実行
  */
 document.addEventListener('DOMContentLoaded', () => {
+  initUniqueMailInputIds();
   initPrintButton();
   initTabs();
   initTooltips();

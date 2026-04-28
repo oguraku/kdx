@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </ul>
       </div>
       <div class="sky-footerCopy">
-        <copyright>Copyright &copy; Skymark Airlines Inc.</copyright>
+        <small>Copyright &copy; Skymark Airlines Inc.</small>
       </div>
     </footer>
   `;

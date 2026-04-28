@@ -131,8 +131,17 @@
   }
   .agreement-block {
     .sky-block_scroolY {
-      height: 15rem;
+      height: 30rem;
       margin: 1.2rem 0 2rem;
+    }
+    .img-baggage {
+      display: block;
+      margin-top: 1.6rem;
+      width: 100%;
+       & img {
+        width: 100%;
+        height: auto;
+      }
     }
   }
 }
