@@ -951,7 +951,7 @@ h1, h2, h3, h4, h5 {
       background-image: url("/webcheckin/common/images/icon/seat-blue.svg");
     }
     &.i_mail::before {
-      background-image: url("/webcheckin/common/images/icon/mail.svg");
+      background-image: url("/webcheckin/common/images/icon/mail-white.svg");
     }
     &.i_print::before {
       background-image: url("/webcheckin/common/images/icon/print.svg");
@@ -1091,9 +1091,6 @@ h1, h2, h3, h4, h5 {
     }
     &.i_error.i_red::before {
       background-image: url("/webcheckin/common/images/icon/alert-circle-red.svg");
-    }
-    &.i_warning.i_red::before {
-      background-image: url("/webcheckin/common/images/icon/warning-red.svg");
     }
     &.i_warning.i_red::before {
       background-image: url("/webcheckin/common/images/icon/warning-red.svg");
@@ -3009,7 +3006,7 @@ html:has(dialog[open]) {
       min-height: 4em;
       height: 100%;
       overflow: hidden;
-      padding: 1.2rem 1.6rem;
+      padding: 1rem;
       position: relative;
       transition: background-color 0.2s;
       & .pax-name {
@@ -3031,8 +3028,9 @@ html:has(dialog[open]) {
         align-items: center;
         font-weight: 700;
         font-family: var(--font-Num);
-        width: 3.2rem;
-        height: 3.2rem;
+        line-height: 1;
+        width: 2.8rem;
+        height: 2.8rem;
       }
       & .pax-number[data-paxNum="selected"] {
         background-color: var(--color-sky-yellow);
@@ -3042,14 +3040,13 @@ html:has(dialog[open]) {
   & .pax-item[data-paxSeat="active"] .item-inner {
     background-color: var(--color-blue100);
     border-width: 3px;
-    padding: 1rem 1.4rem; 
   }
   & .pax-item[data-paxSeat="disabled"] .item-inner{
     background-color: var(--color-grey300);
     border-color: var(--color-black-a60);
     color: var(--color-black-a60);
     cursor: not-allowed;
-    padding: 1.2rem 1.6rem 2.4rem;
+    padding: 1rem 1rem 2.4rem;
     & .text-disabled {
       background-color: var(--color-black-a60);
       border-radius: 8px 0 0 0;

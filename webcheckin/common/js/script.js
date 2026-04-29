@@ -1153,6 +1153,141 @@ function initPopover() {
 
 //-------------------------------------------------------
 /**
+ * スティッキー表示の共通判定（mapが画面上端に到達し、かつ表示余地がある）
+ * @param {HTMLElement} mapEl - マップ要素
+ * @param {number} stickyHeight - 固定表示要素の高さ
+ * @returns {boolean}
+ */
+function shouldShowStickyByMap(mapEl, stickyHeight = 0) {
+  if (!mapEl) return false;
+
+  const mapRect = mapEl.getBoundingClientRect();
+  const isMapTopHit = mapRect.top <= 0;
+  const isMapRemaining = mapRect.bottom > stickyHeight;
+
+  return isMapTopHit && isMapRemaining;
+}
+
+//-------------------------------------------------------
+/**
+ * シート凡例の追従表示（SPのみ）
+ * - SP: 元の凡例は閉じ、SP専用クローンを追従表示
+ * - PC: 元の凡例を展開状態で表示
+ */
+function initStickySeatLegend() {
+  const mapEl = document.getElementById('js-map');
+  const legendSection = document.getElementById('js-seat-legend');
+  const legendAccordion = document.getElementById('js-seat-legend-accordion');
+  const carouselMediaQuery = window.matchMedia('(max-width: 768px)');
+
+  if (!mapEl || !legendSection || !legendAccordion) return;
+
+  let stickyLegend = null;
+  let stickyAccordion = null;
+  let stickySummary = null;
+
+  const createStickyLegend = () => {
+    if (stickyLegend && document.body.contains(stickyLegend)) return;
+
+    const clonedLegend = legendSection.cloneNode(true);
+    clonedLegend.id = 'js-seat-legend-sticky';
+    clonedLegend.classList.add('sticky-seat-legend');
+    clonedLegend.setAttribute('aria-hidden', 'true');
+
+    const clonedAccordion = clonedLegend.querySelector('details.sky-accordion.acc_C');
+    const clonedSummary = clonedAccordion ? clonedAccordion.querySelector('summary.accTitle') : null;
+    const clonedDetail = clonedAccordion ? clonedAccordion.querySelector('.accDetail') : null;
+    if (!clonedAccordion || !clonedSummary || !clonedDetail) return;
+
+    let detailTitle = clonedDetail.querySelector('.detail-title');
+    if (!detailTitle) {
+      detailTitle = document.createElement('p');
+      detailTitle.className = 'detail-title';
+      detailTitle.textContent = '座席の説明';
+      clonedDetail.insertBefore(detailTitle, clonedDetail.firstChild);
+    }
+
+    clonedAccordion.id = 'js-seat-legend-accordion-sticky';
+    clonedAccordion.removeAttribute('open');
+
+    let closeButton = clonedDetail.querySelector('.js-seat-legend-close');
+    if (!closeButton) {
+      closeButton = document.createElement('button');
+      closeButton.type = 'button';
+      closeButton.className = 'js-seat-legend-close';
+
+      const closeImg = document.createElement('img');
+      closeImg.src = '/webcheckin/common/images/icon/close-circle.svg';
+      closeImg.alt = '閉じる';
+      closeImg.className = 'i_grey';
+      closeButton.appendChild(closeImg);
+
+      clonedDetail.appendChild(closeButton);
+    }
+
+    closeButton.addEventListener('click', () => {
+      clonedAccordion.removeAttribute('open');
+      clonedSummary.focus();
+    });
+
+    document.body.appendChild(clonedLegend);
+    stickyLegend = clonedLegend;
+    stickyAccordion = clonedAccordion;
+    stickySummary = clonedSummary;
+  };
+
+  const destroyStickyLegend = () => {
+    if (!stickyLegend) return;
+    if (stickyLegend.parentNode) {
+      stickyLegend.parentNode.removeChild(stickyLegend);
+    }
+    stickyLegend = null;
+    stickyAccordion = null;
+    stickySummary = null;
+  };
+
+  const hideStickyLegend = () => {
+    if (!stickyLegend) return;
+    stickyLegend.classList.remove('is-visible');
+    if (stickyAccordion) {
+      stickyAccordion.removeAttribute('open');
+    }
+  };
+
+  const handleScroll = () => {
+    if (!carouselMediaQuery.matches || !stickyLegend || !stickySummary) return;
+
+    const stickyHeight = stickySummary.offsetHeight;
+    const shouldShow = shouldShowStickyByMap(mapEl, stickyHeight);
+
+    if (shouldShow) {
+      stickyLegend.classList.add('is-visible');
+    } else {
+      hideStickyLegend();
+    }
+  };
+
+  const checkState = () => {
+    window.removeEventListener('scroll', handleScroll);
+
+    if (carouselMediaQuery.matches) {
+      legendAccordion.removeAttribute('open');
+      createStickyLegend();
+      window.addEventListener('scroll', handleScroll);
+      handleScroll();
+    } else {
+      hideStickyLegend();
+      destroyStickyLegend();
+      legendAccordion.setAttribute('open', '');
+    }
+  };
+
+  checkState();
+  carouselMediaQuery.addEventListener('change', checkState);
+}
+
+//-------------------------------------------------------
+/**
  * 搭乗便情報・搭乗者リストの追従表示（SPのみ）
  */
 function initStickyPaxList() {
@@ -1325,14 +1460,9 @@ function initStickyPaxList() {
   // スクロールハンドラ
   const handleScroll = () => {
     if (!stickyContainer) return;
-
-    const mapRect = mapEl.getBoundingClientRect();
     const stickyHeight = stickyContainer.offsetHeight;
 
-    const isMapTopHit = mapRect.top <= 0;
-    const isMapRemaining = mapRect.bottom > stickyHeight;
-
-    if (isMapTopHit && isMapRemaining) {
+    if (shouldShowStickyByMap(mapEl, stickyHeight)) {
       stickyContainer.classList.add('is-visible');
     } else {
       stickyContainer.classList.remove('is-visible');
@@ -1534,6 +1664,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarouselToggle();
   initMapIndicator();
   initPopover();
+  initStickySeatLegend();
   initStickyPaxList();
   initBpSwiper();
 });
