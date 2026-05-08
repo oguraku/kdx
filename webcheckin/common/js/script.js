@@ -918,6 +918,22 @@ function destroySeatSwiper() {
   isCarouselActive = false; // カルーセルが非アクティブ状態
 }
 
+/**
+ * swiper-wrapper内の先頭フォーカス可能要素へフォーカス移動
+ */
+function focusFirstElementInSwiperWrapper() {
+  const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const wrappers = document.querySelectorAll('.js-carousel .swiper-wrapper');
+
+  for (const wrapper of wrappers) {
+    const firstFocusable = wrapper.querySelector(focusableSelector);
+    if (firstFocusable) {
+      firstFocusable.focus();
+      return;
+    }
+  }
+}
+
 function checkBreakpoint(e) {
   if (e.matches) {
     // SP表示（768px以下）
@@ -959,7 +975,7 @@ checkBreakpoint(carouselMediaQuery);
 
 //-------------------------------------------------------
 /**
- * カルーセルトグルボタン
+ * カルーセルトグルボタン（搭乗者すべて表示）
  */
 function initCarouselToggle() {
   const carouselTrigger = document.getElementById('sky-carousel__trigger');
@@ -976,6 +992,9 @@ function initCarouselToggle() {
           destroySeatSwiper();
           carouselTrigger.setAttribute('aria-pressed', 'false');
           if (toggleText) toggleText.textContent = texts.inactive;
+          requestAnimationFrame(() => {
+            focusFirstElementInSwiperWrapper();
+          });
           // スライドが2枚以上ある場合は「閉じる」ボタンとして表示したまま
         } else {
           // カルーセルが非アクティブな場合は初期化
