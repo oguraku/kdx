@@ -271,39 +271,40 @@ function initTooltips() {
     // フォーカス可能な要素（タブ移動用）
     FOCUSABLE: 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
   };
+  const DATA_INITIALIZED = 'tooltipInitialized';
 
   // --- 状態管理 ---
   let activeTrigger = null; // 現在開いているトリガー
   let activeContent = null; // 現在開いているコンテンツ
+  let tooltipIdSeq = 0;
 
   // --- 1. 初期化処理 ---
-  const wrappers = document.querySelectorAll(SELECTOR.WRAPPER);
-  
-  wrappers.forEach((wrapper, index) => {
-    const trigger = wrapper.querySelector(SELECTOR.TRIGGER);
-    const content = wrapper.querySelector(SELECTOR.CONTENT);
+  initAllTooltips(document);
 
-    if (!trigger || !content) return;
+  // 動的追加されたノードも初期化する
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (!(node instanceof Element)) return;
 
-    // IDとARIA属性の設定
-    const uniqueId = `sky-tooltip-${index}`;
-    content.setAttribute('id', uniqueId);
-    content.setAttribute('role', 'tooltip');
-    content.setAttribute('aria-hidden', 'true');
+        if (node.matches(SELECTOR.WRAPPER)) {
+          initWrapper(node);
+        }
 
-    trigger.setAttribute('aria-controls', uniqueId);
-    trigger.setAttribute('aria-expanded', 'false');
-    if (!trigger.getAttribute('role')) trigger.setAttribute('role', 'button');
+        node.querySelectorAll(SELECTOR.WRAPPER).forEach((wrapper) => {
+          initWrapper(wrapper);
+        });
 
-    // コンテンツをbody直下へ移動（デザイン崩れ防止）
-    document.body.appendChild(content);
-
-    // イベント登録（トリガー）
-    setupTriggerEvents(trigger, content);
-    
-    // イベント登録（コンテンツ）
-    setupContentEvents(trigger, content);
+        const parentWrapper = node.closest(SELECTOR.WRAPPER);
+        if (parentWrapper) {
+          initWrapper(parentWrapper);
+        }
+      });
+    });
   });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
 
   // --- 2. 共通イベント（全体制御） ---
   
@@ -336,6 +337,50 @@ function initTooltips() {
 
   // --- 3. ロジック関数群 ---
 
+  function initAllTooltips(root) {
+    if (!(root instanceof Element) && root !== document) return;
+
+    if (root instanceof Element && root.matches(SELECTOR.WRAPPER)) {
+      initWrapper(root);
+    }
+
+    root.querySelectorAll(SELECTOR.WRAPPER).forEach((wrapper) => {
+      initWrapper(wrapper);
+    });
+  }
+
+  function initWrapper(wrapper) {
+    if (!wrapper || wrapper.dataset[DATA_INITIALIZED] === 'true') return;
+
+    const trigger = wrapper.querySelector(SELECTOR.TRIGGER);
+    const content = wrapper.querySelector(SELECTOR.CONTENT);
+
+    if (!trigger || !content) return;
+
+    // IDとARIA属性の設定
+    if (!content.id) {
+      tooltipIdSeq += 1;
+      content.setAttribute('id', `sky-tooltip-${tooltipIdSeq}`);
+    }
+    content.setAttribute('role', 'tooltip');
+    content.setAttribute('aria-hidden', 'true');
+
+    trigger.setAttribute('aria-controls', content.id);
+    trigger.setAttribute('aria-expanded', 'false');
+    if (!trigger.getAttribute('role')) trigger.setAttribute('role', 'button');
+
+    // コンテンツをbody直下へ移動（デザイン崩れ防止）
+    document.body.appendChild(content);
+
+    // イベント登録（トリガー）
+    setupTriggerEvents(trigger, content);
+    
+    // イベント登録（コンテンツ）
+    setupContentEvents(trigger, content);
+
+    wrapper.dataset[DATA_INITIALIZED] = 'true';
+  }
+
   function setupTriggerEvents(trigger, content) {
     // クリックで開閉
     trigger.addEventListener('click', (e) => {
@@ -349,17 +394,7 @@ function initTooltips() {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
-        
-        if (isExpanded) {
-          close(trigger, content);
-        } else {
-          open(trigger, content);
-          // 描画待ち後にコンテンツ内へフォーカス移動
-          setTimeout(() => {
-            const firstFocusable = content.querySelector(SELECTOR.FOCUSABLE);
-            if (firstFocusable) firstFocusable.focus();
-          }, 50);
-        }
+        isExpanded ? close(trigger, content) : open(trigger, content);
       }
     });
   }
@@ -378,7 +413,20 @@ function initTooltips() {
       if (e.key !== 'Tab') return;
 
       const focusables = content.querySelectorAll(SELECTOR.FOCUSABLE);
-      if (focusables.length === 0) return;
+
+      // クリッカブルな要素がない場合（コンテンツ自体にフォーカスがある場合）
+      if (focusables.length === 0) {
+        if (document.activeElement === content) {
+          e.preventDefault();
+          if (e.shiftKey) {
+            trigger.focus();
+          } else {
+            close(trigger, content);
+            moveFocusToNextElement(trigger);
+          }
+        }
+        return;
+      }
 
       const firstEl = focusables[0];
       const lastEl = focusables[focusables.length - 1];
@@ -397,6 +445,22 @@ function initTooltips() {
     });
   }
 
+  function moveFocusToNextElement(currentEl) {
+    const focusables = Array.from(document.querySelectorAll(SELECTOR.FOCUSABLE)).filter((el) => {
+      if (!(el instanceof HTMLElement)) return false;
+      if (el.closest(SELECTOR.CONTENT) && !el.closest(SELECTOR.CONTENT).classList.contains('is-active')) return false;
+      return el.offsetParent !== null || el === document.activeElement;
+    });
+
+    const currentIndex = focusables.indexOf(currentEl);
+    if (currentIndex === -1) return;
+
+    const nextEl = focusables[currentIndex + 1];
+    if (nextEl && typeof nextEl.focus === 'function') {
+      nextEl.focus();
+    }
+  }
+
   // ツールチップを開く
   function open(trigger, content) {
     closeAll(); // 他を閉じる
@@ -410,6 +474,18 @@ function initTooltips() {
     
     trigger.setAttribute('aria-expanded', 'true');
     content.setAttribute('aria-hidden', 'false');
+
+    // スクリーンリーダー読み上げのためフォーカスをコンテンツ内へ移動
+    setTimeout(() => {
+      const firstFocusable = content.querySelector(SELECTOR.FOCUSABLE);
+      if (firstFocusable) {
+        firstFocusable.focus();
+      } else {
+        // クリッカブルな要素がない場合はコンテンツ自体にフォーカス
+        content.setAttribute('tabindex', '-1');
+        content.focus();
+      }
+    }, 50);
   }
 
   // ツールチップを閉じる
@@ -417,6 +493,7 @@ function initTooltips() {
     trigger.setAttribute('aria-expanded', 'false');
     content.setAttribute('aria-hidden', 'true');
     content.classList.remove('is-active');
+    content.removeAttribute('tabindex');
 
     if (activeTrigger === trigger) {
       activeTrigger = null;
@@ -442,7 +519,6 @@ function initTooltips() {
     const scrollX = vv ? vv.pageLeft : (window.pageXOffset || document.documentElement.scrollLeft);
     const scrollY = vv ? vv.pageTop  : (window.pageYOffset || document.documentElement.scrollTop);
 
-    const viewportWidth = window.innerWidth;
     const gap = 10; 
 
     // ■ 横位置の計算
