@@ -50,7 +50,7 @@
     padding: 2rem 0;
     & .w_s {
       & .skyInputText {
-        width: 16rem;
+        width: 180px;
       }
     }
     & .subtext {
@@ -105,11 +105,24 @@
       grid-template-columns: auto;
       justify-content: center;
       & .sky-btn {
-        width: 30rem;
-        max-width: 30rem;
+        width: 240px;
+        max-width: 240px;
       }
     }
   }
+}
+
+@media (min-width: 768px) {
+.wc-rsverchresult {
+  & .sky-rsvflight.disabled {
+    & .sky-btnList_grid {
+      & .sky-btn {
+        width: 300px;
+        max-width: 300px;
+      }
+    }
+  }
+}
 }
 
 

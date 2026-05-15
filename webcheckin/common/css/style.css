@@ -822,6 +822,12 @@ h1, h2, h3, h4, h5 {
     &.i_arr-l.i_white::before {
       background-image: url("/webcheckin/common/images/icon/arrow1-left-white.svg")!important;
     }
+    &.i_blank.i_blue::after {
+      background-image: url("/webcheckin/common/images/icon/external-link-white.svg")!important;
+    }
+    &.i_blank.i_white::after{
+      background-image: url("/webcheckin/common/images/icon/external-link-white.svg")!important;
+    }
   }
 }
 /* disabled */
@@ -853,6 +859,12 @@ h1, h2, h3, h4, h5 {
     }
     &.i_arr-l.i_white::before {
       background-image: url("/webcheckin/common/images/icon/arrow1-left-white.svg")!important;
+    }
+    &.i_blank.i_blue::after {
+      background-image: url("/webcheckin/common/images/icon/external-link-white.svg")!important;
+    }
+    &.i_blank.i_white::after {
+      background-image: url("/webcheckin/common/images/icon/external-link-white.svg")!important;
     }
   }
 }
@@ -892,6 +904,14 @@ h1, h2, h3, h4, h5 {
     }
     &.i_arr-r.i_white::after {
       background-image: url("/webcheckin/common/images/icon/arrow1-right-white.svg");
+    }
+    &.i_blank.i_blue::after {
+      background-image: url("/webcheckin/common/images/icon/external-link.svg");
+      background-size: 1.1em 1.1em;
+    }
+    &.i_blank.i_white::after {
+      background-image: url("/webcheckin/common/images/icon/external-link-white.svg");
+      background-size: 1.1em 1.1em;
     }
   }
 }
@@ -961,6 +981,10 @@ h1, h2, h3, h4, h5 {
     }
     &.i_memo::before {
       background-image: url("/webcheckin/common/images/icon/memo.svg");
+    }
+    &.i_blank.i_blue::before {
+      background-image: url("/webcheckin/common/images/icon/external-link.svg");
+      background-size: 1.1em 1.1em;
     }
   }
   &:disabled {
@@ -1488,8 +1512,9 @@ details.sky-accordion[open] summary.accTitle .icon-arrow {
   background-color: var(--color-white);
   border: 1px solid var(--color-black-a12);
   border-radius: 8px;
-  height: fit-content;
-  overflow: hidden;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 0;
   width: 90vw;
   &::backdrop {
@@ -1516,6 +1541,7 @@ details.sky-accordion[open] summary.accTitle .icon-arrow {
       justify-content: center;
       align-items: center;
       gap: 28px;
+      flex-wrap: wrap;
       margin: 0;
       padding: 0;
       & li {

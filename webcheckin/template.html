@@ -111,6 +111,12 @@
         <ul class="sky-btnList">
           <li><button type="button" class="sky-btn btn_primary btn_l btn_icon-r"><span>スカイマークTOP</span><span class="icon i_arr-r i_white"></span></button></li>
           <li><button type="button" class="sky-btn btn_secondary btn_l btn_icon-r"><span>スカイマークTOP</span><span class="icon i_arr-r i_blue"></span></button></li>
+          <li><button type="button" class="sky-btn btn_secondary btn_l btn_icon-r" disabled><span>スカイマークTOP</span><span class="icon i_arr-r i_blue"></span></button></li>
+        </ul>
+        <ul class="sky-btnList">
+          <li><button type="button" class="sky-btn btn_primary btn_l btn_icon-r"><span>スカイマークTOP</span><span class="icon i_blank i_white"></span></button></li>
+          <li><button type="button" class="sky-btn btn_secondary btn_l btn_icon-r"><span>スカイマークTOP</span><span class="icon i_blank i_blue"></span></button></li>
+          <li><button type="button" class="sky-btn btn_secondary btn_l btn_icon-r" disabled><span>スカイマークTOP</span><span class="icon i_blank i_blue"></span></button></li>
         </ul>
         <ul class="sky-btnList_flex">
           <li><button type="button" class="sky-btn btn_primary btn_s">Chip1</button></li>
@@ -123,13 +129,14 @@
         </ul>
         <ul class="sky-btnList_flex">
           <li><a href="#" class="text-link">テキストリンク<span class="icon i_arr-r i_blue"></span></a></li>
-          <li><a href="#" class="text-link"><span class="icon-blank">テキストリンク</span><span class="icon i_arr-r i_blue"></span></a></li>
+          <li><a href="#" class="text-link" title="新しいウィンドウでページを開きます" target="_blank"><span class="icon-blank">テキストリンク</span><span class="icon i_arr-r i_blue"></span></a></li>
         </ul>
         <ul class="sky-btnList_flex">
-          <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_seat i_blue"></span>テキストリンク</a></li>
-          <li><a href="#" class="sky-btn btn_primary btn_m btn_icon"><span class="icon i_mail i_white"></span>テキストリンク</a></li>
-          <li><a href="#" class="sky-btn btn_primary btn_m btn_icon"><span class="icon i_print i_white"></span>テキストリンク</a></li>
-          <li><a href="#" class="sky-btn btn_submit btn_m btn_icon"><span class="icon i_ticket i_blue"></span>テキストリンク</a></li>
+          <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon"><span class="icon i_seat i_blue"></span>座席変更</a></li>
+          <li><a href="#" class="sky-btn btn_secondary btn_m btn_icon" title="新しいウィンドウでページを開きます" target="_blank"><span class="icon i_memo i_blue"></span>搭乗後アンケート<span class="icon i_blank i_blue"></span></a></li>
+          <li><a href="#" class="sky-btn btn_primary btn_m btn_icon"><span class="icon i_mail i_white"></span>メールを送る</a></li>
+          <li><a href="#" class="sky-btn btn_primary btn_m btn_icon"><span class="icon i_print i_white"></span>印刷する</a></li>
+          <li><a href="#" class="sky-btn btn_submit btn_m btn_icon"><span class="icon i_ticket i_blue"></span>搭乗券表示</a></li>
         </ul>
       </section>
     </section>
@@ -344,14 +351,13 @@
               <div class="dialog-content">
                 <div class="dialog-title">
                   <div class="heading">3A</div>
-                  <button type="button" class="icon-button" onclick="this.closest('dialog').close('close')"><img src="/webcheckin/images/icon/close-circle.svg" class="icon-close" alt="閉じる"></button>
                 </div>
                 <div class="dialog-detail">
                   <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
                 </div>
                 <menu class="dialog-menu">
-                  <button autofocus type="reset" onclick="this.closest('dialog').close('cancel')" class="sky-btn btn_tertiary btn_s">閉じる</button>
-                  <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">選択する</button>
+                  <li><button autofocus type="reset" onclick="this.closest('dialog').close('cancel')" class="sky-btn btn_tertiary btn_s">閉じる</button></li>
+                  <li><button type="submit" value="confirm" class="sky-btn btn_primary btn_s">選択する</button></li>
                 </menu>
               </div>
             </dialog>
@@ -362,14 +368,13 @@
               <div class="dialog-content">
                 <div class="dialog-title">
                   <div class="heading">3B</div>
-                  <button type="button" class="icon-button" onclick="this.closest('dialog').close('close')"><img src="/webcheckin/common/images/icon/close-circle.svg" class="icon-close" alt="閉じる"></button>
                 </div>
                 <div class="dialog-detail">
                   <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
                 </div>
                 <menu class="dialog-menu">
-                  <button autofocus type="reset" onclick="this.closest('dialog').close('cancel')" class="sky-btn btn_tertiary btn_s">閉じる</button>
-                  <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">選択する</button>
+                  <li><button autofocus type="reset" onclick="this.closest('dialog').close('cancel')" class="sky-btn btn_tertiary btn_s">閉じる</button></li>
+                  <li><button type="submit" value="confirm" class="sky-btn btn_primary btn_s">選択する</button></li>
                 </menu>
               </div>
             </dialog>
@@ -380,14 +385,13 @@
               <div class="dialog-content">
                 <div class="dialog-title">
                   <div class="heading">3C</div>
-                  <button type="button" class="icon-button" onclick="this.closest('dialog').close('close')"><img src="/webcheckin/common/images/icon/close-circle.svg" class="icon-close" alt="閉じる"></button>
                 </div>
                 <div class="dialog-detail">
                   <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
                 </div>
                 <menu class="dialog-menu">
-                  <button autofocus type="reset" onclick="this.closest('dialog').close('cancel')" class="sky-btn btn_tertiary btn_s">閉じる</button>
-                  <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">選択する</button>
+                  <li><button autofocus type="reset" onclick="this.closest('dialog').close('cancel')" class="sky-btn btn_tertiary btn_s">閉じる</button></li>
+                  <li><button type="submit" value="confirm" class="sky-btn btn_primary btn_s">選択する</button></li>
                 </menu>
               </div>
             </dialog>
@@ -436,21 +440,6 @@
           </ul>
       </section>
 
-      <section>
-        <button type="button" data-modal="warning" class="sky-btn btn_primary btn_m">チェックイン取り消し</button>
-        <dialog closedby="any" data-modal="warning" class="sky-modal">
-          <div class="dialog-content">
-            <div class="dialog-detail">
-              <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-            </div>
-            <menu class="dialog-menu">
-              <button autofocus type="reset" onclick="this.closest('dialog').close('cancel')" class="sky-btn btn_tertiary btn_s">閉じる</button>
-              <button type="submit" value="confirm" class="sky-btn btn_primary btn_s">内容確認</button>
-            </menu>
-          </div>
-        </dialog>
-      </section>
-
       <section style="display: flex; justify-content: end;">
         <div class="sky-tooltip-wrap">
           <span data-tooltip-trigger tabindex="0" class="tooltip-target">
@@ -479,16 +468,6 @@
       <ul class="sky-btnList_grid">
         <li><button type="button" class="sky-btn btn_primary btn_l" data-print="printOn"><span>印刷ボタン</span></button></li>
       </ul>
-      <div class="cs_qrCode"><img src="/webcheckin/images/qrcode.png"></div>
-    </section>
-
-    <section class="print_off">
-      <h2 class="heading200">印刷ボタン２</h2>
-      <p>ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。ここは印刷されます。</p>
-      <ul class="sky-btnList_grid">
-        <li><button type="button" class="sky-btn btn_primary btn_l" data-print="printOn"><span>印刷ボタン</span></button></li>
-      </ul>
-      <div class="cs_qrCode"><img src="/webcheckin/images/qrcode.png"></div>
     </section>
 
   </section>
