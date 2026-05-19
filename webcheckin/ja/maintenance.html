@@ -22,6 +22,31 @@
 <main class="sky-container wc-maintenance">
   <section class="sky-content">
     <section>
+      <ul class="sky-btnList_flex">
+          <li>
+            <button type="button" class="sky-btn btn_primary btn_m btn_icon" data-modal="timeout">セッションタイムアウト</button>
+            <dialog 
+              closedby="any" 
+              data-modal="timeout" 
+              class="sky-modal" 
+              role="alertdialog" 
+              aria-describedby="timeout-dialog-desc"
+            >
+              <div class="dialog-content">
+                <div class="dialog-detail" id="timeout-dialog-desc">
+                  <p class="timeout-warning">あと数分でセッションがタイムアウトします。</p>
+                  <p>手続きを続ける場合は、「延長する」ボタンを押すか、画面のどこかをクリック / タップしてください。</p>
+                </div>
+                <menu class="dialog-menu">
+                  <li><button autofocus type="submit" value="confirm" class="sky-btn btn_primary btn_s">延長する</button></li>
+                </menu>
+              </div>
+            </dialog>
+          </li>
+        </ul>
+    </section>
+    
+    <section>
       <div class="sky-maintenance_01">
         <h1 class="heading sky-icontxt"><span class="icon i_warning i_blue"></span>システムメンテナンスのお知らせ</h1>
         <div class="detail">

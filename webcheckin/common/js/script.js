@@ -257,6 +257,29 @@ seatModalButtons.forEach(button => {
   });
 });
 
+//-------------------------------------------------------
+/**
+ * Modal Dialog（timeout）
+ */
+
+// data-modal属性を持つすべてのボタンを取得
+const timeoutModalButtons = document.querySelectorAll('[data-modal="timeout"]');
+
+timeoutModalButtons.forEach(button => {
+  button.addEventListener('click', (event) => {
+    // イベントの伝播を停止
+    event.stopPropagation();
+    
+    const modalType = button.getAttribute('data-modal');
+    const targetDialog = document.querySelector(`dialog[data-modal="${modalType}"]`);
+
+    if (targetDialog) {
+      // ダイアログを開く
+      targetDialog.showModal();
+    }
+  });
+});
+
 
 //-------------------------------------------------------
 /**

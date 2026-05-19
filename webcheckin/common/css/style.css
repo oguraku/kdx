@@ -1517,6 +1517,7 @@ details.sky-accordion[open] summary.accTitle .icon-arrow {
   overflow-x: hidden;
   padding: 0;
   width: 90vw;
+  max-width: 600px;
   &::backdrop {
     background-color: var(--color-black-a60);
   }
@@ -1633,6 +1634,50 @@ html:has(dialog[open]) {
       }
     }
   }
+}
+
+/* timeout */
+.sky-modal[data-modal="timeout"] {
+  & .dialog-content {
+    & .dialog-detail {
+      margin: 0 0 2.4rem;
+      & .timeout-warning {
+        color: var(--color-alert100);
+        font-size: 1.2em;
+        font-weight: 700;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        line-height: 1.4;
+        margin-bottom: 12px;
+        text-align: left;
+        &::before {
+          background-image: url("/webcheckin/common/images/icon/warning-red.svg");
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          content: "";
+          display: inline-block;
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+  }
+}
+@media (min-width: 1024px) {
+.sky-modal[data-modal="timeout"] {
+  width: 500px;
+  & .dialog-content {
+    & .dialog-detail {
+      margin: 0 0 2.4rem;
+      & .timeout-warning {
+        text-align: center;
+      }
+    }
+  }
+}
 }
 
 /* tooltip -------------------------------- */
