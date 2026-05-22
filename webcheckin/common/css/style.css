@@ -3,7 +3,7 @@
 /**
  * uaplus.css version 0.0.1
  */
-*,*::after,*::before{box-sizing:border-box}:focus-visible{outline-offset:3px}:where(html){-webkit-text-size-adjust:none;text-size-adjust:none}:where(html){line-height:1.5}:where(h1){font-size:2em;margin-block:.67em}:where(abbr[title]){cursor:help;text-decoration-line:underline;text-decoration-style:dotted}@media (forced-colors:active){mark{color:HighlightText;background-color:Highlight;}}:where(del,ins,s)::before,:where(del,ins,s)::after{clip-path:inset(100%);clip:rect(1px,1px,1px,1px);height:1px;width:1px;overflow:hidden;position:absolute;white-space:nowrap;content:"test"}:where(s)::before{content:"stricken text start "}:where(s)::after{content:" stricken text end"}:where(del)::before{content:"deletion start "}:where(del)::after{content:" deletion end"}:where(ins)::before{content:"insertion start "}:where(ins)::after{content:" insertion end"}:where(audio,iframe,img,svg,video){max-block-size:100%;max-inline-size:100%}:where(fieldset){min-inline-size:0}:where(label):has(+:where(textarea,input,select)){display:block}:where(textarea:not([rows])){min-block-size:6em}:where(button,input,select,textarea){font-family:inherit;font-size:inherit}:where([type="search"]){-webkit-appearance:textfield}@supports (-webkit-touch-callout:none){:where([type="search"]){border:1px solid -apple-system-secondary-label;background-color:canvas}}:where([type="tel"],[type="url"],[type="email"],[type="number"]):not(:placeholder-shown){direction:ltr}:where(table){border-collapse:collapse;border:1px solid}:where(th,td){border:1px solid;padding:.25em .5em}:where(dialog)::backdrop{background:oklch(0% 0 0 / .3)}:where(dialog),:where(dialog)::backdrop{opacity:0;transition:opacity 300ms ease-out,display 300ms allow-discrete,overlay 300ms allow-discrete}:where(dialog[open]),:where(dialog[open])::backdrop{opacity:1}@starting-style{:where(dialog[open]),:where(dialog[open])::backdrop{opacity:0}}[hidden]:not([hidden="until-found"]){display:none!important}
+*,*::after,*::before{box-sizing:border-box}:focus-visible{outline-offset:3px}:where(html){-webkit-text-size-adjust:none;text-size-adjust:none}:where(html){line-height:1.5}:where(h1){font-size:2em;margin-block:.67em}:where(abbr[title]){cursor:help;text-decoration-line:underline;text-decoration-style:dotted}@media (forced-colors:active){mark{color:HighlightText;background-color:Highlight;}}:where(del,ins,s)::before,:where(del,ins,s)::after{clip-path:inset(100%);clip:rect(1px,1px,1px,1px);height:1px;width:1px;overflow:hidden;position:absolute;white-space:nowrap;content:"test"}:where(s)::before{content:"stricken text start "}:where(s)::after{content:" stricken text end"}:where(del)::before{content:"deletion start "}:where(del)::after{content:" deletion end"}:where(ins)::before{content:"insertion start "}:where(ins)::after{content:" insertion end"}:where(audio,iframe,img,svg,video){max-block-size:100%;max-inline-size:100%}:where(fieldset){min-inline-size:0}:where(label):has(+:where(textarea,input,select)){display:block}:where(textarea:not([rows])){min-block-size:6em}:where(button,input,select,textarea){font-family:inherit;font-size:inherit}:where([type="search"]){-webkit-appearance:textfield;appearance:textfield}@supports (-webkit-touch-callout:none){:where([type="search"]){border:1px solid -apple-system-secondary-label;background-color:canvas}}:where([type="tel"],[type="url"],[type="email"],[type="number"]):not(:placeholder-shown){direction:ltr}:where(table){border-collapse:collapse;border:1px solid}:where(th,td){border:1px solid;padding:.25em .5em}:where(dialog)::backdrop{background:oklch(0% 0 0 / .3)}:where(dialog),:where(dialog)::backdrop{opacity:0;transition:opacity 300ms ease-out,display 300ms allow-discrete,overlay 300ms allow-discrete}:where(dialog[open]),:where(dialog[open])::backdrop{opacity:1}@starting-style{:where(dialog[open]),:where(dialog[open])::backdrop{opacity:0}}[hidden]:not([hidden="until-found"]){display:none!important}
 
 
 /**
@@ -1178,11 +1178,17 @@ h1, h2, h3, h4, h5 {
   font-weight: 700;
   display: inline-block;
   margin-bottom: .5em;
-  .skyInputType {
+  & .skyInputType {
     color: var(--color-black-a60);
     font-size: 0.8em;
     font-weight: 400;
     margin-left: .75em;
+  }
+  & .skyRequired {
+    color: var(--color-alert100);
+    font-size: 0.8em;
+    font-weight: 700;
+    margin-left: 4px;
   }
 }
 
@@ -1361,6 +1367,17 @@ h1, h2, h3, h4, h5 {
 .skyInputRadio:has(input:disabled) { /* :disabled属性 */
   color: var(--color-grey400);
 }
+
+.txt_required {
+  text-align: right;
+  font-size: .8em;
+  & span {
+    color: var(--color-alert100);
+    font-weight: 700;
+    margin-right: 4px;
+  }
+}
+
 
 /* tabs -------------------------------- */
 .sky-tabs {
@@ -1622,15 +1639,24 @@ html:has(dialog[open]) {
   & .dialog-content {
     & .dialog-detail {
       margin: 0 0 2.4rem;
-      & .skyInputLabel {
-        font-size: 1.1em;
-        & .icon {
-          width: 1.2em;
-          height: 1.2em;
-          min-width: 1.2em;
-          min-height: 1.2em;
-          aspect-ratio: 1;
+      & .heading {
+        font-size: 1.2em;
+        font-weight: 700;
+        & .btn_icon {
+          & .icon {
+            width: 1.2em;
+            height: 1.2em;
+            min-width: 1.2em;
+            min-height: 1.2em;
+            aspect-ratio: 1;
+            &.i_mail::before {
+                background-image: url(/webcheckin/common/images/icon/mail.svg);
+            }
+          }
         }
+      }
+      & .skyInputLabel {
+        font-size: 1.4rem;
       }
     }
   }
@@ -1663,6 +1689,10 @@ html:has(dialog[open]) {
           height: 32px;
         }
       }
+      & .error-message {
+        margin-top: .8rem;
+        text-align: center;
+      }
     }
   }
 }
@@ -1679,6 +1709,59 @@ html:has(dialog[open]) {
   }
 }
 }
+
+/* loading */
+/* オーバーレイ全体のスタイル */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* 非表示にするためのクラス */
+.loading-overlay.is-hidden {
+  display: none;
+}
+
+/* 中央のコンテンツ */
+.loading-contents {
+  text-align: center;
+  color: var(--color-sky-blue);
+  font-family: sans-serif;
+}
+
+/* スピナーを中央に配置するためのコンテナ */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* スピナー本体のスタイルとアニメーション */
+.airplane-spinner {
+  width: 80px;
+  height: 80px;
+  animation: rotate-spinner 1.8s linear infinite;
+}
+
+/* 回転アニメーションの定義 */
+@keyframes rotate-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 /* tooltip -------------------------------- */
 .sky-tooltip-wrap {

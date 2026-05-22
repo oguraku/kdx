@@ -39,10 +39,11 @@
         <div class="sky-panelArea">
           <div class="tabPanel" id="rsvNumPnanel" role="tabpanel" aria-labelledby="rsvNumTab" tabindex="0">
             <div class="inner-blockD">
+              <p class="txt_required"><span>*</span>は必須項目です</p>
               <div class="w_m">
-                <label class="skyInputLabel" for="flightNum-date">搭乗日</label>
+                <label class="skyInputLabel" for="flightNum-date">搭乗日<span class="skyRequired">*</span></label>
                   <div class="skyInputSelect">
-                    <select id="flightNum-date">
+                    <select id="flightNum-date" required>
                       <button>
                         <selectedcontent></selectedcontent>
                       </button>
@@ -53,20 +54,20 @@
                   </div>
               </div>
               <div class="w_s">
-                <label class="skyInputLabel" for="flightNum">便名<span class="skyInputType">3桁または4桁の数字</span></label>
-                <div class="subtext"><span>SKY</span><input class="skyInputText" type="text" placeholder="例. 123" id="flightNum"><span>便</span></div>
+                <label class="skyInputLabel" for="flightNum">便名<span class="skyRequired">*</span><span class="skyInputType">3桁または4桁の数字</span></label>
+                <div class="subtext"><span>SKY</span><input class="skyInputText" type="text" placeholder="例. 123" id="flightNum" required><span>便</span></div>
               </div>
               <div class="w_m">
-                <label class="skyInputLabel" for="rsvNum">予約番号<span class="skyInputType">4桁の数字</span></label>
-                <input class="skyInputText" type="text" placeholder="例. 1234" id="rsvNum">
+                <label class="skyInputLabel" for="rsvNum">予約番号<span class="skyRequired">*</span><span class="skyInputType">4桁の数字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. 1234" id="rsvNum" required>
               </div>
               <div class="w_l">
-                <label class="skyInputLabel" for="rsvNum-name1">姓<span class="skyInputType">ローマ字</span></label>
-                <input class="skyInputText" type="text" placeholder="例. SORANO" id="rsvNum-name1">
+                <label class="skyInputLabel" for="rsvNum-name1">姓<span class="skyRequired">*</span><span class="skyInputType">ローマ字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. SORANO" id="rsvNum-name1" required>
               </div>
               <div class="w_l">
-                <label class="skyInputLabel" for="rsvNum-name2">名<span class="skyInputType">ローマ字</span></label>
-                <input class="skyInputText" type="text" placeholder="例. TARO" id="rsvNum-name2">
+                <label class="skyInputLabel" for="rsvNum-name2">名<span class="skyRequired">*</span><span class="skyInputType">ローマ字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. TARO" id="rsvNum-name2" required>
               </div>
 
               <ul class="sky-btnList">
@@ -77,17 +78,18 @@
 
           <div class="tabPanel" id="rfrcNumPnanel" role="tabpanel" aria-labelledby="rfrcNumTab" tabindex="0" hidden>
             <div class="inner-blockD">
+              <p class="txt_required"><span>*</span>は必須項目です</p>
               <div class="w_m">
-                <label class="skyInputLabel" for="rfrcNum">照会番号<span class="skyInputType">6桁の数字</span></label>
-                <input class="skyInputText" type="text" placeholder="例. 123456" id="rfrcNum">
+                <label class="skyInputLabel" for="rfrcNum">照会番号<span class="skyRequired">*</span><span class="skyInputType">6桁の数字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. 123456" id="rfrcNum" required>
               </div>
               <div class="w_l">
-                <label class="skyInputLabel" for="rfrcNum-name1">姓<span class="skyInputType">ローマ字</span></label>
-                <input class="skyInputText" type="text" placeholder="例. SORANO" id="rfrcNum-name1">
+                <label class="skyInputLabel" for="rfrcNum-name1">姓<span class="skyRequired">*</span><span class="skyInputType">ローマ字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. SORANO" id="rfrcNum-name1" required>
               </div>
               <div class="w_l">
-                <label class="skyInputLabel" for="rfrcNum-name2">名<span class="skyInputType">ローマ字</span></label>
-                <input class="skyInputText" type="text" placeholder="例. TARO" id="rfrcNum-name2">
+                <label class="skyInputLabel" for="rfrcNum-name2">名<span class="skyRequired">*</span><span class="skyInputType">ローマ字</span></label>
+                <input class="skyInputText" type="text" placeholder="例. TARO" id="rfrcNum-name2" required>
               </div>
             </div>
             

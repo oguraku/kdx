@@ -161,9 +161,11 @@
     <section class="print_off">
       <h2 class="heading200">icon + text</h2>
         <ul>
-          <li><p class="sky-icontxt"><span class="icon i_error"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p></li>
-          <li><p class="sky-icontxt"><span class="icon i_warning"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p></li>
-          <li><p class="sky-icontxt"><span class="icon i_check"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p></li>
+          <li><p class="sky-icontxt"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p></li>
+          <li><p class="sky-icontxt"><span class="icon i_warning i_red"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p></li>
+          <li><p class="sky-icontxt"><span class="icon i_check i_green"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p></li>
+          <li><p class="sky-icontxt"><span class="icon i_info i_blue"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p></li>
+          <li><p class="sky-icontxt"><span class="icon i_info-warning"></span><span class="text">テキストテキストテキストテキストテキストテキスト</span></p></li>
         </ul>
     </section>
 
@@ -186,7 +188,7 @@
           <li>
             <label class="skyInputLabel" for="skyInputText2">予約番号<span class="skyInputType">数字4桁</span></label>
             <input class="skyInputText error" type="text" placeholder="例. SORANO" id="skyInputText2">
-            <div class="skyInputErrorText" role="alert"><p class="sky-icontxt"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</span></p></div>
+            <div class="skyInputErrorText" role="alert"><p class="sky-icontxt"><span class="icon i_error i_red" aria-label="エラー"></span><span class="text">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</span></p></div>
           </li>
         </ul>
       </section>
@@ -217,7 +219,7 @@
                   <option value="">昨日 12月29日（月）</option>
               </select>
             </div>
-            <div class="skyInputErrorText" role="alert"><p class="sky-icontxt"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</span></p></div>
+            <div class="skyInputErrorText" role="alert"><p class="sky-icontxt"><span class="icon i_error i_red" aria-label="エラー"></span><span class="text">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</span></p></div>
           </li>
         </ul>
       </section>
@@ -406,9 +408,10 @@
               <dialog closedby="any" data-modal="mail" class="sky-modal">
                 <div class="dialog-content">
                   <div class="dialog-detail">
-                    <label class="skyInputLabel" for="skyInputMail"><span class="btn_icon"><span class="icon i_mail"></span>メールを送る</span></label>
-                    <input autofocus class="skyInputText error" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail">
-                    <div class="skyInputErrorText" role="alert"><p class="sky-icontxt"><span class="icon i_error i_red"></span><span class="text">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</span></p></div>
+                    <p class="heading"><span class="btn_icon"><span class="icon i_mail"></span>メールを送る</span></p>
+                    <label class="skyInputLabel" for="skyInputMail">メールアドレス<span class="skyRequired">必須</span></label>
+                    <input autofocus class="skyInputText error" type="text" placeholder="例. sample@skymark.co.jp" id="skyInputMail" required>
+                    <div class="skyInputErrorText" role="alert"><p class="sky-icontxt"><span class="icon i_error i_red" aria-label="エラー"></span><span class="text">テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</span></p></div>
                   </div>
                   <menu class="dialog-menu">
                     <li><button type="reset" onclick="this.closest('dialog').close('cancel')" class="sky-btn btn_tertiary btn_s">閉じる</button></li>
@@ -423,7 +426,7 @@
                 <div class="dialog-content">
                   <div class="dialog-detail">
                     <div class="error-message">
-                      <p class="sky-icontxt" role="alert"><span class="icon i_error i_red"></span><span class="text">エラーの場合のテキストが入ります。</span></p>
+                      <p class="sky-icontxt" role="alert"><span class="icon i_error i_red" aria-label="エラー"></span><span class="text">エラーの場合のテキストが入ります。</span></p>
                     </div>
                     <p class="fw_b mb8">宛先にお間違えがないことをご確認のうえ送信ボタンを押してください。</p>
                     <ul class="sky-list_disc">
@@ -464,6 +467,14 @@
           </li>
         </ul>
       </section>
+      
+      <section>
+        <ul class="sky-btnList_flex">
+          <li>
+            <button type="button" class="sky-btn btn_primary btn_m btn_icon" id="submit-btn">確定する</button>
+          </li>
+        </ul>
+      </section>
 
       <section style="display: flex; justify-content: end;">
         <div class="sky-tooltip-wrap">
@@ -501,6 +512,15 @@
 <!-- FOOTER START -->
 <div id="sky-footer"></div>
 <!-- FOOTER END -->
+
+<div id="loading-overlay" class="loading-overlay is-hidden" aria-hidden="true">
+  <div class="loading-contents">
+    <div class="spinner" aria-hidden="true"></div>
+    <p class="loading-text">処理中...</p>
+  </div>
+</div>
+<div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
 <!-- globalscript -->
 <script type="text/javascript" src="/webcheckin/common/js/script.js?ver=1"></script>
 <script type="text/javascript" src="/webcheckin/common/js/header.js?ver=1"></script>

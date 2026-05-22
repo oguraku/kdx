@@ -1764,10 +1764,38 @@ function controlSlideFocus(swiper) {
   });
 }
 
+
 //-------------------------------------------------------
+/**
+ * ローディング（準備中）
+ */
+
+const submitBtn = document.getElementById('submit-btn');
+const loadingOverlay = document.getElementById('loading-overlay');
+const srAnnouncer = document.getElementById('sr-announcer'); 
+
+if (submitBtn) {
+  submitBtn.addEventListener('click', () => {
+    // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
+    srAnnouncer.textContent = '処理中...';
+
+    // 2. ボタンを無効化し、オーバーレイ表示
+    submitBtn.disabled = true;
+    loadingOverlay.classList.remove('is-hidden');
+
+    //（シミュレーション）
+    setTimeout(() => {
+      loadingOverlay.classList.add('is-hidden');
+      submitBtn.disabled = false;
+      
+      // 処理が終わったらアナウンスをクリア
+      srAnnouncer.textContent = '';
+    }, 3000); 
+  });
+}
 
 
-
+//-------------------------------------------------------
 /**
  * DOMContentLoaded - すべての初期化処理をまとめて実行
  */
