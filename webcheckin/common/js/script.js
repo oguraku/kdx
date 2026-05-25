@@ -1770,23 +1770,69 @@ function controlSlideFocus(swiper) {
  * ローディング（準備中）
  */
 
-const submitBtn = document.getElementById('submit-btn');
-const loadingOverlay = document.getElementById('loading-overlay');
+const submitBtn1 = document.getElementById('submit-btn1');
+const loadingOverlay1 = document.getElementById('loading-overlay1');
 const srAnnouncer = document.getElementById('sr-announcer'); 
 
-if (submitBtn) {
-  submitBtn.addEventListener('click', () => {
+if (submitBtn1) {
+  submitBtn1.addEventListener('click', () => {
     // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
     srAnnouncer.textContent = '処理中...';
 
     // 2. ボタンを無効化し、オーバーレイ表示
-    submitBtn.disabled = true;
-    loadingOverlay.classList.remove('is-hidden');
+    submitBtn1.disabled = true;
+    loadingOverlay1.classList.remove('is-hidden');
 
     //（シミュレーション）
     setTimeout(() => {
-      loadingOverlay.classList.add('is-hidden');
-      submitBtn.disabled = false;
+      loadingOverlay1.classList.add('is-hidden');
+      submitBtn1.disabled = false;
+      
+      // 処理が終わったらアナウンスをクリア
+      srAnnouncer.textContent = '';
+    }, 3000); 
+  });
+}
+
+const submitBtn2 = document.getElementById('submit-btn2');
+const loadingOverlay2 = document.getElementById('loading-overlay2');
+
+if (submitBtn2) {
+  submitBtn2.addEventListener('click', () => {
+    // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
+    srAnnouncer.textContent = '処理中...';
+
+    // 2. ボタンを無効化し、オーバーレイ表示
+    submitBtn2.disabled = true;
+    loadingOverlay2.classList.remove('is-hidden');
+
+    //（シミュレーション）
+    setTimeout(() => {
+      loadingOverlay2.classList.add('is-hidden');
+      submitBtn2.disabled = false;
+      
+      // 処理が終わったらアナウンスをクリア
+      srAnnouncer.textContent = '';
+    }, 3000); 
+  });
+}
+
+const submitBtn3 = document.getElementById('submit-btn3');
+const loadingOverlay3 = document.getElementById('loading-overlay3');
+
+if (submitBtn3) {
+  submitBtn3.addEventListener('click', () => {
+    // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
+    srAnnouncer.textContent = '処理中...';
+
+    // 2. ボタンを無効化し、オーバーレイ表示
+    submitBtn3.disabled = true;
+    loadingOverlay3.classList.remove('is-hidden');
+
+    //（シミュレーション）
+    setTimeout(() => {
+      loadingOverlay3.classList.add('is-hidden');
+      submitBtn3.disabled = false;
       
       // 処理が終わったらアナウンスをクリア
       srAnnouncer.textContent = '';

@@ -1710,9 +1710,17 @@ html:has(dialog[open]) {
 }
 }
 
-/* loading */
+
+/* Loadingオーバーレイ 初期非表示 */
+.loading-overlay1.is-hidden,
+.loading-overlay2.is-hidden,
+.loading-overlay3.is-hidden {
+  display: none;
+}
+
+/* loading1 */
 /* オーバーレイ全体のスタイル */
-.loading-overlay {
+.loading-overlay1 {
   position: fixed;
   top: 0;
   left: 0;
@@ -1723,12 +1731,6 @@ html:has(dialog[open]) {
   justify-content: center;
   align-items: center;
   z-index: 9999;
-}
-
-/* 非表示にするためのクラス */
-.loading-overlay.is-hidden {
-  display: none;
-}
 
 /* 中央のコンテンツ */
 .loading-contents {
@@ -1752,6 +1754,14 @@ html:has(dialog[open]) {
   animation: rotate-spinner 1.8s linear infinite;
 }
 
+/* prefers-reduced-motion：アニメーションを停止 */
+@media (prefers-reduced-motion: reduce) {
+.airplane-spinner {
+  animation: none !important;
+}
+}
+}
+
 /* 回転アニメーションの定義 */
 @keyframes rotate-spinner {
   0% {
@@ -1761,6 +1771,191 @@ html:has(dialog[open]) {
     transform: rotate(360deg);
   }
 }
+
+/* loading2 */
+/* オーバーレイ全体のスタイル */
+.loading-overlay2 {
+  /* 画面全体を覆うように固定配置 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* 水色の半透明背景 */
+  background-color: rgba(196, 231, 255, 0.9); 
+  
+  /* 中央寄せ */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* 最前面に表示 */
+  z-index: 9999;
+
+  .loading-content {
+    text-align: center;
+  }
+
+  .illustration-container {
+    position: relative;
+    width: 300px;
+    height: 150px;
+    margin: 0 auto 15px;
+  }
+
+  /* 飛行機と雲の配置・アニメーション設定 */
+  .airplane {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 160px;
+    z-index: 2;
+    /* ふわふわ上下するアニメーション (2.5秒かけて無限ループ) */
+    animation: float-airplane 2.5s ease-in-out infinite;
+  }
+
+  .cloud {
+    position: absolute;
+    z-index: 1;
+  }
+
+  /* 雲をそれぞれ別の位置に配置し、アニメーションのタイミングを少しずらす */
+  .cloud-1 {
+    top: 8%;
+    left: -8%;
+    animation: float-cloud 3s ease-in-out infinite 0.2s;
+    width: 59px;
+  }
+
+  .cloud-2 {
+    top: 40%;
+    right: -15%;
+    animation: float-cloud 2.7s ease-in-out infinite 0.5s;
+    width: 93px;
+  }
+
+  .cloud-3 {
+    bottom: 0%;
+    left: -4%;
+    animation: float-cloud 3.2s ease-in-out infinite 0.8s;
+    width: 100px;
+  }
+
+  /* prefers-reduced-motion：アニメーションを停止 */
+  @media (prefers-reduced-motion: reduce) {
+    .airplane,
+    .cloud-1,
+    .cloud-2,
+    .cloud-3 {
+      animation: none !important;
+    }
+  }
+
+  /* テキストのスタイル */
+  .loading-text {
+    font-weight: bold;
+    color: var(--color-sky-blue);
+    margin: 0;
+  }
+
+}
+
+/* アニメーションのキーフレーム定義 */
+/* 飛行機用: 中央配置のtranslate(-50%, -50%)を維持しつつY軸を動かす */
+@keyframes float-airplane {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-15px); /* 上に15px浮く */
+  }
+}
+
+/* 雲用: Y軸のみ動かす */
+@keyframes float-cloud {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* 上に10px浮く */
+  }
+}
+
+/* loading3 */
+/* オーバーレイ全体のスタイル */
+.loading-overlay3 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+
+  & .loading-content {
+    text-align: center;
+  }
+
+  /* SVGスタイリング */
+  & .loading-svg {
+    /* 飛行機がはみ出さないように枠自体は120pxに設定します */
+    width: 120px; 
+    height: 120px;
+    display: block;
+    margin: 0 auto 20px;
+  }
+
+  & .spinner-group {
+    /* SVGの中心(50, 50)を基準に回転させる */
+    transform-origin: 50px 50px;
+    /* 3秒かけて1周、一定速度(linear)で無限ループ */
+    animation: spin 3s linear infinite;
+  }
+
+  & .heart-pulse {
+    /* SVGの中心(50, 50)を基準に拡縮させるよう修正 */
+    transform-origin: 50px 50px; 
+    /* 1.5秒かけて小→大→小を繰り返す */
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  /* prefers-reduced-motion：アニメーションを停止 */
+  @media (prefers-reduced-motion: reduce) {
+    .spinner-group,
+    .heart-pulse {
+      animation: none !important;
+    }
+  }
+
+  & .loading-text {
+    color: var(--color-sky-blue);
+    margin: 0;
+  }
+}
+
+/* アニメーションのキーフレーム定義 */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
 
 
 /* tooltip -------------------------------- */

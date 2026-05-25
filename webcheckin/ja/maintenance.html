@@ -49,10 +49,16 @@
 
     <section>
       <ul class="sky-btnList_flex">
-          <li>
-            <button type="button" class="sky-btn btn_primary btn_m btn_icon" id="submit-btn">確定する</button>
-          </li>
-        </ul>
+        <li>
+          <button type="button" class="sky-btn btn_primary btn_m btn_icon" id="submit-btn1">確定する１</button>
+        </li>
+        <li>
+          <button type="button" class="sky-btn btn_primary btn_m btn_icon" id="submit-btn2">確定する２</button>
+        </li>
+        <li>
+          <button type="button" class="sky-btn btn_primary btn_m btn_icon" id="submit-btn3">確定する３</button>
+        </li>
+      </ul>
     </section>
     
     <section>
@@ -115,7 +121,7 @@
 <!-- FOOTER END -->
 
 <!-- loading START -->
-<div id="loading-overlay" class="loading-overlay is-hidden" aria-hidden="true">
+<div id="loading-overlay1" class="loading-overlay1 is-hidden" aria-hidden="true">
   <div class="loading-contents">
     <!-- <div class="spinner" aria-hidden="true"></div> -->
     <div class="spinner-container" aria-hidden="true">
@@ -135,9 +141,49 @@
         </g>
       </svg>
     </div>
-    <p class="loading-text">処理中...</p>
+    <p class="loading-text">読み込み中・・・</p>
   </div>
 </div>
+
+<div id="loading-overlay2" class="loading-overlay2 is-hidden" aria-hidden="true">
+  <div class="loading-content">
+    <div class="illustration-container">
+      <img src="/webcheckin/common/images/loading-cloud1.svg" class="cloud cloud-1" alt="">
+      <img src="/webcheckin/common/images/loading-cloud2.svg" class="cloud cloud-2" alt="">
+      <img src="/webcheckin/common/images/loading-cloud2.svg" class="cloud cloud-3" alt="">
+      
+      <img src="/webcheckin/common/images/loading-airplane.svg" class="airplane" alt="飛行機">
+    </div>
+    <p class="loading-text">読み込み中・・・</p>
+  </div>
+</div>
+
+<div id="loading-overlay3" class="loading-overlay3 is-hidden" aria-hidden="true">
+  <div class="loading-content">   
+    <svg class="loading-svg" viewBox="-10 -10 120 120" xmlns="http://www.w3.org/2000/svg">
+      
+      <g class="heart-pulse">
+        <g transform="translate(34, 38) scale(0.85)">
+          <path d="M35.0698 2.91744C34.1413 1.99253 33.0389 1.25882 31.8255 0.758235C30.6121 0.257652 29.3116 0 27.9982 0C26.6848 0 25.3842 0.257652 24.1708 0.758235C22.9574 1.25882 21.855 1.99253 20.9265 2.91744L18.9995 4.83606L17.0725 2.91744C15.197 1.05005 12.6532 0.000967931 10.0009 0.000967951C7.34846 0.00096797 4.80471 1.05005 2.92918 2.91744C1.05366 4.78482 1.97619e-08 7.31754 0 9.95842C-1.97619e-08 12.5993 1.05366 15.132 2.92918 16.9994L18.9995 33L35.0698 16.9994C35.9988 16.0749 36.7357 14.9773 37.2385 13.7692C37.7412 12.561 38 11.2661 38 9.95842C38 8.65071 37.7412 7.3558 37.2385 6.14769C36.7357 4.93957 35.9988 3.84192 35.0698 2.91744Z" fill="#AB3F3D"/>
+        </g>
+      </g>
+
+      <g class="spinner-group">
+        
+        <path d="M 50 90 A 40 40 0 0 0 84.6 30" fill="none" stroke="#FFD700" stroke-width="4.5" stroke-linecap="round"/>
+        
+        <path d="M 25.7 18.3 A 40 40 0 0 0 50 90" fill="none" stroke="#001871" stroke-width="4.5" stroke-linecap="round"/>
+        
+        <g transform="translate(50, 10) rotate(90) scale(1.6)">
+          <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#001871" transform="translate(-12, -12)" />
+        </g>      
+      </g>
+
+    </svg>
+    <p class="loading-text">読み込み中・・・</p>
+  </div>
+</div>
+
 <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 <!-- loading END -->
 
