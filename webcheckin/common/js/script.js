@@ -19,45 +19,114 @@ function moveFocusToNextElement(currentElement) {
  */
 function initPrintButton() {
   const printButtons = document.querySelectorAll('[data-print="printOn"]');
-  let sectionToReset = null;
 
-  const handlePrintClick = (event) => {
-    const targetSection = event.currentTarget.closest('.sky-ticket');
+  // クリーンアップ管理（afterprint駆動：iOS Safariはprint()後に数秒遅れてプレビューが開く）
+  let afterPrintHandler = null;
 
-    if (targetSection) {
-      document.body.classList.add('is-printing');
-
-      // 高さ調整用クラスのリセット（印刷用）
-      const heightAdjustEls = document.querySelectorAll('.js-height-adjust');
-      heightAdjustEls.forEach(el => el.style.setProperty('height', 'auto', 'important'));
-
-      targetSection.classList.remove('print_off');
-      targetSection.classList.add('print_on');
-      sectionToReset = targetSection;
-      
-      setTimeout(() => {
-        window.print();
-      }, 200);
+  const clearPendingCleanup = () => {
+    if (afterPrintHandler) {
+      window.removeEventListener('afterprint', afterPrintHandler);
+      afterPrintHandler = null;
     }
   };
 
-  const handleAfterPrint = () => {
-    document.body.classList.remove('is-printing');
+  const handlePrintClick = (event) => {
+    const targetSection = event.currentTarget.closest('.sky-ticket');
+    if (!targetSection) return;
 
-    if (sectionToReset) {
-      sectionToReset.classList.remove('print_on');
-      sectionToReset.classList.add('print_off');
-      sectionToReset = null;
+    // 0a. 前回印刷分のクリーンアップ予約を必ず解除
+    clearPendingCleanup();
+
+    // 0b. 前回印刷の残骸を完全に除去（iOS Safariのスナップショット再利用対策）
+    const existing = document.getElementById('sky-print-container');
+    if (existing) {
+      existing.remove();
+    }
+    document.body.classList.remove('is-printing-clone');
+
+    // 1. 専用の印刷コンテナを新規作成
+    const printContainer = document.createElement('div');
+    printContainer.id = 'sky-print-container';
+    printContainer.className = 'sky-container wc-boardingpass print-only';
+    document.body.appendChild(printContainer);
+
+    // 2. 対象の搭乗券をクローン
+    const clone = targetSection.cloneNode(true);
+
+    // 3. Swiperの干渉クラスやインラインスタイルを除去（disabled等の状態クラスは保持）
+    clone.classList.remove(
+      'swiper-slide',
+      'swiper-slide-active',
+      'swiper-slide-next',
+      'swiper-slide-prev',
+      'swiper-slide-visible',
+      'swiper-slide-duplicate',
+      'swiper-slide-duplicate-active',
+      'swiper-slide-duplicate-next',
+      'swiper-slide-duplicate-prev'
+    );
+    clone.removeAttribute('style');
+    clone.removeAttribute('inert');
+    clone.removeAttribute('aria-hidden');
+
+    clone.querySelectorAll('.js-height-adjust').forEach(el => {
+      el.style.height = 'auto';
+    });
+    clone.querySelectorAll('[inert], [aria-hidden]').forEach(el => {
+      el.removeAttribute('inert');
+      el.removeAttribute('aria-hidden');
+    });
+
+    // 4. コンテナにクローンを追加
+    printContainer.appendChild(clone);
+
+    // 5. 注意事項（.wc-attention）もクローンして追加
+    const attention = document.querySelector('.wc-attention');
+    if (attention) {
+      const attentionClone = attention.cloneNode(true);
+      attentionClone.removeAttribute('style');
+      attentionClone.removeAttribute('inert');
+      attentionClone.removeAttribute('aria-hidden');
+      printContainer.appendChild(attentionClone);
     }
 
-    // 高さ調整を再適用
-    // まずimportant付きのautoを削除
-    const heightAdjustEls = document.querySelectorAll('.js-height-adjust');
-    heightAdjustEls.forEach(el => el.style.removeProperty('height'));
+    // 6. 印刷中クラスをbodyに付与
+    document.body.classList.add('is-printing-clone');
+
+    // 7. レイアウトを強制計算
+    // eslint-disable-next-line no-unused-expressions
+    printContainer.offsetHeight;
+    // eslint-disable-next-line no-unused-expressions
+    document.body.offsetHeight;
+
+    // 8. 同期で window.print() を呼ぶ
+    window.print();
+    setupCleanupTriggers();
+  };
+
+  // afterprint で確実にクリーンアップ
+  //（iOS Safariは print() から数秒遅れてプレビューが開くため
+  //  focus/pointerdown/touchstart では早期発火してクローンが削除されてしまう）
+  const setupCleanupTriggers = () => {
+    clearPendingCleanup();
+
+    afterPrintHandler = () => {
+      doAfterPrintCleanup();
+      window.removeEventListener('afterprint', afterPrintHandler);
+      afterPrintHandler = null;
+    };
+    window.addEventListener('afterprint', afterPrintHandler);
+  };
+
+  const doAfterPrintCleanup = () => {
+    document.body.classList.remove('is-printing-clone');
+    const printContainer = document.getElementById('sky-print-container');
+    if (printContainer) {
+      printContainer.remove();
+    }
 
     const bpCarousels = document.querySelectorAll('.js-bpCarousel');
     bpCarousels.forEach(carousel => {
-      // 関数が定義されているか確認してから実行
       if (typeof alignTicketBodyHeights === 'function') {
         alignTicketBodyHeights(carousel);
       }
@@ -67,8 +136,6 @@ function initPrintButton() {
   printButtons.forEach(button => {
     button.addEventListener('click', handlePrintClick);
   });
-
-  window.addEventListener('afterprint', handleAfterPrint);
 }
 
 

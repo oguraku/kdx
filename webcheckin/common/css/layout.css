@@ -278,16 +278,6 @@
     }
   }
 
-  .skyInputLabel {
-    .btn_icon {
-      .icon {
-        &.i_mail::before {
-          background-image: url("/webcheckin/common/images/icon/mail.svg");
-        }
-      }
-    }
-  }
-
   /* sky-carousel(Bordingpass) --------- */
   & .sky-carousel.swiper {
     box-sizing: border-box;
@@ -485,341 +475,335 @@
   display: none;
 }
 @media print { /* 印刷 */
-  .print-only, .print_on {
+  .print-only {
     display: block !important;
   }
-  .print_off, .sky-header, .sky-footer, h1, .wallet-button, .ticket-footer {
+  .sky-header, .sky-footer, h1, .wallet-button, .ticket-footer {
     display: none !important;
   }
   [data-print="printOn"] {
     display: none !important;
   }
-  .wc-boardingpass {
-    /* sky-ticket */
-    .sky-ticket {
-      background-color: var(--color-white);
-      border: 1px solid var(--color-black-a12);
-      border-radius: 20px;
-      position: relative;
-      min-width: 100%;
-      max-width: 100%;
-      overflow: hidden;
-      font-family: var(--font-Num);
-      & .ticket-header {
-        background-color: var(--color-white);
-        color: var(--color-black);
-        line-height: 1;
-        padding: 1.6rem;
-        & .inner-head {
-          display: block;
-          justify-content: flex-start;
-          align-items: center;
-          & .ticket-logo {
-            width: 82px;
-            height: auto;
-            & .logo.active, & .logo.close {
-              display: none;
-            }
-          }
-          & .ticket-info {
-            font-weight: 700;
-            display: flex;
-            justify-content: flex-start;
-            gap: 3rem;
-            margin-top: 1.6rem;
-            & .ticket-info-detail {
-              text-align: left;
-              display: flex;
-              align-items: center;
-              gap: .8rem;
-              & .title {
-                color: var(--color-black);
-                font-size: 1.2rem;
-                font-weight: 400;
-              }
-              & .detail {
-                font-size: 1.8rem;
-                margin-top: 0.4rem;
-              }
-            }
-          }
-        }
-        & .inner-flex {
-          display: flex;
-          justify-content: flex-start;
-          align-items: flex-end;
-          gap: 3rem;
-          margin-top: 1.6rem;
-          & .ticket-route-dep, & .ticket-route-arr {
-            & .sub {
-              color: var(--color-black);
-              display: block;
-              font-size: 1.4rem;
-              font-weight: 700;
-            }
-            & .main {
-              display: block;
-              font-size: 3rem;
-              margin-top: .4rem;
-            }
-          }
-          & .ticket-route-arr {
-            & .sub, & .main {
-              text-align: left;
-            }
-          }
-          & .arrow {
-            & span {
-              display: block;
-            }
-            & .label-connect {
-              background-color: var(--color-white);
-              border: 1px solid var(--color-black);
-              color: var(--color-black);
-              font-size: 1.2rem;
-              font-weight: 700;
-              margin-bottom: .6rem;
-              padding: 2px;
-            }
-            & .icon {
-              width: 3.2rem;
-              height: auto;
-              margin: 0 auto;
-              text-align: center;
-              filter: none;
-            }
-          }
-        }
-      }
-      & .ticket-body {
-        background-color: var(--color-white);
-        color: var(--color-black);
-        line-height: 1;
-        padding: 0 1.6rem 1.6rem;
-        & .ticket-info-detail {
-          font-weight: 700;
-          text-align: left;
-          word-break: break-all;
-          & .title {
-            font-size: 1.2rem;
-            font-weight: 400;
-            color: var(--color-black);
-          }
-          & .detail {
-            font-size: 1.8rem;
-            margin-top: 0.4rem;
-          }
-        }
-        & .inner-flex {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        /* 3つの時 */
-        &:has(> .ticket-info-detail:nth-child(3):last-child) {
-          gap: 2%;
-          /* 1番目と2番目 */
-          & .ticket-info-detail:nth-child(1),
-          & .ticket-info-detail:nth-child(2) {
-            flex: initial;
-          }
-          /* 3番目 */
-          & .ticket-info-detail:nth-child(3) {
-            flex: initial;
-          }
-        }
-        & .departure-time.status-delay {
-          & .detail {
-            display: flex;
-            gap: .8rem;
-            & .std {
-              text-decoration: line-through;
-              color: var(--color-black-a60);
-            }
-            & .etd {
-              color: var(--color-black);
-            }
-          }
-        }
-        & .flight-status.status-delay {
-          & .detail {
-            color: var(--color-black);
-          }
-        }
-      }
-        & .inner-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1.6rem;
-          justify-content: flex-start;
-          margin-top: .8rem;
-          & .pax-info {
-            & .name {
-              display: inline-block;
-              vertical-align: baseline;
-              & span {
-                padding-right: .25em;
-              }
-              & span:nth-of-type(3) {
-                font-size: .8em;
-                font-weight: 400;
-              }
-            }
-          }
-          & .flight-status {
-            min-width: fit-content;
-            max-width: fit-content;
-          }
-        }
-        & .infant-ticket {
-          align-items: center;
-          border: 1px solid var(--color-black);
-          display: flex;
-          font-size: 1.4rem;
-          font-weight: 700;
-          gap: .8rem;
-          justify-content: flex-start;
-          margin-top: 1.6rem;
-          padding: .8rem;
-          width: fit-content;
-          &::before, &::after {
-            content: none;
-          }
-          & .text {
-            display: flex;
-            align-items: center;
-            gap: .4rem;
-            justify-content: center;
-            & .icon {
-              display: block;
-              width: 2rem;
-              height: auto;
-            }
-          }
-        }
-        & .status-message {
-          font-size: 1.6rem;
-          font-weight: 700;
-          margin-top: 1.6rem;
-          & .sky-icontxt.c_red {
-            color: var(--color-black);
-            & .icon {
-              display: none;
-            }
-          }
-        }
-        & .gate-note {
-          border: 1px solid var(--color-black);
-          font-size: 1.4rem;
-          font-weight: 400;
-          line-height: 1.2;
-          margin-top: 1.6rem;
-          padding: .8rem;
-          text-align: center;
-          width: fit-content;
-          & strong {
-            color: var(--color-black);
-            font-weight: 700;
-            padding: 0 .2rem;
-          }
-        }
-      }
-      & .ticket-code {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        text-align: center;
-        & .barcode {
-          text-align: center;
-          & img {
-            display: inline-block;
-            width: 150px;
-            height: 150px;
-            min-width: 150px;
-            max-height: 150px;
-            aspect-ratio: 1;
-          }
-        }
-        & .wallet-button {
-          margin-top: .8rem;
-          & button, & a {
-            background: none;
-            border: none;
-            cursor: pointer;
-            outline: none;
-            text-decoration: none;
-            &:hover {
-              opacity: .8;
-            }
-          }
-          & img {
-            display: inline-block;
-          }
-        }
-        & .receipt-number {
-          border: 1px solid var(--color-black-a12);
-          font-size: .8em;
-          display: inline-block;
-          margin-top: .6rem;
-          padding: .2rem .4rem;
-        }
-      }
-      & .ticket-footer {
-        border-top: 1px solid var(--color-black-a12);
-        margin-top: 2rem;
-        padding: 1.6rem;
-        display: flex;
-        justify-content: center;
-      }
-    }
-    & .wc-attention {
-      /* break-before: page; */
-    }
-    /* carousel */
-    & .sky-carousel.swiper {
-      overflow: visible !important;
-      & .sky-carousel__slides.swiper-wrapper {
-        display: grid !important;
-        grid-template-columns: 1fr;
-        gap: 3.2rem;
-
-        transform: none !important;
-        width: auto !important;
-        height: auto !important;
-        & .swiper-slide {
-          visibility: visible !important;
-          
-          /* 追加: スライドのスタイルも強制リセット */
-          width: auto !important;
-          margin-right: 0 !important;
-        }
-      }
-    }
-    & .sky-carousel.swiper:not(.swiper-initialized) {
-      overflow: visible !important;
-      & .sky-carousel__slides.swiper-wrapper {
-        display: grid !important;
-        grid-template-columns: 1fr;
-        gap: 3.2rem;
-        & .swiper-slide {
-          visibility: visible !important;
-        }
-      }
-    }
+  body {
+    background-color: var(--color-white)!important;
   }
-}
+  /* sky-ticket */
+  .wc-boardingpass .sky-ticket {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-black-a12);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-Num);
+  }
+  .wc-boardingpass .sky-ticket .ticket-header {
+    background-color: var(--color-white);
+    color: var(--color-black);
+    line-height: 1;
+    padding: 1.6rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-head {
+    display: block;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-head .ticket-logo {
+    width: 82px;
+    height: auto;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-head .ticket-logo .logo:not(.print-only) {
+    display: none;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-head .ticket-info {
+    font-weight: 700;
+    display: flex;
+    justify-content: flex-start;
+    gap: 3rem;
+    margin-top: 1.6rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-head .ticket-info .ticket-info-detail {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-head .ticket-info .ticket-info-detail .title {
+    color: var(--color-black);
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-head .ticket-info .ticket-info-detail .detail {
+    font-size: 1.8rem;
+    margin-top: 0.4rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-flex {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 3rem;
+    margin-top: 1.6rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-flex .ticket-route-dep .sub,
+  .wc-boardingpass .sky-ticket .ticket-header .inner-flex .ticket-route-arr .sub {
+    color: var(--color-black);
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-flex .ticket-route-dep .main,
+  .wc-boardingpass .sky-ticket .ticket-header .inner-flex .ticket-route-arr .main {
+    display: block;
+    font-size: 3rem;
+    margin-top: .4rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-flex .ticket-route-arr .sub,
+  .wc-boardingpass .sky-ticket .ticket-header .inner-flex .ticket-route-arr .main {
+    text-align: left;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-flex .arrow span {
+    display: block;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-flex .arrow .label-connect {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-black);
+    color: var(--color-black);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: .6rem;
+    padding: 2px;
+  }
+  .wc-boardingpass .sky-ticket .ticket-header .inner-flex .arrow .icon {
+    width: 3.2rem;
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
+    filter: none;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body {
+    background-color: var(--color-white);
+    color: var(--color-black);
+    line-height: 1;
+    padding: 0 1.6rem 1.6rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .ticket-info-detail {
+    font-weight: 700;
+    text-align: left;
+    word-break: break-all;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .ticket-info-detail .title {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--color-black);
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .ticket-info-detail .detail {
+    font-size: 1.8rem;
+    margin-top: 0.4rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .inner-flex {
+    display: flex;
+  }
+  /* 3つの時 */
+  .wc-boardingpass .sky-ticket .ticket-body .inner-flex:has(> .ticket-info-detail:nth-child(3):last-child) {
+    gap: 2%;
+  }
+  /* 1番目と2番目 */
+  .wc-boardingpass .sky-ticket .ticket-body .inner-flex:has(> .ticket-info-detail:nth-child(3):last-child) .ticket-info-detail:nth-child(1),
+  .wc-boardingpass .sky-ticket .ticket-body .inner-flex:has(> .ticket-info-detail:nth-child(3):last-child) .ticket-info-detail:nth-child(2) {
+    flex: initial;
+  }
+  /* 3番目 */
+  .wc-boardingpass .sky-ticket .ticket-body .inner-flex:has(> .ticket-info-detail:nth-child(3):last-child) .ticket-info-detail:nth-child(3) {
+    flex: initial;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .inner-flex .departure-time.status-delay .detail {
+    display: flex;
+    gap: .8rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .inner-flex .departure-time.status-delay .detail .std {
+    text-decoration: line-through;
+    color: var(--color-black-a60);
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .inner-flex .departure-time.status-delay .detail .etd {
+    color: var(--color-black);
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .inner-flex .flight-status.status-delay .detail {
+    color: var(--color-black);
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .inner-grid {
+    display: block;
+    margin-top: .8em;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .inner-grid .pax-info .name {
+    display: inline-block;
+    vertical-align: baseline;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .inner-grid .pax-info .name span {
+    padding-right: .25em;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .inner-grid .pax-info .name span:nth-of-type(3) {
+    font-size: .8em;
+    font-weight: 400;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .inner-grid .seat-number {
+    margin-top: .8em;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .infant-ticket {
+    align-items: center;
+    border: 1px solid var(--color-black);
+    display: flex;
+    font-size: 1.4rem;
+    font-weight: 700;
+    gap: .8rem;
+    justify-content: flex-start;
+    margin-top: 1.6rem;
+    padding: .8rem;
+    width: fit-content;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .infant-ticket::before,
+  .wc-boardingpass .sky-ticket .ticket-body .infant-ticket::after {
+    content: none;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .infant-ticket .text {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    justify-content: center;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .infant-ticket .text .icon {
+    display: block;
+    width: 2rem;
+    height: auto;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .status-message {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 1.6rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .status-message .sky-icontxt.c_red {
+    color: var(--color-black);
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .status-message .sky-icontxt.c_red .icon {
+    display: none;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .gate-note {
+    border: 1px solid var(--color-black);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 1.6rem;
+    padding: .8rem;
+    text-align: center;
+    width: fit-content;
+  }
+  .wc-boardingpass .sky-ticket .ticket-body .gate-note strong {
+    color: var(--color-black);
+    font-weight: 700;
+    padding: 0 .2rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-code {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-align: center;
+  }
+  .wc-boardingpass .sky-ticket .ticket-code .barcode {
+    text-align: center;
+  }
+  .wc-boardingpass .sky-ticket .ticket-code .barcode img {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    min-width: 150px;
+    max-height: 150px;
+    aspect-ratio: 1;
+  }
+  .wc-boardingpass .sky-ticket .ticket-code .wallet-button {
+    margin-top: .8rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-code .wallet-button button,
+  .wc-boardingpass .sky-ticket .ticket-code .wallet-button a {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+  }
+  .wc-boardingpass .sky-ticket .ticket-code .wallet-button button:hover,
+  .wc-boardingpass .sky-ticket .ticket-code .wallet-button a:hover {
+    opacity: .8;
+  }
+  .wc-boardingpass .sky-ticket .ticket-code .wallet-button img {
+    display: inline-block;
+  }
+  .wc-boardingpass .sky-ticket .ticket-code .receipt-number {
+    border: 1px solid var(--color-black-a12);
+    font-size: .8em;
+    display: inline-block;
+    margin-top: .6rem;
+    padding: .2rem .4rem;
+  }
+  .wc-boardingpass .sky-ticket .ticket-footer {
+    border-top: 1px solid var(--color-black-a12);
+    margin-top: 2rem;
+    padding: 1.6rem;
+    display: flex;
+    justify-content: center;
+  }
 
-/* 印刷時用クラスの強制表示設定（Safari対策） */
-.print_on,
-.sky-ticket.print_on {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  .sky-ticket.disabled,
+  .sky-ticket.disabled .ticket-header,
+  .sky-ticket.disabled .ticket-body {
+    background-color: var(--color-white) !important;
+  }
+  .sky-ticket.disabled .ticket-code .barcode img {
+    opacity: .3;
+  }
 }
 
 /* カルーセル解除時の強制表示（wc-boardingpass用） */
 .wc-boardingpass .sky-carousel.js-carousel-none .swiper-slide {
   visibility: visible !important;
   opacity: 1 !important;
+}
+
+/* =======================================================
+   専用DOM（クローン方式）印刷用スタイル
+   ======================================================= */
+@media print {
+  /* 印刷中は body 直下の元のコンテンツ（mainやfooterなど）を全て隠す */
+  body.is-printing-clone > *:not(#sky-print-container) {
+    display: none !important;
+  }
+
+  /* 専用コンテナだけを画面いっぱいに表示 */
+  #sky-print-container {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+  }
+
+  /* クローンした搭乗券の強制レイアウト */
+  #sky-print-container .sky-ticket {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    transform: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    page-break-inside: avoid;
+  }
+
+  /* クローンした注意事項 */
+  #sky-print-container .wc-attention {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 2rem auto 0 !important;
+    page-break-inside: avoid;
+  }
 }
 
 
