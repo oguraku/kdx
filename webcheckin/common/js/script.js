@@ -1684,7 +1684,7 @@ let bpSwipers = [];
  */
 function alignTicketBodyHeights(carouselEl) {
   // 印刷中は処理しない
-  if (document.body.classList.contains('is-printing')) return;
+  if (document.body.classList.contains('is-printing-clone')) return;
 
   const ticketBodies = carouselEl.querySelectorAll('.sky-ticket .js-height-adjust');
   if (ticketBodies.length === 0) return;
@@ -1839,12 +1839,25 @@ function controlSlideFocus(swiper) {
 
 const submitBtn1 = document.getElementById('submit-btn1');
 const loadingOverlay1 = document.getElementById('loading-overlay1');
-const srAnnouncer = document.getElementById('sr-announcer'); 
+const srAnnouncer = document.getElementById('sr-announcer');
+
+/**
+ * aria-live 領域に読み上げテキストをセットする
+ * 一度クリアしてから次フレームでセットすることで、同一テキストの連続呼び出しでも確実に検知させる
+ * @param {string} message - 読み上げさせるテキスト
+ */
+function announceToSR(message) {
+  if (!srAnnouncer) return;
+  srAnnouncer.textContent = '';
+  requestAnimationFrame(() => {
+    srAnnouncer.textContent = message;
+  });
+}
 
 if (submitBtn1) {
   submitBtn1.addEventListener('click', () => {
     // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
-    srAnnouncer.textContent = '処理中...';
+    announceToSR('読み込み中1...');
 
     // 2. ボタンを無効化し、オーバーレイ表示
     submitBtn1.disabled = true;
@@ -1867,7 +1880,7 @@ const loadingOverlay2 = document.getElementById('loading-overlay2');
 if (submitBtn2) {
   submitBtn2.addEventListener('click', () => {
     // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
-    srAnnouncer.textContent = '処理中...';
+    announceToSR('読み込み中2...');
 
     // 2. ボタンを無効化し、オーバーレイ表示
     submitBtn2.disabled = true;
@@ -1890,7 +1903,7 @@ const loadingOverlay3 = document.getElementById('loading-overlay3');
 if (submitBtn3) {
   submitBtn3.addEventListener('click', () => {
     // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
-    srAnnouncer.textContent = '処理中...';
+    announceToSR('読み込み中3...');
 
     // 2. ボタンを無効化し、オーバーレイ表示
     submitBtn3.disabled = true;
@@ -1904,6 +1917,52 @@ if (submitBtn3) {
       // 処理が終わったらアナウンスをクリア
       srAnnouncer.textContent = '';
     }, 3000); 
+  });
+}
+
+const submitBtn4 = document.getElementById('submit-btn4');
+const loadingOverlay4 = document.getElementById('loading-overlay4');
+
+if (submitBtn4) {
+  submitBtn4.addEventListener('click', () => {
+    // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
+    announceToSR('読み込み中4...');
+
+    // 2. ボタンを無効化し、オーバーレイ表示
+    submitBtn4.disabled = true;
+    loadingOverlay4.classList.remove('is-hidden');
+
+    //（シミュレーション）
+    setTimeout(() => {
+      loadingOverlay4.classList.add('is-hidden');
+      submitBtn4.disabled = false;
+      
+      // 処理が終わったらアナウンスをクリア
+      srAnnouncer.textContent = '';
+    }, 5000); 
+  });
+}
+
+const submitBtn5 = document.getElementById('submit-btn5');
+const loadingOverlay5 = document.getElementById('loading-overlay5');
+
+if (submitBtn5) {
+  submitBtn5.addEventListener('click', () => {
+    // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
+    announceToSR('読み込み中5...');
+
+    // 2. ボタンを無効化し、オーバーレイ表示
+    submitBtn5.disabled = true;
+    loadingOverlay5.classList.remove('is-hidden');
+
+    //（シミュレーション）
+    setTimeout(() => {
+      loadingOverlay5.classList.add('is-hidden');
+      submitBtn5.disabled = false;
+      
+      // 処理が終わったらアナウンスをクリア
+      srAnnouncer.textContent = '';
+    }, 5000); 
   });
 }
 

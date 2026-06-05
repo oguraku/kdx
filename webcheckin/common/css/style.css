@@ -80,16 +80,20 @@ body {
   padding: 0;
 }
 
+/* button, a, tabindex="-1" のフォーカス設定 */
+button, a, [tabindex="-1"] {
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
+    outline: 2px solid rgb(0, 95, 204) !important;
+  }
+}
 a {
   color: var(--color-sky-blue);
   text-decoration: underline;
   &:hover {
     text-decoration: none;
-  }
-}
-button {
-  &:focus, &:focus-visible {
-outline: 2px solid rgb(0, 95, 204) !important;
   }
 }
 
@@ -169,8 +173,13 @@ h1, h2, h3, h4, h5 {
       appearance: base-select;
       border-radius: 4px;
     } */
-    &:focus, &:focus-visible {
-      outline: 2px solid rgb(0, 95, 204);
+  }
+  & button, & select {
+    &:focus {
+      outline: none;
+    }
+    &:focus-visible {
+      outline: 2px solid rgb(0, 95, 204) !important;
     }
   }
   & option {
@@ -1714,7 +1723,9 @@ html:has(dialog[open]) {
 /* Loadingオーバーレイ 初期非表示 */
 .loading-overlay1.is-hidden,
 .loading-overlay2.is-hidden,
-.loading-overlay3.is-hidden {
+.loading-overlay3.is-hidden,
+.loading-overlay4.is-hidden,
+.loading-overlay5.is-hidden  {
   display: none;
 }
 
@@ -1957,6 +1968,268 @@ html:has(dialog[open]) {
 }
 
 
+/* loading4 */
+/* 画面全体を覆う設定（操作をブロック） */
+.loading-overlay4 {
+  background-color: rgba(255, 255, 255, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: all;
+
+  /* 画面の上下中央に配置する水色の帯 */
+  & .blue-band {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 300px;
+    background-color: rgba(196, 231, 255, 0.8); 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  & .center-content {
+    text-align: center;
+    z-index: 10;
+  }
+
+  & .loading-text {
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--color-sky-blue);
+  }
+
+  & .airplane {
+    width: 150px;
+    animation: flyPlane 2s ease-in-out infinite; 
+  }
+
+  & .cloud {
+    position: absolute;
+    opacity: 0.9;
+  }
+  
+  & .cloud1 {
+    display: none;
+  }
+  & .cloud2 {
+    top: 20px;
+    width: 140px;
+    animation: moveCloudSp 8s linear infinite -1s, floatCloud 3s ease-in-out infinite;
+  }
+  & .cloud3 {
+    display: none;
+  }
+  & .cloud4 {
+    top: 220px;
+    width: 310px;
+    animation: moveCloudSp 8s linear infinite, floatCloud 3s ease-in-out infinite;
+  }
+  & .cloud5 {
+    display: none;
+  }
+
+  /* prefers-reduced-motion：アニメーションを停止 */
+  @media (prefers-reduced-motion: reduce) {
+    .airplane,
+    .cloud1,
+    .cloud2,
+    .cloud3,
+    .cloud4,
+    .cloud5 {
+      animation: none !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    & .airplane {
+      width: 150px;
+      animation: flyPlane 2s ease-in-out infinite; 
+    }
+
+    & .cloud {
+      position: absolute;
+      opacity: 0.9;
+    }
+    
+    & .cloud1 {
+      display: block;
+      top: 30px;
+      width: 220px;
+      animation: moveCloudPc 25s linear infinite -2s, floatCloud 5s ease-in-out infinite;
+    }
+    & .cloud2 {
+      display: block;
+      top: 20px;
+      width: 140px;
+      animation: moveCloudPc 25s linear infinite -10s, floatCloud 3s ease-in-out infinite;
+    }
+    & .cloud3 {
+      display: block;
+      top: 230px;
+      width: 290px;
+      animation: moveCloudPc 25s linear infinite -16s, floatCloud 5s ease-in-out infinite;
+    }
+    & .cloud4 {
+      display: block;
+      top: 220px;
+      width: 310px;
+      animation: moveCloudPc 25s linear infinite -6s, floatCloud 3s ease-in-out infinite;
+    }
+    & .cloud5 {
+      display: block;
+      top: 20px;
+      width: 350px;
+      animation: moveCloudPc 25s linear infinite -22s, floatCloud 5s ease-in-out infinite;
+    }
+  }
+}
+
+/* 飛行機が上下に動くアニメーション */
+@keyframes flyPlane {
+  0% { transform: translateY(0px); } 
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0px); }
+}
+/* 雲が右から左へ流れるアニメーション */
+/* スマホ用 */
+@keyframes moveCloudSp {
+  0% { left: 100%; }
+  100% { left: -400px; }
+}
+/* PC用 */
+@keyframes moveCloudPc {
+  0% { left: 100%; }
+  100% { left: -20%; }
+}
+/* 雲が上下にふわふわするアニメーション */
+@keyframes floatCloud {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+/* loading5 */
+.loading-overlay5 {
+  background-color: rgba(255, 255, 255, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: all;
+
+  & .blue-band {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 300px;
+    background-color: rgb(165 219 255 / 80%); 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+  }
+
+  & .center-content {
+    text-align: center;
+    z-index: 10;
+    padding-top: 80px;
+  }
+
+  & .loading-text {
+    margin-top: 8px;
+    font-weight: 700;
+    color: var(--color-sky-blue);
+  }
+
+  & .airplane {
+    width: 150px;
+    animation: flyPlane 2s ease-in-out infinite; 
+  }
+
+  & .cloud-bottom {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background-repeat: repeat-x; 
+    background-position: bottom center;
+  }
+
+  & .back {
+    bottom: -10px; 
+    background-image: url("/webcheckin/common/images/loading-cloud-back.svg");
+    background-size: auto 90%;
+    z-index: 1; 
+    opacity: 0.7;
+    animation: floatCloudBottomBack 6s ease-in-out infinite;
+  }
+  & .front {
+    bottom: -20px; 
+    background-image: url("/webcheckin/common/images/loading-cloud-front.svg");
+    background-size: auto 75%;
+    z-index: 2;
+    animation: floatCloudBottom 4s ease-in-out infinite -2s;
+  }
+
+  /* prefers-reduced-motion：アニメーションを停止 */
+  @media (prefers-reduced-motion: reduce) {
+    .airplane,
+    .back,
+    .front {
+      animation: none !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    & .center-content {
+      padding-top: 70px;
+    }
+
+    & .back {
+      bottom: 10px; 
+      background-size: auto 90%;
+    }
+    & .front {
+      bottom: -20px; 
+      background-size: auto 90%;
+    }
+  }
+}
+
+/* 飛行機が上下に動くアニメーション（そのまま） */
+@keyframes flyPlane {
+  0% { transform: translateY(0px); } 
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0px); }
+}
+
+/* --- 新しい雲が上下にふわふわするアニメーション --- */
+@keyframes floatCloudBottom {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); } 
+  100% { transform: translateY(0px); }
+}
+
+@keyframes floatCloudBottomBack {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); } 
+  100% { transform: translateY(0px); }
+}
+
+
+
 
 /* tooltip -------------------------------- */
 .sky-tooltip-wrap {
@@ -2189,6 +2462,15 @@ html:has(dialog[open]) {
   }
 }
 
+.flight-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+.flight-card-message {
+    margin: 0;
+}
 /* flight info -------------------------------- */
 .flight-info {
   & .flight-date {
@@ -2324,13 +2606,23 @@ html:has(dialog[open]) {
 .pax-list {
   & > li:first-of-type {
     padding: 0 0 1.2rem;
+    &.disabled {
+        margin-top: -1.6rem;
+        padding-top: 1.6rem;
+    }
   }
   & > li {
     border-bottom: 1px solid var(--color-black-a12);
     padding: 1.2rem 0;
-    & dl {
-      display: grid;
-      grid-template-columns: 1fr;
+    &.disabled {
+        margin-left: -1em;
+        margin-right: -1em;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+  & dl {
+    display: grid;
+    grid-template-columns: 1fr;
       & .pax-detail {
         font-size: .9em;
         margin-top: .8rem;
@@ -2443,9 +2735,19 @@ html:has(dialog[open]) {
 .pax-list {
   & > li:first-of-type {
     padding: 0 0 1.6rem;
+    &.disabled {
+      margin-top: -2rem;
+      padding-top: 2rem;
+    }
   }
   & > li {
     padding: 1.6rem 0;
+    &.disabled {
+      margin-left: -1.25em;
+      margin-right: -1.25em;
+      padding-left: 1.25em;
+      padding-right: 1.25em;
+    }
     & dl {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -3293,15 +3595,6 @@ html:has(dialog[open]) {
     }
   }
 }
-@media (max-width: 390px) {
-  & .sky-seatmap {
-    & .f-exit {
-      & .text {
-        /* display: none; */
-      }
-    }
-  }
-}
 @media (min-width: 768px) {
   & .sky-seatmap {
     display: block;
@@ -3334,6 +3627,16 @@ html:has(dialog[open]) {
   }
 }
 
+/* 搭乗者カード用カルーセル（フラッシュ防止） -------------------------------- */
+#js-slider_paxlist,
+#js-slider_paxlist2 {
+    /* 初期表示時のフラッシュ防止: JavaScript実行完了まで非表示 */
+    /* visibility: hidden; */
+
+    &.loaded {
+        visibility: visible;
+    }
+}
 /* sky-seat-paxlist -------------------------------- */
 .sky-seat-paxlist {
   list-style: none;

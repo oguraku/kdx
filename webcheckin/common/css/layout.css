@@ -474,7 +474,13 @@
 .print-only { /* ブラウザ */
   display: none;
 }
+
 @media print { /* 印刷 */
+/*
+ * @media print 配下は意図的にネスト記法を使わずフラットに記述。
+ * 印刷プレビュー/PDF保存時のブラウザ差異（iOS Safari/Android Chrome/PC）対策
+ */
+
   .print-only {
     display: block !important;
   }
