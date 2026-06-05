@@ -1834,16 +1834,14 @@ function controlSlideFocus(swiper) {
 
 //-------------------------------------------------------
 /**
- * ローディング（準備中）
+ * ローディング
  */
-
-const submitBtn1 = document.getElementById('submit-btn1');
-const loadingOverlay1 = document.getElementById('loading-overlay1');
+const submitBtn = document.getElementById('submit-btn');
+const loadingOverlay = document.getElementById('loading-overlay');
 const srAnnouncer = document.getElementById('sr-announcer');
 
 /**
- * aria-live 領域に読み上げテキストをセットする
- * 一度クリアしてから次フレームでセットすることで、同一テキストの連続呼び出しでも確実に検知させる
+ * aria-live 領域に読み上げテキストをセット
  * @param {string} message - 読み上げさせるテキスト
  */
 function announceToSR(message) {
@@ -1854,111 +1852,19 @@ function announceToSR(message) {
   });
 }
 
-if (submitBtn1) {
-  submitBtn1.addEventListener('click', () => {
+if (submitBtn) {
+  submitBtn.addEventListener('click', () => {
     // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
-    announceToSR('読み込み中1...');
+    announceToSR('読み込み中...');
 
     // 2. ボタンを無効化し、オーバーレイ表示
-    submitBtn1.disabled = true;
-    loadingOverlay1.classList.remove('is-hidden');
+    submitBtn.disabled = true;
+    loadingOverlay.classList.remove('is-hidden');
 
     //（シミュレーション）
     setTimeout(() => {
-      loadingOverlay1.classList.add('is-hidden');
-      submitBtn1.disabled = false;
-      
-      // 処理が終わったらアナウンスをクリア
-      srAnnouncer.textContent = '';
-    }, 3000); 
-  });
-}
-
-const submitBtn2 = document.getElementById('submit-btn2');
-const loadingOverlay2 = document.getElementById('loading-overlay2');
-
-if (submitBtn2) {
-  submitBtn2.addEventListener('click', () => {
-    // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
-    announceToSR('読み込み中2...');
-
-    // 2. ボタンを無効化し、オーバーレイ表示
-    submitBtn2.disabled = true;
-    loadingOverlay2.classList.remove('is-hidden');
-
-    //（シミュレーション）
-    setTimeout(() => {
-      loadingOverlay2.classList.add('is-hidden');
-      submitBtn2.disabled = false;
-      
-      // 処理が終わったらアナウンスをクリア
-      srAnnouncer.textContent = '';
-    }, 3000); 
-  });
-}
-
-const submitBtn3 = document.getElementById('submit-btn3');
-const loadingOverlay3 = document.getElementById('loading-overlay3');
-
-if (submitBtn3) {
-  submitBtn3.addEventListener('click', () => {
-    // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
-    announceToSR('読み込み中3...');
-
-    // 2. ボタンを無効化し、オーバーレイ表示
-    submitBtn3.disabled = true;
-    loadingOverlay3.classList.remove('is-hidden');
-
-    //（シミュレーション）
-    setTimeout(() => {
-      loadingOverlay3.classList.add('is-hidden');
-      submitBtn3.disabled = false;
-      
-      // 処理が終わったらアナウンスをクリア
-      srAnnouncer.textContent = '';
-    }, 3000); 
-  });
-}
-
-const submitBtn4 = document.getElementById('submit-btn4');
-const loadingOverlay4 = document.getElementById('loading-overlay4');
-
-if (submitBtn4) {
-  submitBtn4.addEventListener('click', () => {
-    // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
-    announceToSR('読み込み中4...');
-
-    // 2. ボタンを無効化し、オーバーレイ表示
-    submitBtn4.disabled = true;
-    loadingOverlay4.classList.remove('is-hidden');
-
-    //（シミュレーション）
-    setTimeout(() => {
-      loadingOverlay4.classList.add('is-hidden');
-      submitBtn4.disabled = false;
-      
-      // 処理が終わったらアナウンスをクリア
-      srAnnouncer.textContent = '';
-    }, 5000); 
-  });
-}
-
-const submitBtn5 = document.getElementById('submit-btn5');
-const loadingOverlay5 = document.getElementById('loading-overlay5');
-
-if (submitBtn5) {
-  submitBtn5.addEventListener('click', () => {
-    // 1. 先にスクリーンリーダー専用エリアにを状態の書き込み
-    announceToSR('読み込み中5...');
-
-    // 2. ボタンを無効化し、オーバーレイ表示
-    submitBtn5.disabled = true;
-    loadingOverlay5.classList.remove('is-hidden');
-
-    //（シミュレーション）
-    setTimeout(() => {
-      loadingOverlay5.classList.add('is-hidden');
-      submitBtn5.disabled = false;
+      loadingOverlay.classList.add('is-hidden');
+      submitBtn.disabled = false;
       
       // 処理が終わったらアナウンスをクリア
       srAnnouncer.textContent = '';

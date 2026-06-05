@@ -1719,258 +1719,14 @@ html:has(dialog[open]) {
 }
 }
 
-
-/* Loadingオーバーレイ 初期非表示 */
-.loading-overlay1.is-hidden,
-.loading-overlay2.is-hidden,
-.loading-overlay3.is-hidden,
-.loading-overlay4.is-hidden,
-.loading-overlay5.is-hidden  {
+/* Loading -------------------------------- */
+/* オーバーレイ 初期非表示 */
+.loading-overlay.is-hidden  {
   display: none;
 }
 
-/* loading1 */
-/* オーバーレイ全体のスタイル */
-.loading-overlay1 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(255, 255, 255, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-
-/* 中央のコンテンツ */
-.loading-contents {
-  text-align: center;
-  color: var(--color-sky-blue);
-  font-family: sans-serif;
-}
-
-/* スピナーを中央に配置するためのコンテナ */
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-/* スピナー本体のスタイルとアニメーション */
-.airplane-spinner {
-  width: 80px;
-  height: 80px;
-  animation: rotate-spinner 1.8s linear infinite;
-}
-
-/* prefers-reduced-motion：アニメーションを停止 */
-@media (prefers-reduced-motion: reduce) {
-.airplane-spinner {
-  animation: none !important;
-}
-}
-}
-
-/* 回転アニメーションの定義 */
-@keyframes rotate-spinner {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* loading2 */
-/* オーバーレイ全体のスタイル */
-.loading-overlay2 {
-  /* 画面全体を覆うように固定配置 */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  
-  /* 水色の半透明背景 */
-  background-color: rgba(196, 231, 255, 0.9); 
-  
-  /* 中央寄せ */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  /* 最前面に表示 */
-  z-index: 9999;
-
-  .loading-content {
-    text-align: center;
-  }
-
-  .illustration-container {
-    position: relative;
-    width: 300px;
-    height: 150px;
-    margin: 0 auto 15px;
-  }
-
-  /* 飛行機と雲の配置・アニメーション設定 */
-  .airplane {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 160px;
-    z-index: 2;
-    /* ふわふわ上下するアニメーション (2.5秒かけて無限ループ) */
-    animation: float-airplane 2.5s ease-in-out infinite;
-  }
-
-  .cloud {
-    position: absolute;
-    z-index: 1;
-  }
-
-  /* 雲をそれぞれ別の位置に配置し、アニメーションのタイミングを少しずらす */
-  .cloud-1 {
-    top: 8%;
-    left: -8%;
-    animation: float-cloud 3s ease-in-out infinite 0.2s;
-    width: 59px;
-  }
-
-  .cloud-2 {
-    top: 40%;
-    right: -15%;
-    animation: float-cloud 2.7s ease-in-out infinite 0.5s;
-    width: 93px;
-  }
-
-  .cloud-3 {
-    bottom: 0%;
-    left: -4%;
-    animation: float-cloud 3.2s ease-in-out infinite 0.8s;
-    width: 100px;
-  }
-
-  /* prefers-reduced-motion：アニメーションを停止 */
-  @media (prefers-reduced-motion: reduce) {
-    .airplane,
-    .cloud-1,
-    .cloud-2,
-    .cloud-3 {
-      animation: none !important;
-    }
-  }
-
-  /* テキストのスタイル */
-  .loading-text {
-    font-weight: bold;
-    color: var(--color-sky-blue);
-    margin: 0;
-  }
-
-}
-
-/* アニメーションのキーフレーム定義 */
-/* 飛行機用: 中央配置のtranslate(-50%, -50%)を維持しつつY軸を動かす */
-@keyframes float-airplane {
-  0%, 100% {
-    transform: translate(-50%, -50%) translateY(0);
-  }
-  50% {
-    transform: translate(-50%, -50%) translateY(-15px); /* 上に15px浮く */
-  }
-}
-
-/* 雲用: Y軸のみ動かす */
-@keyframes float-cloud {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px); /* 上に10px浮く */
-  }
-}
-
-/* loading3 */
-/* オーバーレイ全体のスタイル */
-.loading-overlay3 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-
-  & .loading-content {
-    text-align: center;
-  }
-
-  /* SVGスタイリング */
-  & .loading-svg {
-    /* 飛行機がはみ出さないように枠自体は120pxに設定します */
-    width: 120px; 
-    height: 120px;
-    display: block;
-    margin: 0 auto 20px;
-  }
-
-  & .spinner-group {
-    /* SVGの中心(50, 50)を基準に回転させる */
-    transform-origin: 50px 50px;
-    /* 3秒かけて1周、一定速度(linear)で無限ループ */
-    animation: spin 3s linear infinite;
-  }
-
-  & .heart-pulse {
-    /* SVGの中心(50, 50)を基準に拡縮させるよう修正 */
-    transform-origin: 50px 50px; 
-    /* 1.5秒かけて小→大→小を繰り返す */
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-
-  /* prefers-reduced-motion：アニメーションを停止 */
-  @media (prefers-reduced-motion: reduce) {
-    .spinner-group,
-    .heart-pulse {
-      animation: none !important;
-    }
-  }
-
-  & .loading-text {
-    color: var(--color-sky-blue);
-    margin: 0;
-  }
-}
-
-/* アニメーションのキーフレーム定義 */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(0.85);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-
-/* loading4 */
 /* 画面全体を覆う設定（操作をブロック） */
-.loading-overlay4 {
+.loading-overlay {
   background-color: rgba(255, 255, 255, 0.7);
   position: fixed;
   top: 0;
@@ -2002,8 +1758,7 @@ html:has(dialog[open]) {
 
   & .loading-text {
     margin-top: 12px;
-    font-size: 16px;
-    font-weight: bold;
+    font-weight: 700;
     color: var(--color-sky-blue);
   }
 
@@ -2017,7 +1772,7 @@ html:has(dialog[open]) {
     opacity: 0.9;
   }
   
-  & .cloud1 {
+  & .cloud1, & .cloud3, & .cloud5 {
     display: none;
   }
   & .cloud2 {
@@ -2025,16 +1780,10 @@ html:has(dialog[open]) {
     width: 140px;
     animation: moveCloudSp 8s linear infinite -1s, floatCloud 3s ease-in-out infinite;
   }
-  & .cloud3 {
-    display: none;
-  }
   & .cloud4 {
     top: 220px;
     width: 310px;
     animation: moveCloudSp 8s linear infinite, floatCloud 3s ease-in-out infinite;
-  }
-  & .cloud5 {
-    display: none;
   }
 
   /* prefers-reduced-motion：アニメーションを停止 */
@@ -2050,16 +1799,6 @@ html:has(dialog[open]) {
   }
 
   @media (min-width: 768px) {
-    & .airplane {
-      width: 150px;
-      animation: flyPlane 2s ease-in-out infinite; 
-    }
-
-    & .cloud {
-      position: absolute;
-      opacity: 0.9;
-    }
-    
     & .cloud1 {
       display: block;
       top: 30px;
@@ -2108,7 +1847,7 @@ html:has(dialog[open]) {
 /* PC用 */
 @keyframes moveCloudPc {
   0% { left: 100%; }
-  100% { left: -20%; }
+  100% { left: -22%; }
 }
 /* 雲が上下にふわふわするアニメーション */
 @keyframes floatCloud {
@@ -2116,119 +1855,6 @@ html:has(dialog[open]) {
   50% { transform: translateY(-8px); }
   100% { transform: translateY(0px); }
 }
-
-/* loading5 */
-.loading-overlay5 {
-  background-color: rgba(255, 255, 255, 0.7);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  pointer-events: all;
-
-  & .blue-band {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    width: 100%;
-    height: 300px;
-    background-color: rgb(165 219 255 / 80%); 
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-  }
-
-  & .center-content {
-    text-align: center;
-    z-index: 10;
-    padding-top: 80px;
-  }
-
-  & .loading-text {
-    margin-top: 8px;
-    font-weight: 700;
-    color: var(--color-sky-blue);
-  }
-
-  & .airplane {
-    width: 150px;
-    animation: flyPlane 2s ease-in-out infinite; 
-  }
-
-  & .cloud-bottom {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 150px;
-    background-repeat: repeat-x; 
-    background-position: bottom center;
-  }
-
-  & .back {
-    bottom: -10px; 
-    background-image: url("/webcheckin/common/images/loading-cloud-back.svg");
-    background-size: auto 90%;
-    z-index: 1; 
-    opacity: 0.7;
-    animation: floatCloudBottomBack 6s ease-in-out infinite;
-  }
-  & .front {
-    bottom: -20px; 
-    background-image: url("/webcheckin/common/images/loading-cloud-front.svg");
-    background-size: auto 75%;
-    z-index: 2;
-    animation: floatCloudBottom 4s ease-in-out infinite -2s;
-  }
-
-  /* prefers-reduced-motion：アニメーションを停止 */
-  @media (prefers-reduced-motion: reduce) {
-    .airplane,
-    .back,
-    .front {
-      animation: none !important;
-    }
-  }
-
-  @media (min-width: 768px) {
-    & .center-content {
-      padding-top: 70px;
-    }
-
-    & .back {
-      bottom: 10px; 
-      background-size: auto 90%;
-    }
-    & .front {
-      bottom: -20px; 
-      background-size: auto 90%;
-    }
-  }
-}
-
-/* 飛行機が上下に動くアニメーション（そのまま） */
-@keyframes flyPlane {
-  0% { transform: translateY(0px); } 
-  50% { transform: translateY(-2px); }
-  100% { transform: translateY(0px); }
-}
-
-/* --- 新しい雲が上下にふわふわするアニメーション --- */
-@keyframes floatCloudBottom {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); } 
-  100% { transform: translateY(0px); }
-}
-
-@keyframes floatCloudBottomBack {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); } 
-  100% { transform: translateY(0px); }
-}
-
-
 
 
 /* tooltip -------------------------------- */
