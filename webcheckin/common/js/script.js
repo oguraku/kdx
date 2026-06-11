@@ -16,44 +16,152 @@ function moveFocusToNextElement(currentElement) {
 //-------------------------------------------------------
 /**
  * 印刷ボタンのクリックと印刷後の処理（搭乗券ページ用）
+ *
+ * 1. 対象 .sky-ticket と .wc-attention を #sky-print-container にクローン
+ * 2. body 直下の非クローン要素（main, footer 等）を DOM から物理的に外して退避
+ * 3. window.print()
+ * 4. 復元は afterprint だけでは行わず、
+ *    visibilitychange(visible) / pointerdown / touchstart / focus / pageshow
+ *    のいずれか（または60秒タイムアウト）を待ってから復元する。
  */
 function initPrintButton() {
   const printButtons = document.querySelectorAll('[data-print="printOn"]');
 
-  // クリーンアップ管理（afterprint駆動：iOS Safariはprint()後に数秒遅れてプレビューが開く）
+  // クリーンアップ管理
   let afterPrintHandler = null;
+  let visibilityHandler = null;
+  let userGestureHandler = null;
+  let cleanupFallbackTimer = null;
+  let cleanupArmed = false; // afterprint 後にクリーンアップ待機中フラグ
+  // 退避中のノード一覧（{ node, anchor } の配列）
+  let stashedNodes = [];
 
   const clearPendingCleanup = () => {
     if (afterPrintHandler) {
       window.removeEventListener('afterprint', afterPrintHandler);
       afterPrintHandler = null;
     }
+    if (visibilityHandler) {
+      document.removeEventListener('visibilitychange', visibilityHandler);
+      visibilityHandler = null;
+    }
+    if (userGestureHandler) {
+      window.removeEventListener('pointerdown', userGestureHandler, true);
+      window.removeEventListener('touchstart', userGestureHandler, true);
+      window.removeEventListener('focus', userGestureHandler, true);
+      window.removeEventListener('pageshow', userGestureHandler, true);
+      userGestureHandler = null;
+    }
+    if (cleanupFallbackTimer) {
+      clearTimeout(cleanupFallbackTimer);
+      cleanupFallbackTimer = null;
+    }
+    cleanupArmed = false;
+  };
+
+  // body 直下の非クローン要素を DOM から外して退避
+  // 元の位置は Comment ノード（アンカー）で記憶する
+  const stashNonPrintNodes = () => {
+    Array.from(document.body.children).forEach(child => {
+      if (child.id === 'sky-print-container') return;
+      // iframe, script 等の埋め込み要素も触らない方が安全な場合はここで除外可
+      if (child.tagName === 'SCRIPT') return;
+      const anchor = document.createComment('sky-print-stash-anchor');
+      child.parentNode.insertBefore(anchor, child);
+      stashedNodes.push({ node: child, anchor });
+      child.remove();
+    });
+  };
+
+  // 退避ノードを元の位置に復元
+  const restoreStashedNodes = () => {
+    stashedNodes.forEach(({ node, anchor }) => {
+      if (anchor.parentNode) {
+        anchor.parentNode.insertBefore(node, anchor);
+        anchor.remove();
+      } else {
+        // アンカーが既に消えている異常系：body 末尾に戻す
+        document.body.appendChild(node);
+      }
+    });
+    stashedNodes = [];
+  };
+
+  const doAfterPrintCleanup = () => {
+    document.body.classList.remove('is-printing-clone');
+    const printContainer = document.getElementById('sky-print-container');
+    if (printContainer) printContainer.remove();
+    restoreStashedNodes();
+
+    const bpCarousels = document.querySelectorAll('.js-bpCarousel');
+    bpCarousels.forEach(carousel => {
+      if (typeof alignTicketBodyHeights === 'function') {
+        alignTicketBodyHeights(carousel);
+      }
+    });
+  };
+
+  // afterprint は復元準備フラグ（cleanupArmed）を立てるだけにし、
+  // 実際の DOM 復元は以下のいずれかのタイミングで行う:
+  //   - visibilitychange (visible)
+  //   - pointerdown / touchstart / focus / pageshow
+  //   - 60 秒タイムアウト（フォールバック）
+  const setupCleanupTriggers = () => {
+    clearPendingCleanup();
+    cleanupArmed = false;
+
+    const runCleanupOnce = () => {
+      if (!cleanupArmed) return;
+      clearPendingCleanup();
+      doAfterPrintCleanup();
+    };
+
+    afterPrintHandler = () => {
+      cleanupArmed = true;
+    };
+    window.addEventListener('afterprint', afterPrintHandler);
+
+    visibilityHandler = () => {
+      if (document.visibilityState === 'visible') {
+        runCleanupOnce();
+      }
+    };
+    document.addEventListener('visibilitychange', visibilityHandler);
+
+    userGestureHandler = () => {
+      runCleanupOnce();
+    };
+    window.addEventListener('pointerdown', userGestureHandler, true);
+    window.addEventListener('touchstart', userGestureHandler, true);
+    window.addEventListener('focus', userGestureHandler, true);
+    window.addEventListener('pageshow', userGestureHandler, true);
+
+    cleanupFallbackTimer = setTimeout(() => {
+      cleanupArmed = true;
+      runCleanupOnce();
+    }, 60000);
   };
 
   const handlePrintClick = (event) => {
     const targetSection = event.currentTarget.closest('.sky-ticket');
     if (!targetSection) return;
 
-    // 0a. 前回印刷分のクリーンアップ予約を必ず解除
+    // 0. 前回印刷の状態をリセット（多重クリック対策）
     clearPendingCleanup();
-
-    // 0b. 前回印刷の残骸を完全に除去（iOS Safariのスナップショット再利用対策）
-    const existing = document.getElementById('sky-print-container');
-    if (existing) {
-      existing.remove();
+    if (stashedNodes.length > 0) {
+      restoreStashedNodes();
     }
+    const existing = document.getElementById('sky-print-container');
+    if (existing) existing.remove();
     document.body.classList.remove('is-printing-clone');
 
     // 1. 専用の印刷コンテナを新規作成
     const printContainer = document.createElement('div');
     printContainer.id = 'sky-print-container';
     printContainer.className = 'sky-container wc-boardingpass print-only';
-    document.body.appendChild(printContainer);
 
-    // 2. 対象の搭乗券をクローン
+    // 2. 対象の搭乗券をクローン（disabled 等の状態クラスは保持）
     const clone = targetSection.cloneNode(true);
-
-    // 3. Swiperの干渉クラスやインラインスタイルを除去（disabled等の状態クラスは保持）
     clone.classList.remove(
       'swiper-slide',
       'swiper-slide-active',
@@ -68,7 +176,6 @@ function initPrintButton() {
     clone.removeAttribute('style');
     clone.removeAttribute('inert');
     clone.removeAttribute('aria-hidden');
-
     clone.querySelectorAll('.js-height-adjust').forEach(el => {
       el.style.height = 'auto';
     });
@@ -76,11 +183,9 @@ function initPrintButton() {
       el.removeAttribute('inert');
       el.removeAttribute('aria-hidden');
     });
-
-    // 4. コンテナにクローンを追加
     printContainer.appendChild(clone);
 
-    // 5. 注意事項（.wc-attention）もクローンして追加
+    // 3. 注意事項（.wc-attention）もクローンして追加
     const attention = document.querySelector('.wc-attention');
     if (attention) {
       const attentionClone = attention.cloneNode(true);
@@ -90,47 +195,24 @@ function initPrintButton() {
       printContainer.appendChild(attentionClone);
     }
 
-    // 6. 印刷中クラスをbodyに付与
+    // 4. 印刷用コンテナを body に追加し、印刷中クラスを付与
+    document.body.appendChild(printContainer);
     document.body.classList.add('is-printing-clone');
 
-    // 7. レイアウトを強制計算
+    // 5. body 直下の非クローン要素を DOM から退避
+    stashNonPrintNodes();
+
+    // 6. クリーンアップトリガを登録
+    setupCleanupTriggers();
+
+    // 7. レイアウト確定後に印刷
     // eslint-disable-next-line no-unused-expressions
     printContainer.offsetHeight;
     // eslint-disable-next-line no-unused-expressions
     document.body.offsetHeight;
-
-    // 8. 同期で window.print() を呼ぶ
-    window.print();
-    setupCleanupTriggers();
-  };
-
-  // afterprint で確実にクリーンアップ
-  //（iOS Safariは print() から数秒遅れてプレビューが開くため
-  //  focus/pointerdown/touchstart では早期発火してクローンが削除されてしまう）
-  const setupCleanupTriggers = () => {
-    clearPendingCleanup();
-
-    afterPrintHandler = () => {
-      doAfterPrintCleanup();
-      window.removeEventListener('afterprint', afterPrintHandler);
-      afterPrintHandler = null;
-    };
-    window.addEventListener('afterprint', afterPrintHandler);
-  };
-
-  const doAfterPrintCleanup = () => {
-    document.body.classList.remove('is-printing-clone');
-    const printContainer = document.getElementById('sky-print-container');
-    if (printContainer) {
-      printContainer.remove();
-    }
-
-    const bpCarousels = document.querySelectorAll('.js-bpCarousel');
-    bpCarousels.forEach(carousel => {
-      if (typeof alignTicketBodyHeights === 'function') {
-        alignTicketBodyHeights(carousel);
-      }
-    });
+    setTimeout(() => {
+      window.print();
+    }, 0);
   };
 
   printButtons.forEach(button => {
@@ -456,6 +538,7 @@ function initTooltips() {
     content.setAttribute('aria-hidden', 'true');
 
     trigger.setAttribute('aria-controls', content.id);
+    trigger.setAttribute('aria-describedby', content.id);
     trigger.setAttribute('aria-expanded', 'false');
     if (!trigger.getAttribute('role')) trigger.setAttribute('role', 'button');
 
@@ -567,8 +650,13 @@ function initTooltips() {
 
     // スクリーンリーダー読み上げのためフォーカスをコンテンツ内へ移動
     setTimeout(() => {
+      //直前に閉じられた/別ツールチップに切り替わった場合はフォーカス移動しない
+      if (activeTrigger !== trigger || activeContent !== content || content.getAttribute('aria-hidden') === 'true') {
+        return;
+      }
+
       const firstFocusable = content.querySelector(SELECTOR.FOCUSABLE);
-      if (firstFocusable) {
+      if (firstFocusable instanceof HTMLElement) {
         firstFocusable.focus();
       } else {
         // クリッカブルな要素がない場合はコンテンツ自体にフォーカス
@@ -583,7 +671,13 @@ function initTooltips() {
     trigger.setAttribute('aria-expanded', 'false');
     content.setAttribute('aria-hidden', 'true');
     content.classList.remove('is-active');
+    content.classList.remove('tooltip-bottom');
     content.removeAttribute('tabindex');
+
+    // インラインで設定した位置スタイルをクリア
+    content.style.top = '';
+    content.style.left = '';
+    content.style.removeProperty('--arrow-left');
 
     if (activeTrigger === trigger) {
       activeTrigger = null;
@@ -602,12 +696,9 @@ function initTooltips() {
   function updatePosition(trigger, content) {
     const triggerRect = trigger.getBoundingClientRect();
     const contentRect = content.getBoundingClientRect();
-    
-    // Visual Viewport APIを利用して正確なスクロール位置を取得
-    // visualViewport.pageLeft/Top は「拡大やスクロールを含めた」ページ左上からの距離を返す
-    const vv = window.visualViewport;
-    const scrollX = vv ? vv.pageLeft : (window.pageXOffset || document.documentElement.scrollLeft);
-    const scrollY = vv ? vv.pageTop  : (window.pageYOffset || document.documentElement.scrollTop);
+
+    const scrollX = window.pageXOffset || document.documentElement.scrollLeft || 0;
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
 
     const gap = 10; 
 

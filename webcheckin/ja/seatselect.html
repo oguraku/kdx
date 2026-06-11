@@ -106,17 +106,7 @@
         aria-roledescription="スライダー"
         aria-label="搭乗者リスト"
       >
-      <div class="sp-only">
-        <div
-          class="sky-carousel__navigation"
-          role="group"
-          aria-roledescription="ナビゲーション"
-          aria-label="ナビゲーション"
-        >
-          <button type="button" class="swiper-button-prev js-carousel-previous"><span class="icon-arrow"></span></button>
-          <button type="button" class="swiper-button-next js-carousel-next"><span class="icon-arrow"></span></button>
-        </div>
-      </div>
+      
       <ul class="sky-seat-paxlist sky-carousel__slides swiper-wrapper">
         <li class="pax-item sky-carousel__slide swiper-slide" tabindex="0">
           <div class="item-inner">
@@ -199,6 +189,19 @@
           </div>
         </li>
       </ul>
+
+      <div class="sp-only">
+        <div
+          class="sky-carousel__navigation"
+          role="group"
+          aria-roledescription="ナビゲーション"
+          aria-label="ナビゲーション"
+        >
+          <button type="button" class="swiper-button-prev js-carousel-previous"><span class="icon-arrow"></span></button>
+          <button type="button" class="swiper-button-next js-carousel-next"><span class="icon-arrow"></span></button>
+        </div>
+      </div>
+
       </div>
       <div class="sp-only btn-carousel"><button type="button" id="sky-carousel__trigger"><span class="js-toggle-text"></span><span class="icon-arrow"></span></button></div>
     </div>

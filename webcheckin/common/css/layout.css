@@ -748,13 +748,6 @@
     margin-top: .6rem;
     padding: .2rem .4rem;
   }
-  .wc-boardingpass .sky-ticket .ticket-footer {
-    border-top: 1px solid var(--color-black-a12);
-    margin-top: 2rem;
-    padding: 1.6rem;
-    display: flex;
-    justify-content: center;
-  }
 
   .sky-ticket.disabled,
   .sky-ticket.disabled .ticket-header,
@@ -776,9 +769,11 @@
    専用DOM（クローン方式）印刷用スタイル
    ======================================================= */
 @media print {
-  /* 印刷中は body 直下の元のコンテンツ（mainやfooterなど）を全て隠す */
-  body.is-printing-clone > *:not(#sky-print-container) {
+  /* 印刷中は body 直下の元コンテンツを全て隠す */
+  body.is-printing-clone > *:not(#sky-print-container),
+  body:has(> #sky-print-container) > *:not(#sky-print-container) {
     display: none !important;
+    visibility: hidden !important;
   }
 
   /* 専用コンテナだけを画面いっぱいに表示 */
