@@ -20,19 +20,19 @@ function moveFocusToNextElement(currentElement) {
  * 1. 対象 .sky-ticket と .wc-attention を #sky-print-container にクローン
  * 2. body 直下の非クローン要素（main, footer 等）を DOM から物理的に外して退避
  * 3. window.print()
- * 4. 復元は afterprint だけでは行わず、
- *    visibilitychange(visible) / pointerdown / touchstart / focus / pageshow
- *    のいずれか（または60秒タイムアウト）を待ってから復元する。
+ * 4. 印刷フロー終了を検知して退避ノードを復元（詳細は setupCleanupTriggers 参照）
  */
 function initPrintButton() {
   const printButtons = document.querySelectorAll('[data-print="printOn"]');
 
-  // クリーンアップ管理
   let afterPrintHandler = null;
+  let beforePrintHandler = null;
   let visibilityHandler = null;
   let userGestureHandler = null;
   let cleanupFallbackTimer = null;
-  let cleanupArmed = false; // afterprint 後にクリーンアップ待機中フラグ
+  let safariCancelDetectTimer = null;
+  let cleanupArmed = false;
+  let beforePrintFired = false;
   // 退避中のノード一覧（{ node, anchor } の配列）
   let stashedNodes = [];
 
@@ -40,6 +40,10 @@ function initPrintButton() {
     if (afterPrintHandler) {
       window.removeEventListener('afterprint', afterPrintHandler);
       afterPrintHandler = null;
+    }
+    if (beforePrintHandler) {
+      window.removeEventListener('beforeprint', beforePrintHandler);
+      beforePrintHandler = null;
     }
     if (visibilityHandler) {
       document.removeEventListener('visibilitychange', visibilityHandler);
@@ -56,7 +60,12 @@ function initPrintButton() {
       clearTimeout(cleanupFallbackTimer);
       cleanupFallbackTimer = null;
     }
+    if (safariCancelDetectTimer) {
+      clearTimeout(safariCancelDetectTimer);
+      safariCancelDetectTimer = null;
+    }
     cleanupArmed = false;
+    beforePrintFired = false;
   };
 
   // body 直下の非クローン要素を DOM から外して退避
@@ -64,7 +73,6 @@ function initPrintButton() {
   const stashNonPrintNodes = () => {
     Array.from(document.body.children).forEach(child => {
       if (child.id === 'sky-print-container') return;
-      // iframe, script 等の埋め込み要素も触らない方が安全な場合はここで除外可
       if (child.tagName === 'SCRIPT') return;
       const anchor = document.createComment('sky-print-stash-anchor');
       child.parentNode.insertBefore(anchor, child);
@@ -101,14 +109,22 @@ function initPrintButton() {
     });
   };
 
-  // afterprint は復元準備フラグ（cleanupArmed）を立てるだけにし、
-  // 実際の DOM 復元は以下のいずれかのタイミングで行う:
-  //   - visibilitychange (visible)
-  //   - pointerdown / touchstart / focus / pageshow
-  //   - 60 秒タイムアウト（フォールバック）
+  // Safari (iOS/macOS) 判定。Android Chrome は除外する。
+  const ua = navigator.userAgent;
+  const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS|Android/i.test(ua);
+
+  // 印刷フロー終了を検知して退避ノードを復元する。
+  // afterprint は復元準備（cleanupArmed=true）のみ行い、実際の復元は以下のいずれか:
+  //   1) visibilitychange(visible) / pointerdown / touchstart / focus / pageshow
+  //   2) Safari は afterprint 後 300ms のタイマー（上記イベントが発火しないため）
+  //   3) Safari の事前ダイアログ「プリントを求めています」キャンセル時は
+  //      beforeprint も afterprint も発火しないため、ユーザー操作を起点に
+  //      1.5 秒待って beforeprint が来なければキャンセル扱いで強制復元
+  //   4) 60 秒タイムアウト（最終フォールバック）
   const setupCleanupTriggers = () => {
     clearPendingCleanup();
     cleanupArmed = false;
+    beforePrintFired = false;
 
     const runCleanupOnce = () => {
       if (!cleanupArmed) return;
@@ -116,8 +132,22 @@ function initPrintButton() {
       doAfterPrintCleanup();
     };
 
+    beforePrintHandler = () => {
+      beforePrintFired = true;
+      // 許可フローと判明したので Safari キャンセル検知タイマーを破棄
+      if (safariCancelDetectTimer) {
+        clearTimeout(safariCancelDetectTimer);
+        safariCancelDetectTimer = null;
+      }
+    };
+    window.addEventListener('beforeprint', beforePrintHandler);
+
     afterPrintHandler = () => {
       cleanupArmed = true;
+      // Safari はダイアログ閉鎖後に他トリガが来ないため自前で発火
+      if (isSafari) {
+        setTimeout(runCleanupOnce, 300);
+      }
     };
     window.addEventListener('afterprint', afterPrintHandler);
 
@@ -129,7 +159,22 @@ function initPrintButton() {
     document.addEventListener('visibilitychange', visibilityHandler);
 
     userGestureHandler = () => {
-      runCleanupOnce();
+      if (cleanupArmed) {
+        runCleanupOnce();
+        return;
+      }
+      // Safari 事前ダイアログのキャンセル検知。
+      // ダイアログ表示中はページに触れられないため、ユーザー操作 = ダイアログ閉鎖。
+      // そこから 1.5 秒待っても beforeprint が来なければキャンセル扱い。
+      if (isSafari && !beforePrintFired && !safariCancelDetectTimer) {
+        safariCancelDetectTimer = setTimeout(() => {
+          safariCancelDetectTimer = null;
+          if (!beforePrintFired) {
+            cleanupArmed = true;
+            runCleanupOnce();
+          }
+        }, 1500);
+      }
     };
     window.addEventListener('pointerdown', userGestureHandler, true);
     window.addEventListener('touchstart', userGestureHandler, true);
