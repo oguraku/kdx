@@ -347,6 +347,9 @@
             width: 0.2rem;
           }
         }
+        & .swiper-navigation-icon {
+          display: none;
+        }
       }
       & .swiper-button-prev {
         left: -.8rem;
@@ -903,6 +906,9 @@
             width: 0.2rem;
           }
         }
+        & .swiper-navigation-icon {
+          display: none;
+        }
       }
       & .swiper-button-prev {
         left: -.5rem;
@@ -1304,6 +1310,9 @@
             bottom: 0;
             width: 0.2rem;
           }
+        }
+        & .swiper-navigation-icon {
+          display: none;
         }
       }
       & .swiper-button-prev {
