@@ -109,14 +109,16 @@ function initPrintButton() {
     });
   };
 
-  // Safari (iOS/macOS) 判定。Android Chrome は除外する。
+  // Safari (iOS/macOS) 判定
   const ua = navigator.userAgent;
   const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS|Android/i.test(ua);
+  // Android Chrome 判定（afterprint がプレビュー表示直後に発火するため自動復元から除外）
+  const isAndroid = /Android/i.test(ua);
 
   // 印刷フロー終了を検知して退避ノードを復元する。
   // afterprint は復元準備（cleanupArmed=true）のみ行い、実際の復元は以下のいずれか:
   //   1) visibilitychange(visible) / pointerdown / touchstart / focus / pageshow
-  //   2) Safari は afterprint 後 300ms のタイマー（上記イベントが発火しないため）
+  //   2) Android Chrome 以外は afterprint 後 300ms のタイマーで自動復元
   //   3) Safari の事前ダイアログ「プリントを求めています」キャンセル時は
   //      beforeprint も afterprint も発火しないため、ユーザー操作を起点に
   //      1.5 秒待って beforeprint が来なければキャンセル扱いで強制復元
@@ -144,8 +146,9 @@ function initPrintButton() {
 
     afterPrintHandler = () => {
       cleanupArmed = true;
-      // Safari はダイアログ閉鎖後に他トリガが来ないため自前で発火
-      if (isSafari) {
+      // Android Chrome はプレビュー表示直後に afterprint が発火するため除外。
+      // それ以外はダイアログ閉鎖時に発火するため短い遅延で自動復元
+      if (!isAndroid) {
         setTimeout(runCleanupOnce, 300);
       }
     };
@@ -259,6 +262,26 @@ function initPrintButton() {
       window.print();
     }, 0);
   };
+
+  // 動的側で使用
+  // const doAfterPrintCleanup = () => {
+  //   document.body.classList.remove('is-printing-clone');
+  //   const printContainer = document.getElementById('sky-print-container');
+  //   if (printContainer) {
+  //     printContainer.remove();
+  //   }
+
+  //   document.querySelectorAll('.js-bpCarousel').forEach(carousel => {
+  //       delete carousel.dataset.printRestoreLocked;
+  //   });
+
+  //   const bpCarousels = document.querySelectorAll('.js-bpCarousel');
+  //   bpCarousels.forEach(carousel => {
+  //     if (typeof alignTicketBodyHeights === 'function') {
+  //       alignTicketBodyHeights(carousel);
+  //     }
+  //   });
+  // };
 
   printButtons.forEach(button => {
     button.addEventListener('click', handlePrintClick);
