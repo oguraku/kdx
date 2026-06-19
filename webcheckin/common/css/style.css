@@ -78,6 +78,7 @@ body {
   letter-spacing: initial;
   margin: 0;
   padding: 0;
+  overflow-x: clip;
 }
 
 /* button, a, tabindex="-1" のフォーカス設定 */

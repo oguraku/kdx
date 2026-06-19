@@ -114,8 +114,112 @@ function initPrintButton() {
   const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS|Android/i.test(ua);
   // Android Chrome 判定（afterprint がプレビュー表示直後に発火するため自動復元から除外）
   const isAndroid = /Android/i.test(ua);
+  // iOS 判定（iPadOS 13+ は Mac UA + touch を見る）
+  const isIOS = /iPad|iPhone|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
+  // iOS Safari はプレビュー中の画面回転で afterprint 等が誤発火するため
+  // メイン DOM を一切触らない iframe 印刷に切り替える
+  const isIOSSafari = isSafari && isIOS;
 
-  // 印刷フロー終了を検知して退避ノードを復元する。
+  // iOS Safari 専用：不可視 iframe にクローンを書き込み、iframe 側で印刷する。
+  // メインページの DOM は一切触らないため、プレビュー中の画面回転や
+  // afterprint 誤発火でもメイン画面は一切崩れない。
+  const printViaIframe = (targetSection) => {
+    // 多重クリック対策：既存の印刷 iframe を除去
+    const existingIframe = document.getElementById('sky-print-iframe');
+    if (existingIframe) existingIframe.remove();
+
+    // チケットクローン（既存フローと同じ前処理）
+    const clone = targetSection.cloneNode(true);
+    clone.classList.remove(
+      'swiper-slide',
+      'swiper-slide-active',
+      'swiper-slide-next',
+      'swiper-slide-prev',
+      'swiper-slide-visible',
+      'swiper-slide-duplicate',
+      'swiper-slide-duplicate-active',
+      'swiper-slide-duplicate-next',
+      'swiper-slide-duplicate-prev'
+    );
+    clone.removeAttribute('style');
+    clone.removeAttribute('inert');
+    clone.removeAttribute('aria-hidden');
+    clone.querySelectorAll('.js-height-adjust').forEach(el => {
+      el.style.height = 'auto';
+    });
+    clone.querySelectorAll('[inert], [aria-hidden]').forEach(el => {
+      el.removeAttribute('inert');
+      el.removeAttribute('aria-hidden');
+    });
+
+    let attentionHtml = '';
+    const attention = document.querySelector('.wc-attention');
+    if (attention) {
+      const attentionClone = attention.cloneNode(true);
+      attentionClone.removeAttribute('style');
+      attentionClone.removeAttribute('inert');
+      attentionClone.removeAttribute('aria-hidden');
+      attentionHtml = attentionClone.outerHTML;
+    }
+
+    const lang = document.documentElement.lang || 'ja';
+    const iframeHtml = `<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Print</title>
+<link rel="stylesheet" href="/webcheckin/common/css/style.css">
+<link rel="stylesheet" href="/webcheckin/common/css/layout.css">
+<style>
+  /* iframe 内部だけ：クローンを画面・印刷両方で表示 */
+  body { margin: 0; }
+  .print-only { display: block !important; }
+</style>
+</head>
+<body class="is-printing-clone">
+<div id="sky-print-container" class="sky-container wc-boardingpass print-only">
+${clone.outerHTML}
+${attentionHtml}
+</div>
+</body>
+</html>`;
+
+    const iframe = document.createElement('iframe');
+    iframe.id = 'sky-print-iframe';
+    iframe.setAttribute('aria-hidden', 'true');
+    iframe.setAttribute('tabindex', '-1');
+    // 画面に影響させない位置とサイズ
+    iframe.style.cssText = 'position:fixed; right:0; bottom:0; width:0; height:0; border:0; visibility:hidden; pointer-events:none;';
+
+    let printed = false;
+    iframe.addEventListener('load', () => {
+      if (printed) return;
+      // スタイルシート・レイアウト確定待ち
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (printed) return;
+          printed = true;
+          try {
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
+          } catch (e) {
+            // フォールバック：万一の際は何もしない（メイン DOM は無傷）
+          }
+        });
+      });
+    });
+
+    // iframe は不可視でメイン DOM に影響しないため、長めのタイマーで除去して良い
+    setTimeout(() => {
+      if (iframe.parentNode) iframe.remove();
+    }, 60000);
+
+    iframe.srcdoc = iframeHtml;
+    document.body.appendChild(iframe);
+  };
+
+  // 印刷フロー終了を検知して退避ノードを復元する（DOMクローン方式用）。
   // afterprint は復元準備（cleanupArmed=true）のみ行い、実際の復元は以下のいずれか:
   //   1) visibilitychange(visible) / pointerdown / touchstart / focus / pageshow
   //   2) Android Chrome 以外は afterprint 後 300ms のタイマーで自動復元
@@ -123,6 +227,8 @@ function initPrintButton() {
   //      beforeprint も afterprint も発火しないため、ユーザー操作を起点に
   //      1.5 秒待って beforeprint が来なければキャンセル扱いで強制復元
   //   4) 60 秒タイムアウト（最終フォールバック）
+  //
+  // ※ iOS Safari は handlePrintClick で iframe 経路に分岐するためここは通らない。
   const setupCleanupTriggers = () => {
     clearPendingCleanup();
     cleanupArmed = false;
@@ -193,6 +299,14 @@ function initPrintButton() {
   const handlePrintClick = (event) => {
     const targetSection = event.currentTarget.closest('.sky-ticket');
     if (!targetSection) return;
+
+    // iOS Safari はメイン DOM を一切触らず iframe で印刷する。
+    // （プレビュー中の画面回転で afterprint が誤発火しても
+    //   メイン DOM は一切崩れないため、復元誤動作の心配がない）
+    if (isIOSSafari) {
+      printViaIframe(targetSection);
+      return;
+    }
 
     // 0. 前回印刷の状態をリセット（多重クリック対策）
     clearPendingCleanup();
@@ -1141,7 +1255,6 @@ function initSeatSwiper(startIndices = {}) {
       threshold: 15,
       touchStartPreventDefault: false, // タッチ開始時のデフォルト動作防止を解除
       edgeSwipeDetection: true, // Edgeでのスワイプ検知を有効化
-      mousewheel: false, // マウスホイールでカルーセルが動く必要がない
       freeMode: false, // ユーザー操作による「中途半端な位置」での停止を防ぐ
       navigation: {
         nextEl: carouselEl.querySelector('.swiper-button-next'),
@@ -1737,7 +1850,6 @@ function initStickyPaxList() {
       threshold: 15,
       touchStartPreventDefault: false,
       edgeSwipeDetection: true,
-      mousewheel: false,
       freeMode: false,
       navigation: {
         nextEl: clonedSlider.querySelector('.swiper-button-next'),
@@ -1900,7 +2012,7 @@ function initBpSwiper(startIndices = {}) {
     const swiperInstance = new Swiper(carouselEl, {
       initialSlide: startIndex,
       direction: 'horizontal',
-      slidesPerView: 1,
+      slidesPerView: 'auto',
       watchSlidesProgress: true, 
       centeredSlides: true, // アクティブなスライドを中央に配置
       spaceBetween: 16,
@@ -1916,7 +2028,6 @@ function initBpSwiper(startIndices = {}) {
       threshold: 15,
       touchStartPreventDefault: false,
       edgeSwipeDetection: true,
-      mousewheel: false,
       navigation: {
         nextEl: carouselEl.querySelector('.swiper-button-next'),
         prevEl: carouselEl.querySelector('.swiper-button-prev'),
