@@ -15,120 +15,28 @@ function moveFocusToNextElement(currentElement) {
 
 //-------------------------------------------------------
 /**
- * 印刷ボタンのクリックと印刷後の処理（搭乗券ページ用）
+ * 印刷ボタンのクリック処理（搭乗券ページ用）
  *
- * 1. 対象 .sky-ticket と .wc-attention を #sky-print-container にクローン
- * 2. body 直下の非クローン要素（main, footer 等）を DOM から物理的に外して退避
- * 3. window.print()
- * 4. 印刷フロー終了を検知して退避ノードを復元（詳細は setupCleanupTriggers 参照）
+ * 全ブラウザ共通で、不可視 iframe にクローンを書き込み iframe 側で印刷する。
+ * メインページの DOM は一切触らないため、以下の問題はすべて発生しない：
+ *   - iOS Safari プレビュー中の画面回転による DOM 復元誤動作
+ *   - 各ブラウザの afterprint 発火タイミング差異
+ *   - Safari の事前ダイアログキャンセルによる復元タイミング問題
+ *   - 多重クリックによる退避ノードの取り違え
+ *   - 印刷中の画面遷移・タブ切り替え時の状態破綻
+ *
+ * iframe は 60 秒後に静かに除去する（メイン DOM に影響しないためタイミング不問）。
  */
 function initPrintButton() {
   const printButtons = document.querySelectorAll('[data-print="printOn"]');
 
-  let afterPrintHandler = null;
-  let beforePrintHandler = null;
-  let visibilityHandler = null;
-  let userGestureHandler = null;
-  let cleanupFallbackTimer = null;
-  let safariCancelDetectTimer = null;
-  let cleanupArmed = false;
-  let beforePrintFired = false;
-  // 退避中のノード一覧（{ node, anchor } の配列）
-  let stashedNodes = [];
-
-  const clearPendingCleanup = () => {
-    if (afterPrintHandler) {
-      window.removeEventListener('afterprint', afterPrintHandler);
-      afterPrintHandler = null;
-    }
-    if (beforePrintHandler) {
-      window.removeEventListener('beforeprint', beforePrintHandler);
-      beforePrintHandler = null;
-    }
-    if (visibilityHandler) {
-      document.removeEventListener('visibilitychange', visibilityHandler);
-      visibilityHandler = null;
-    }
-    if (userGestureHandler) {
-      window.removeEventListener('pointerdown', userGestureHandler, true);
-      window.removeEventListener('touchstart', userGestureHandler, true);
-      window.removeEventListener('focus', userGestureHandler, true);
-      window.removeEventListener('pageshow', userGestureHandler, true);
-      userGestureHandler = null;
-    }
-    if (cleanupFallbackTimer) {
-      clearTimeout(cleanupFallbackTimer);
-      cleanupFallbackTimer = null;
-    }
-    if (safariCancelDetectTimer) {
-      clearTimeout(safariCancelDetectTimer);
-      safariCancelDetectTimer = null;
-    }
-    cleanupArmed = false;
-    beforePrintFired = false;
-  };
-
-  // body 直下の非クローン要素を DOM から外して退避
-  // 元の位置は Comment ノード（アンカー）で記憶する
-  const stashNonPrintNodes = () => {
-    Array.from(document.body.children).forEach(child => {
-      if (child.id === 'sky-print-container') return;
-      if (child.tagName === 'SCRIPT') return;
-      const anchor = document.createComment('sky-print-stash-anchor');
-      child.parentNode.insertBefore(anchor, child);
-      stashedNodes.push({ node: child, anchor });
-      child.remove();
-    });
-  };
-
-  // 退避ノードを元の位置に復元
-  const restoreStashedNodes = () => {
-    stashedNodes.forEach(({ node, anchor }) => {
-      if (anchor.parentNode) {
-        anchor.parentNode.insertBefore(node, anchor);
-        anchor.remove();
-      } else {
-        // アンカーが既に消えている異常系：body 末尾に戻す
-        document.body.appendChild(node);
-      }
-    });
-    stashedNodes = [];
-  };
-
-  const doAfterPrintCleanup = () => {
-    document.body.classList.remove('is-printing-clone');
-    const printContainer = document.getElementById('sky-print-container');
-    if (printContainer) printContainer.remove();
-    restoreStashedNodes();
-
-    const bpCarousels = document.querySelectorAll('.js-bpCarousel');
-    bpCarousels.forEach(carousel => {
-      if (typeof alignTicketBodyHeights === 'function') {
-        alignTicketBodyHeights(carousel);
-      }
-    });
-  };
-
-  // Safari (iOS/macOS) 判定
-  const ua = navigator.userAgent;
-  const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS|Android/i.test(ua);
-  // Android Chrome 判定（afterprint がプレビュー表示直後に発火するため自動復元から除外）
-  const isAndroid = /Android/i.test(ua);
-  // iOS 判定（iPadOS 13+ は Mac UA + touch を見る）
-  const isIOS = /iPad|iPhone|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
-  // iOS Safari はプレビュー中の画面回転で afterprint 等が誤発火するため
-  // メイン DOM を一切触らない iframe 印刷に切り替える
-  const isIOSSafari = isSafari && isIOS;
-
-  // iOS Safari 専用：不可視 iframe にクローンを書き込み、iframe 側で印刷する。
-  // メインページの DOM は一切触らないため、プレビュー中の画面回転や
-  // afterprint 誤発火でもメイン画面は一切崩れない。
+  // 不可視 iframe にクローンを書き込み、iframe 側で印刷する。
   const printViaIframe = (targetSection) => {
     // 多重クリック対策：既存の印刷 iframe を除去
     const existingIframe = document.getElementById('sky-print-iframe');
     if (existingIframe) existingIframe.remove();
 
-    // チケットクローン（既存フローと同じ前処理）
+    // チケットクローン
     const clone = targetSection.cloneNode(true);
     clone.classList.remove(
       'swiper-slide',
@@ -219,183 +127,11 @@ ${attentionHtml}
     document.body.appendChild(iframe);
   };
 
-  // 印刷フロー終了を検知して退避ノードを復元する（DOMクローン方式用）。
-  // afterprint は復元準備（cleanupArmed=true）のみ行い、実際の復元は以下のいずれか:
-  //   1) visibilitychange(visible) / pointerdown / touchstart / focus / pageshow
-  //   2) Android Chrome 以外は afterprint 後 300ms のタイマーで自動復元
-  //   3) Safari の事前ダイアログ「プリントを求めています」キャンセル時は
-  //      beforeprint も afterprint も発火しないため、ユーザー操作を起点に
-  //      1.5 秒待って beforeprint が来なければキャンセル扱いで強制復元
-  //   4) 60 秒タイムアウト（最終フォールバック）
-  //
-  // ※ iOS Safari は handlePrintClick で iframe 経路に分岐するためここは通らない。
-  const setupCleanupTriggers = () => {
-    clearPendingCleanup();
-    cleanupArmed = false;
-    beforePrintFired = false;
-
-    const runCleanupOnce = () => {
-      if (!cleanupArmed) return;
-      clearPendingCleanup();
-      doAfterPrintCleanup();
-    };
-
-    beforePrintHandler = () => {
-      beforePrintFired = true;
-      // 許可フローと判明したので Safari キャンセル検知タイマーを破棄
-      if (safariCancelDetectTimer) {
-        clearTimeout(safariCancelDetectTimer);
-        safariCancelDetectTimer = null;
-      }
-    };
-    window.addEventListener('beforeprint', beforePrintHandler);
-
-    afterPrintHandler = () => {
-      cleanupArmed = true;
-      // Android Chrome はプレビュー表示直後に afterprint が発火するため除外。
-      // それ以外はダイアログ閉鎖時に発火するため短い遅延で自動復元
-      if (!isAndroid) {
-        setTimeout(runCleanupOnce, 300);
-      }
-    };
-    window.addEventListener('afterprint', afterPrintHandler);
-
-    visibilityHandler = () => {
-      if (document.visibilityState === 'visible') {
-        runCleanupOnce();
-      }
-    };
-    document.addEventListener('visibilitychange', visibilityHandler);
-
-    userGestureHandler = () => {
-      if (cleanupArmed) {
-        runCleanupOnce();
-        return;
-      }
-      // Safari 事前ダイアログのキャンセル検知。
-      // ダイアログ表示中はページに触れられないため、ユーザー操作 = ダイアログ閉鎖。
-      // そこから 1.5 秒待っても beforeprint が来なければキャンセル扱い。
-      if (isSafari && !beforePrintFired && !safariCancelDetectTimer) {
-        safariCancelDetectTimer = setTimeout(() => {
-          safariCancelDetectTimer = null;
-          if (!beforePrintFired) {
-            cleanupArmed = true;
-            runCleanupOnce();
-          }
-        }, 1500);
-      }
-    };
-    window.addEventListener('pointerdown', userGestureHandler, true);
-    window.addEventListener('touchstart', userGestureHandler, true);
-    window.addEventListener('focus', userGestureHandler, true);
-    window.addEventListener('pageshow', userGestureHandler, true);
-
-    cleanupFallbackTimer = setTimeout(() => {
-      cleanupArmed = true;
-      runCleanupOnce();
-    }, 60000);
-  };
-
   const handlePrintClick = (event) => {
     const targetSection = event.currentTarget.closest('.sky-ticket');
     if (!targetSection) return;
-
-    // iOS Safari はメイン DOM を一切触らず iframe で印刷する。
-    // （プレビュー中の画面回転で afterprint が誤発火しても
-    //   メイン DOM は一切崩れないため、復元誤動作の心配がない）
-    if (isIOSSafari) {
-      printViaIframe(targetSection);
-      return;
-    }
-
-    // 0. 前回印刷の状態をリセット（多重クリック対策）
-    clearPendingCleanup();
-    if (stashedNodes.length > 0) {
-      restoreStashedNodes();
-    }
-    const existing = document.getElementById('sky-print-container');
-    if (existing) existing.remove();
-    document.body.classList.remove('is-printing-clone');
-
-    // 1. 専用の印刷コンテナを新規作成
-    const printContainer = document.createElement('div');
-    printContainer.id = 'sky-print-container';
-    printContainer.className = 'sky-container wc-boardingpass print-only';
-
-    // 2. 対象の搭乗券をクローン（disabled 等の状態クラスは保持）
-    const clone = targetSection.cloneNode(true);
-    clone.classList.remove(
-      'swiper-slide',
-      'swiper-slide-active',
-      'swiper-slide-next',
-      'swiper-slide-prev',
-      'swiper-slide-visible',
-      'swiper-slide-duplicate',
-      'swiper-slide-duplicate-active',
-      'swiper-slide-duplicate-next',
-      'swiper-slide-duplicate-prev'
-    );
-    clone.removeAttribute('style');
-    clone.removeAttribute('inert');
-    clone.removeAttribute('aria-hidden');
-    clone.querySelectorAll('.js-height-adjust').forEach(el => {
-      el.style.height = 'auto';
-    });
-    clone.querySelectorAll('[inert], [aria-hidden]').forEach(el => {
-      el.removeAttribute('inert');
-      el.removeAttribute('aria-hidden');
-    });
-    printContainer.appendChild(clone);
-
-    // 3. 注意事項（.wc-attention）もクローンして追加
-    const attention = document.querySelector('.wc-attention');
-    if (attention) {
-      const attentionClone = attention.cloneNode(true);
-      attentionClone.removeAttribute('style');
-      attentionClone.removeAttribute('inert');
-      attentionClone.removeAttribute('aria-hidden');
-      printContainer.appendChild(attentionClone);
-    }
-
-    // 4. 印刷用コンテナを body に追加し、印刷中クラスを付与
-    document.body.appendChild(printContainer);
-    document.body.classList.add('is-printing-clone');
-
-    // 5. body 直下の非クローン要素を DOM から退避
-    stashNonPrintNodes();
-
-    // 6. クリーンアップトリガを登録
-    setupCleanupTriggers();
-
-    // 7. レイアウト確定後に印刷
-    // eslint-disable-next-line no-unused-expressions
-    printContainer.offsetHeight;
-    // eslint-disable-next-line no-unused-expressions
-    document.body.offsetHeight;
-    setTimeout(() => {
-      window.print();
-    }, 0);
+    printViaIframe(targetSection);
   };
-
-  // 動的側で使用
-  // const doAfterPrintCleanup = () => {
-  //   document.body.classList.remove('is-printing-clone');
-  //   const printContainer = document.getElementById('sky-print-container');
-  //   if (printContainer) {
-  //     printContainer.remove();
-  //   }
-
-  //   document.querySelectorAll('.js-bpCarousel').forEach(carousel => {
-  //       delete carousel.dataset.printRestoreLocked;
-  //   });
-
-  //   const bpCarousels = document.querySelectorAll('.js-bpCarousel');
-  //   bpCarousels.forEach(carousel => {
-  //     if (typeof alignTicketBodyHeights === 'function') {
-  //       alignTicketBodyHeights(carousel);
-  //     }
-  //   });
-  // };
 
   printButtons.forEach(button => {
     button.addEventListener('click', handlePrintClick);
