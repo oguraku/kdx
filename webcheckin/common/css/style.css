@@ -2318,6 +2318,7 @@ html:has(dialog[open]) {
   & .name {
     display: inline-block;
     vertical-align: baseline;
+    word-break: break-all;
     & span {
       padding-right: .25em;
     }
