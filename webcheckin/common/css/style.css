@@ -1771,7 +1771,9 @@ html:has(dialog[open]) {
 
   & .cloud {
     position: absolute;
+    left: 0;
     opacity: 0.9;
+    will-change: translate;
   }
   
   & .cloud1, & .cloud3, & .cloud5 {
@@ -1797,6 +1799,19 @@ html:has(dialog[open]) {
     .cloud4,
     .cloud5 {
       animation: none !important;
+    }
+
+    /* アニメーション停止時は translate が適用されず全ての雲が左端に重なるため、
+       静止画としての配置を個別に指定する */
+    .cloud2 { translate: 52vw 0; }
+    .cloud4 { translate: 4vw 0; }
+
+    @media (min-width: 768px) {
+      .cloud1 { translate: 2vw 0; }
+      .cloud2 { translate: 30vw 0; }
+      .cloud3 { translate: 6vw 0; }
+      .cloud4 { translate: 55vw 0; }
+      .cloud5 { translate: 66vw 0; }
     }
   }
 
@@ -1843,13 +1858,13 @@ html:has(dialog[open]) {
 /* 雲が右から左へ流れるアニメーション */
 /* スマホ用 */
 @keyframes moveCloudSp {
-  0% { left: 100%; }
-  100% { left: -400px; }
+  0% { translate: 100vw 0; }
+  100% { translate: -400px 0; }
 }
 /* PC用 */
 @keyframes moveCloudPc {
-  0% { left: 100%; }
-  100% { left: -22%; }
+  0% { translate: 100vw 0; }
+  100% { translate: -55vw 0; }
 }
 /* 雲が上下にふわふわするアニメーション */
 @keyframes floatCloud {

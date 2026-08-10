@@ -1874,7 +1874,7 @@ if (submitBtn) {
       
       // 処理が終わったらアナウンスをクリア
       srAnnouncer.textContent = '';
-    }, 5000); 
+    }, 10000); 
   });
 }
 
