@@ -57,7 +57,7 @@
   --color-accent05: #66108b;
 
   --font-body:'Noto Sans JP','ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ','Meiryo',sans-serif;
-  --font-Num:'Inter','ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ','Meiryo',sans-serif;
+  --font-Num:'Inter','Noto Sans JP','ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ','Meiryo',sans-serif;
 }
 
 * {
@@ -138,42 +138,72 @@ h1, h2, h3, h4, h5 {
 }
 
 /* langSelect */
+/* iOS Safari / iOS Chrome = WebKit用に select の外（.fallback-icon）配置 */
 .sky-langSelect {
   margin-top: .4rem;
-  & button {
-    cursor: pointer;
-    font-size: 1.2rem;
-    display: flex;
-    column-gap: .25em;
-    align-items: center;
-    padding: 0;
-    &:hover, &:focus-visible {
-      outline: none;
-    }
-    & .icon-lang {
-      block-size: 1.8rem;
-      inline-size: 1.8rem;
-    }
-    & .icon-arrow {
-      block-size: 2rem;
-      inline-size: 2rem;
-      margin-top: .25rem;
-    }
+  display: flex;
+  align-items: center;
+  column-gap: .25em;
+  & > .fallback-icon {
+    pointer-events: none;
+    flex: none;
+  }
+  & > .icon-lang {
+    block-size: 1.8rem;
+    inline-size: 1.8rem;
+  }
+  & > .icon-arrow {
+    block-size: 2rem;
+    inline-size: 2rem;
   }
   & select {
-    appearance: base-select;
+    -webkit-appearance: none;
+    appearance: none;
     background: none;
     border: none;
+    border-radius: 0;
     outline: none;
     margin: 0;
     padding: 0;
-    &::picker-icon {
+    font-family: inherit;
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: inherit;
+  }
+  @supports (appearance: base-select) {
+    & > .fallback-icon {
       display: none;
     }
-    /* &::picker(select) {
+    & select {
       appearance: base-select;
-      border-radius: 4px;
-    } */
+      &::picker-icon {
+        display: none;
+      }
+      /* &::picker(select) {
+        appearance: base-select;
+        border-radius: 4px;
+      } */
+    }
+    & button {
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      column-gap: .25em;
+      align-items: center;
+      padding: 0;
+      &:hover, &:focus-visible {
+        outline: none;
+      }
+      & .icon-lang {
+        block-size: 1.8rem;
+        inline-size: 1.8rem;
+      }
+      & .icon-arrow {
+        block-size: 2rem;
+        inline-size: 2rem;
+        margin-top: .25rem;
+      }
+    }
   }
   & button, & select {
     &:focus {
@@ -996,6 +1026,10 @@ h1, h2, h3, h4, h5 {
       background-image: url("/webcheckin/common/images/icon/external-link.svg");
       background-size: 1.1em 1.1em;
     }
+    &.i_blank.i_white::before {
+      background-image: url("/webcheckin/common/images/icon/external-link-white.svg");
+      background-size: 1.1em 1.1em;
+    }
   }
   &:disabled {
     & .icon {
@@ -1801,8 +1835,7 @@ html:has(dialog[open]) {
       animation: none !important;
     }
 
-    /* アニメーション停止時は translate が適用されず全ての雲が左端に重なるため、
-       静止画としての配置を個別に指定する */
+    /* アニメーション停止時の雲の配置 */
     .cloud2 { translate: 52vw 0; }
     .cloud4 { translate: 4vw 0; }
 
@@ -2733,6 +2766,7 @@ html:has(dialog[open]) {
       }
       & .seat-exp {
         font-size: .9em!important;
+        margin-left: .6em;
       }
       & .fwrd {
         font-size: .8em!important;

@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="sky-header_logo"><a href="#"><img src="/webcheckin/common/images/logo.png" alt="SKYMARK AIRLINES"></a></div>
         <div class="sky-langSelect">
           <label for="langSelect" class="sr-only">言語選択</label>
+          <img src="/webcheckin/common/images/icon/language.svg" alt="" aria-hidden="true" class="icon-lang i_blue fallback-icon">
           <select id="langSelect" class="langSelect">
           <button>
             <img src="/webcheckin/common/images/icon/language.svg" alt="" class="icon-lang i_blue">
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <option value="zh_TW">中文(繁體)</option>
           <option value="ko">한국어</option>
           </select>
+          <img src="/webcheckin/common/images/icon/arrow1-down.svg" alt="" aria-hidden="true" class="icon-arrow fallback-icon">
         </div>
       </header>
     `;
